@@ -40,6 +40,7 @@ enum MovieNightEndpoint: Endpoint {
     case Movie(page: String)
     case MovieRecommendations(id: String)
     case MovieCredits(id: String)
+    case MoviePoster(id: String)
     
     var baseURL: String {
         return "https://api.themoviedb.org"
@@ -56,18 +57,22 @@ enum MovieNightEndpoint: Endpoint {
                 return "/3/movie/\(id)/recommendations"
             case .MovieCredits(let id):
                 return "/3/movie/\(id)/credits"
+            case .MoviePoster(let id):
+                return "/3/movie/\(id)/images"
         }
     }
     
     var parameters: [String : String] {
         var parameters = [String : String]()
-        parameters["api_key"] = "57b213eb9d700e45c3f1ddaa754d7134"
+        parameters["api_key"] = "b9d865c7ae2da5f3874022df4c9b4603"
         
         switch self {
         case .Actor(let page), .Movie(let page), .Genre(let page):
             parameters["page"] = page
             return parameters
         case .MovieRecommendations, .MovieCredits:
+            return parameters
+        case .MoviePoster:
             return parameters
         }
     }
@@ -153,10 +158,10 @@ final class MovieNightApiClient: ApiClient, HttpClient {
         }, completion: completion)
     }
     
-    func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void) {
+    func fetchMoviesPosters(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void) {
         
-        let endpoint = MovieNightEndpoint.MovieRecommendations(id: movieId)
-        let request =  endpoint.request
+        let endpoint = MovieNightEndpoint.MoviePoster(id: movieId)
+        let request = endpoint.request
         
         fetch(request: request, parse: { (json) -> [Movie]? in
             guard let popularMovies = json["results"] as? [[String:AnyObject]] else {
@@ -180,28 +185,29 @@ final class MovieNightApiClient: ApiClient, HttpClient {
         }, completion: completion)
     }
     
-    func fetchMovieCredits(endpoint: Endpoint, completion: @escaping (APIResult<[Credit]>) -> Void) {
+    func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void) {
         
-        let request = endpoint.request
+        let endpoint = MovieNightEndpoint.MovieRecommendations(id: movieId)
+        let request =  endpoint.request
         
-        fetch(request: request, parse: { (json) -> [Credit]? in
-            guard let movieCredits = json["cast"] as? [[String:AnyObject]], let movieId = json["id"] as? Int else {
+        fetch(request: request, parse: { (json) -> [Movie]? in
+            guard let popularMovies = json["results"] as? [[String:AnyObject]] else {
                 return nil
             }
             
-            let credits = movieCredits.compactMap { (credit) -> Credit? in
+            let movies =  popularMovies.compactMap { (movie) -> Movie? in
                 do {
-                    return try Credit(JSON: credit, movieId: movieId)
+                    return try Movie(JSON: movie)
                 } catch (let error){
                     print(error)
                 }
                 return nil
             }
             
-            if credits.isEmpty {
+            if movies.isEmpty {
                 return nil
             } else {
-                return credits
+                return movies
             }
         }, completion: completion)
     }

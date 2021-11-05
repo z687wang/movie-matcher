@@ -11,5 +11,5 @@ protocol ApiClient {
     func fetchActors(page: Int, completion: @escaping (APIResult<[Actor]>)-> Void)
     func fetchMovies(page: Int, completion: @escaping (APIResult<[Movie]>)-> Void)
     func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void)
-    func fetchMovieCredits(endpoint: Endpoint, completion: @escaping (APIResult<[Credit]>)-> Void)
+    func fetchMoviesPosters(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void)
 }
