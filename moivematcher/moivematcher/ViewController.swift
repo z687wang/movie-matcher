@@ -17,84 +17,84 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loadData()
+//        loadData()
     }
 
-    func loadData() {
-//        fetchGenres()
-        fetchMovies()
-//        fetchPosters()
-    }
-    
-    func fetchGenres() {
-        apiClient.fetchGenres(page: 1, completion: { [weak self] (results) in
-            switch results {
-                case .failure(let error) :
-                    print(error)
-            case .success(let resource, _) :
-                print(resource)
-            }
-        })
-    }
-    
-    func fetchMovies() {
-        
-        let head = "title,release date,genre,vote average,popularity,poster,original language,adult,actors"
-        let semaphore = DispatchSemaphore(value: 0)
-//        let myGroup = DispatchGroup()
-        saveCSV(fileData: head)
-        var body = ""
-        var movieIds: [String] = []
-        
-        for page in 1...100 {
-            apiClient.fetchMovies(page: page) { [weak self] (results) in
-                switch results {
-                    case .failure(let error) :
-                        print(error)
-                case .success(let resource, _) :
-                    for movie in resource {
-                        body += "\n" + movie.title.replacingOccurrences(of: ",", with: "") + "," + movie.releaseDate!
-                        body += "," + movie.genreIds!.map{String($0)}.joined(separator: " ")
-                        body += "," + String(movie.voteAverage ?? -1)
-                        body += "," + (movie.popularity!).description
-                        body += "," + movie.poster_path!
-                        body += "," + movie.original_language!
-                        body += "," + movie.adult!.description
-                        movieIds.append(String(movie.id))
-                    }
-                    self?.saveCSV(fileData: body)
-                    body = ""
-                }
-            }
-        }
-        for id in movieIds {
-//            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
-//                switch results {
-//                case .failure(let error):
+//    func loadData() {
+////        fetchGenres()
+//        fetchMovies()
+////        fetchPosters()
+//    }
+//
+//    func fetchGenres() {
+//        apiClient.fetchGenres(page: 1, completion: { [weak self] (results) in
+//            switch results {
+//                case .failure(let error) :
 //                    print(error)
-//                case .success(let actors, _):
-//                    print("success")
+//            case .success(let resource, _) :
+//                print(resource)
+//            }
+//        })
+//    }
+    
+//    func fetchMovies() {
+//        
+//        let head = "title,release date,genre,vote average,popularity,poster,original language,adult,actors"
+//        let semaphore = DispatchSemaphore(value: 0)
+////        let myGroup = DispatchGroup()
+//        saveCSV(fileData: head)
+//        var body = ""
+//        var movieIds: [String] = []
+//        
+//        for page in 1...100 {
+//            apiClient.fetchMovies(page: page) { [weak self] (results) in
+//                switch results {
+//                    case .failure(let error) :
+//                        print(error)
+//                case .success(let resource, _) :
+//                    for movie in resource {
+//                        body += "\n" + movie.title.replacingOccurrences(of: ",", with: "") + "," + movie.releaseDate!
+//                        body += "," + movie.genreIds!.map{String($0)}.joined(separator: " ")
+//                        body += "," + String(movie.voteAverage ?? -1)
+//                        body += "," + (movie.popularity!).description
+//                        body += "," + movie.poster_path!
+//                        body += "," + movie.original_language!
+//                        body += "," + movie.adult!.description
+//                        movieIds.append(String(movie.id))
+//                    }
+//                    self?.saveCSV(fileData: body)
+//                    body = ""
+//                }
+//            }
+//        }
+//        for id in movieIds {
+////            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
+////                switch results {
+////                case .failure(let error):
+////                    print(error)
+////                case .success(let actors, _):
+////                    print("success")
+////                }
+////            })
+//            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
+//    //                            myGroup.enter()
+//                switch results {
+//                case .failure(let error) :
+//                    print(error)
+//                case .success(let actors, _) :
+//                    self?.names += ","
+//                    if actors.isEmpty {
+//                        self?.names += "No Actor"
+//                    }
+//                    else {
+//                        for acteur in actors {
+//                            self?.names += acteur.actor.name + " "
+//                        }
+//                    }
 //                }
 //            })
-            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
-    //                            myGroup.enter()
-                switch results {
-                case .failure(let error) :
-                    print(error)
-                case .success(let actors, _) :
-                    self?.names += ","
-                    if actors.isEmpty {
-                        self?.names += "No Actor"
-                    }
-                    else {
-                        for acteur in actors {
-                            self?.names += acteur.actor.name + " "
-                        }
-                    }
-                }
-            })
-        }
-    }
+//        }
+//    }
     
     func saveCSV(fileData: String) {
 //        print("save to CSV" + fileData)
