@@ -113,30 +113,13 @@ final class MovieNightApiClient: ApiClient, HttpClient {
         }, completion: completion)
     }
     
-    func fetchActors(page: Int, completion: @escaping (APIResult<[Actor]>) -> Void) {
-        let endpoint = MovieNightEndpoint.Actor(page: String(page))
-        let request = endpoint.request
-        
-        fetch(request: request, parse: { (json) -> [Actor]? in
-            guard let popularActors = json["results"] as? [[String:AnyObject]] else {
-                return nil
-            }
-            return popularActors.compactMap {
-                do {
-                    return try Actor(JSON: $0)
-                } catch (let error){
-                    print(error)
-                }
-                return nil
-            }
-        }, completion: completion)
-    }
-    
     func fetchMovies(page: Int, completion: @escaping (APIResult<[Movie]>) -> Void) {
         let endpoint = MovieNightEndpoint.Movie(page: String(page))
         let request = endpoint.request
+//        print(request.url)
         
         fetch(request: request, parse: { (json) -> [Movie]? in
+//            print(json)
             guard let popularMovies = json["results"] as? [[String:AnyObject]] else {
                 return nil
             }
@@ -157,58 +140,43 @@ final class MovieNightApiClient: ApiClient, HttpClient {
             }
         }, completion: completion)
     }
-    
-    func fetchMoviesPosters(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void) {
         
-        let endpoint = MovieNightEndpoint.MoviePoster(id: movieId)
+    func fetchMovieActors(movieId: String, completion: @escaping (APIResult<[ActorOfMovie]>) -> Void) {
+        
+        let endpoint = MovieNightEndpoint.MovieCredits(id: movieId)
         let request = endpoint.request
         
-        fetch(request: request, parse: { (json) -> [Movie]? in
-            guard let popularMovies = json["results"] as? [[String:AnyObject]] else {
+        fetch(request: request, parse: { (json) -> [ActorOfMovie]? in
+//            print(json["cast"])
+            guard let movieCredits = json["cast"] as? [[String:AnyObject]], let movieId = json["id"] as? Int else {
+                print(1)
                 return nil
             }
             
-            let movies =  popularMovies.compactMap { (movie) -> Movie? in
+            let actors = movieCredits.compactMap { (acteur) -> ActorOfMovie? in
                 do {
-                    return try Movie(JSON: movie)
+                    return try ActorOfMovie(JSON: acteur, movieId: movieId)
                 } catch (let error){
                     print(error)
                 }
+                print(2)
                 return nil
             }
             
-            if movies.isEmpty {
-                return nil
-            } else {
-                return movies
+            if actors.count < 5 {
+                return actors
             }
-        }, completion: completion)
-    }
-    
-    func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void) {
-        
-        let endpoint = MovieNightEndpoint.MovieRecommendations(id: movieId)
-        let request =  endpoint.request
-        
-        fetch(request: request, parse: { (json) -> [Movie]? in
-            guard let popularMovies = json["results"] as? [[String:AnyObject]] else {
-                return nil
+            else {
+                return Array(actors.prefix(upTo: 5))
             }
             
-            let movies =  popularMovies.compactMap { (movie) -> Movie? in
-                do {
-                    return try Movie(JSON: movie)
-                } catch (let error){
-                    print(error)
-                }
-                return nil
-            }
             
-            if movies.isEmpty {
-                return nil
-            } else {
-                return movies
-            }
+//            if actors.isEmpty {
+//                print(3)
+//                return nil
+//            } else {
+//                return actors
+//            }
         }, completion: completion)
     }
 

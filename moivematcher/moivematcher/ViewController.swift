@@ -9,10 +9,10 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var page = 3
     var apiClient = MovieNightApiClient()
     var movies = [Movie]()
     var selectedMovies = [Int: Int]()
+    var names: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,38 +21,83 @@ class ViewController: UIViewController {
     }
 
     func loadData() {
-        fetchMovies(with: page)
+//        fetchGenres()
+        fetchMovies()
+//        fetchPosters()
     }
     
-    func fetchMovies(with page: Int) {
-        
-        var head = "title,release date,genre,vote average"
-        
-        apiClient.fetchMovies(page: page) { [weak self] (results) in
+    func fetchGenres() {
+        apiClient.fetchGenres(page: 1, completion: { [weak self] (results) in
             switch results {
                 case .failure(let error) :
                     print(error)
-                case .success(let resource, let hasPage) :
-                for movie in resource {
-                    head += "\n" + movie.title + "," + movie.releaseDate!
-                    head += "," + String(movie.genreIds![0])
-                    head += "," + String(movie.voteAverage ?? -1)
-                    self?.apiClient.fetchMoviesPosters(movieId: String(movie.id), completion: { (result) in
-                        switch result {
-                        case .failure(let error):
-                            print(error)
-                        case .success((let resource , _)):
-                            print(resource[0])
-                        }
-                    })
+            case .success(let resource, _) :
+                print(resource)
+            }
+        })
+    }
+    
+    func fetchMovies() {
+        
+        let head = "title,release date,genre,vote average,popularity,poster,original language,adult,actors"
+        let semaphore = DispatchSemaphore(value: 0)
+//        let myGroup = DispatchGroup()
+        saveCSV(fileData: head)
+        var body = ""
+        var movieIds: [String] = []
+        
+        for page in 1...100 {
+            apiClient.fetchMovies(page: page) { [weak self] (results) in
+                switch results {
+                    case .failure(let error) :
+                        print(error)
+                case .success(let resource, _) :
+                    for movie in resource {
+                        body += "\n" + movie.title.replacingOccurrences(of: ",", with: "") + "," + movie.releaseDate!
+                        body += "," + movie.genreIds!.map{String($0)}.joined(separator: " ")
+                        body += "," + String(movie.voteAverage ?? -1)
+                        body += "," + (movie.popularity!).description
+                        body += "," + movie.poster_path!
+                        body += "," + movie.original_language!
+                        body += "," + movie.adult!.description
+                        movieIds.append(String(movie.id))
+                    }
+                    self?.saveCSV(fileData: body)
+                    body = ""
                 }
-                self?.saveCSV(fileData: head)
             }
         }
-        
+        for id in movieIds {
+//            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
+//                switch results {
+//                case .failure(let error):
+//                    print(error)
+//                case .success(let actors, _):
+//                    print("success")
+//                }
+//            })
+            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
+    //                            myGroup.enter()
+                switch results {
+                case .failure(let error) :
+                    print(error)
+                case .success(let actors, _) :
+                    self?.names += ","
+                    if actors.isEmpty {
+                        self?.names += "No Actor"
+                    }
+                    else {
+                        for acteur in actors {
+                            self?.names += acteur.actor.name + " "
+                        }
+                    }
+                }
+            })
+        }
     }
     
     func saveCSV(fileData: String) {
+//        print("save to CSV" + fileData)
         //First make sure you know your file path, you can get it from user input or whatever
         //Keep the path clean of the name for now
         var filePath = "/Users/yalucai/Documents/"
@@ -74,13 +119,21 @@ class ViewController: UIViewController {
 
         //Then simply write to the file
         do {
+            if let fileHandle = FileHandle(forWritingAtPath: filePath) {
+                fileHandle.seekToEndOfFile()
+                fileHandle.write(Data(fileData.utf8))
+                fileHandle.closeFile()
+            }
+            else {
+                print("Can't open fileHandle")
+            }
            // Write contents to file
-            try fileData.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
-            print("Writing CSV to: \(filePath)")
+//            try fileData.write(toFile: filePath, atomically: true, encoding: String.Encoding.utf8)
+//            print("Writing CSV to: \(filePath)")
         }
-        catch let error as NSError {
-            print("Ooops! Something went wrong: \(error)")
-        }
+//        catch let error as NSError {
+//            print("Ooops! Something went wrong: \(error)")
+//        }
     }
 }
 
