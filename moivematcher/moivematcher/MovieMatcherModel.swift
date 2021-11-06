@@ -17,21 +17,6 @@ protocol JSONDecodable {
     init?(JSON: [String: AnyObject]) throws
 }
 
-enum UserKeys: String {
-    case FoxUserGenres
-    case FoxUserActors
-    case FoxUserMovies
-    
-    case CrabUserGenres
-    case CrabUserActors
-    case CrabUserMovies
-}
-
-enum User {
-    case Fox
-    case Crab
-}
-
 struct Crew: JSONDecodable {
     
     init?(JSON: [String : AnyObject]) throws {
