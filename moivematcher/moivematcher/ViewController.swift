@@ -17,35 +17,72 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        loadData()
+        loadData()
     }
 
-//    func loadData() {
-////        fetchGenres()
+    func loadData() {
+//        fetchGenres()
 //        fetchMovies()
-////        fetchPosters()
-//    }
-//
-//    func fetchGenres() {
-//        apiClient.fetchGenres(page: 1, completion: { [weak self] (results) in
+//        fetchPosters()
+//        fetchDirector(id: String(774063))
+//        fetchActor(movieId: String(774563))
+//        fetchVideo(id: String(297761))
+    }
+    
+//    NOT COMPLETED: cannot fetch link to video
+//    func fetchVideo(id: String) {
+//        apiClient.fetchVideo(movieId: id, completion: { [weak self] (results) in
 //            switch results {
-//                case .failure(let error) :
-//                    print(error)
-//            case .success(let resource, _) :
-//                print(resource)
+//            case .failure(let error):
+//                print(error)
+//            case .success(let director, _):
+//                // the director is fetched here
+//                print(director)
 //            }
 //        })
 //    }
     
+    func fetchDirector(id: String) {
+        apiClient.fetchMovieDirector(movieId: id, completion: { [weak self] (results) in
+            switch results {
+            case .failure(let error):
+                print(error)
+            case .success(let director, _):
+                // the director is fetched here
+                print(director)
+            }
+        })
+    }
+    
+//    Fetch the five leading actors of the movie with id=[movieId]
+    func fetchActor(movieId: String) {
+        apiClient.fetchMovieActors(movieId: movieId, completion: { [weak self] (results) in
+            switch results {
+            case .failure(let error) :
+                print(error)
+            case .success(let actors, _) :
+                self?.names += ","
+                if actors.isEmpty {
+                    self?.names += "No Actor"
+                }
+                else {
+                    for acteur in actors {
+                        self?.names += acteur.actor.name + " "
+                    }
+                }
+            }
+        })
+    }
+    
 //    func fetchMovies() {
-//        
+//
 //        let head = "title,release date,genre,vote average,popularity,poster,original language,adult,actors"
 //        let semaphore = DispatchSemaphore(value: 0)
-////        let myGroup = DispatchGroup()
+//        let myGroup = DispatchGroup()
 //        saveCSV(fileData: head)
 //        var body = ""
 //        var movieIds: [String] = []
-//        
+//
 //        for page in 1...100 {
 //            apiClient.fetchMovies(page: page) { [weak self] (results) in
 //                switch results {
@@ -66,33 +103,6 @@ class ViewController: UIViewController {
 //                    body = ""
 //                }
 //            }
-//        }
-//        for id in movieIds {
-////            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
-////                switch results {
-////                case .failure(let error):
-////                    print(error)
-////                case .success(let actors, _):
-////                    print("success")
-////                }
-////            })
-//            apiClient.fetchMovieActors(movieId: id, completion: { [weak self] (results) in
-//    //                            myGroup.enter()
-//                switch results {
-//                case .failure(let error) :
-//                    print(error)
-//                case .success(let actors, _) :
-//                    self?.names += ","
-//                    if actors.isEmpty {
-//                        self?.names += "No Actor"
-//                    }
-//                    else {
-//                        for acteur in actors {
-//                            self?.names += acteur.actor.name + " "
-//                        }
-//                    }
-//                }
-//            })
 //        }
 //    }
     

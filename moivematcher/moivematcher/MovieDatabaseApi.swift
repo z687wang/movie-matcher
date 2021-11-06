@@ -41,6 +41,7 @@ enum MovieNightEndpoint: Endpoint {
     case MovieRecommendations(id: String)
     case MovieCredits(id: String)
     case MoviePoster(id: String)
+    case MovieVideos(id: String)
     
     var baseURL: String {
         return "https://api.themoviedb.org"
@@ -59,6 +60,8 @@ enum MovieNightEndpoint: Endpoint {
                 return "/3/movie/\(id)/credits"
             case .MoviePoster(let id):
                 return "/3/movie/\(id)/images"
+            case .MovieVideos(let id):
+                return "/3/movie/\(id)/videos"
         }
     }
     
@@ -70,7 +73,7 @@ enum MovieNightEndpoint: Endpoint {
         case .Actor(let page), .Movie(let page), .Genre(let page):
             parameters["page"] = page
             return parameters
-        case .MovieRecommendations, .MovieCredits:
+        case .MovieRecommendations, .MovieCredits, .MovieVideos:
             return parameters
         case .MoviePoster:
             return parameters
@@ -93,26 +96,7 @@ final class MovieNightApiClient: ApiClient, HttpClient {
         self.init(configuration: .default)
     }
     
-    func fetchGenres(page: Int, completion: @escaping (APIResult<[Genre]>) -> Void) {
-        let endpoint = MovieNightEndpoint.Genre(page: String(page))
-        let request = endpoint.request
-        
-        fetch(request: request, parse: { (json) -> [Genre]? in
-            guard let genres = json["genres"] as? [[String:AnyObject]] else {
-                return nil
-            }
-            return genres.compactMap {
-                do {
-                    return try Genre(JSON: $0)
-                } catch (let error){
-                    print(error)
-                }
-                return nil
-            }
-            
-        }, completion: completion)
-    }
-    
+    // Fetch popular movies
     func fetchMovies(page: Int, completion: @escaping (APIResult<[Movie]>) -> Void) {
         let endpoint = MovieNightEndpoint.Movie(page: String(page))
         let request = endpoint.request
@@ -141,25 +125,24 @@ final class MovieNightApiClient: ApiClient, HttpClient {
         }, completion: completion)
     }
         
-    func fetchMovieActors(movieId: String, completion: @escaping (APIResult<[ActorOfMovie]>) -> Void) {
+//    Fecth leading actors of the movie
+    func fetchMovieActors(movieId: String, completion: @escaping (APIResult<[PersonOfMovie]>) -> Void) {
         
         let endpoint = MovieNightEndpoint.MovieCredits(id: movieId)
         let request = endpoint.request
         
-        fetch(request: request, parse: { (json) -> [ActorOfMovie]? in
-//            print(json["cast"])
+        fetch(request: request, parse: { (json) -> [PersonOfMovie]? in
+            print(json["cast"])
             guard let movieCredits = json["cast"] as? [[String:AnyObject]], let movieId = json["id"] as? Int else {
-                print(1)
                 return nil
             }
             
-            let actors = movieCredits.compactMap { (acteur) -> ActorOfMovie? in
+            let actors = movieCredits.compactMap { (acteur) -> PersonOfMovie? in
                 do {
-                    return try ActorOfMovie(JSON: acteur, movieId: movieId)
+                    return try PersonOfMovie(JSON: acteur, movieId: movieId)
                 } catch (let error){
                     print(error)
                 }
-                print(2)
                 return nil
             }
             
@@ -177,6 +160,80 @@ final class MovieNightApiClient: ApiClient, HttpClient {
 //            } else {
 //                return actors
 //            }
+        }, completion: completion)
+    }
+    
+    //    Fecth leading actors of the movie
+    func fetchMovieDirector(movieId: String, completion: @escaping (APIResult<Crew>) -> Void) {
+        
+        let endpoint = MovieNightEndpoint.MovieCredits(id: movieId)
+        let request = endpoint.request
+        
+        fetch(request: request, parse: { (json) -> Crew? in
+            print(json["crew"])
+            guard let movieCredits = json["crew"] as? [[String:AnyObject]] else {
+                return nil
+            }
+            
+            let crews = movieCredits.compactMap { (crew) -> Crew? in
+                do {
+                    return try Crew(JSON: crew)
+                } catch (let error){
+                    print(error)
+                }
+                return nil
+            }
+            
+            var director = crews[0]
+            
+            for crew in crews {
+                if crew.job == "Director" {
+                    director = crew
+                }
+            }
+            
+            return director
+            
+//            if actors.count < 5 {
+//                return actors
+//            }
+//            else {
+//                return Array(actors.prefix(upTo: 5))
+//            }
+            
+        }, completion: completion)
+    }
+    
+    //    Fecth leading actors of the movie
+    func fetchVideo(movieId: String, completion: @escaping (APIResult<Video>) -> Void) {
+        
+        let endpoint = MovieNightEndpoint.MovieVideos(id: movieId)
+        let request = endpoint.request
+        
+        fetch(request: request, parse: { (json) -> Video? in
+            print(json["results"])
+            guard let results = json["results"] as? [[String:AnyObject]] else {
+                return nil
+            }
+            
+            let videos = results.compactMap { (video) -> Video? in
+                do {
+                    return try Video(JSON: video)
+                } catch (let error){
+                    print(error)
+                }
+                return nil
+            }
+            
+            return nil
+            
+//            if actors.count < 5 {
+//                return actors
+//            }
+//            else {
+//                return Array(actors.prefix(upTo: 5))
+//            }
+            
         }, completion: completion)
     }
 

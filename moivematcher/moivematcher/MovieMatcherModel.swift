@@ -32,6 +32,30 @@ enum User {
     case Crab
 }
 
+struct Crew: JSONDecodable {
+    
+    init?(JSON: [String : AnyObject]) throws {
+        guard let name = JSON["name"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let job = JSON["job"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -job-")
+        }
+        self.name = name
+        self.job = job
+    }
+    
+    
+    var name: String
+    var job: String
+    
+    init(name: String, job: String) {
+        self.name = name
+        self.job = job
+    }
+    
+}
+
 struct Actor: JSONDecodable, Equatable {
     var name: String
     var id: Int
@@ -58,7 +82,7 @@ struct Actor: JSONDecodable, Equatable {
     }
 }
 
-struct ActorOfMovie {
+struct PersonOfMovie {
     var movieId: Int
     var actor: Actor
     
@@ -71,6 +95,27 @@ struct ActorOfMovie {
         
         self.actor = Actor(name: name, id: id)
         self.movieId = movieId
+    }
+}
+
+struct Video {
+    var name: String
+    var key: String
+    var site: String
+    
+    init?(JSON: [String: AnyObject]) throws {
+        guard let name = JSON["name"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let key = JSON["key"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -key-")
+        }
+        guard let site = JSON["site"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -site-")
+        }
+        self.name = name
+        self.key = key
+        self.site = site
     }
 }
 
