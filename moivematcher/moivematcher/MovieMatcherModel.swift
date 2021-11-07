@@ -17,19 +17,28 @@ protocol JSONDecodable {
     init?(JSON: [String: AnyObject]) throws
 }
 
-enum UserKeys: String {
-    case FoxUserGenres
-    case FoxUserActors
-    case FoxUserMovies
+struct Crew: JSONDecodable {
     
-    case CrabUserGenres
-    case CrabUserActors
-    case CrabUserMovies
-}
-
-enum User {
-    case Fox
-    case Crab
+    init?(JSON: [String : AnyObject]) throws {
+        guard let name = JSON["name"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let job = JSON["job"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -job-")
+        }
+        self.name = name
+        self.job = job
+    }
+    
+    
+    var name: String
+    var job: String
+    
+    init(name: String, job: String) {
+        self.name = name
+        self.job = job
+    }
+    
 }
 
 struct Actor: JSONDecodable, Equatable {
@@ -58,7 +67,7 @@ struct Actor: JSONDecodable, Equatable {
     }
 }
 
-struct Credit {
+struct PersonOfMovie {
     var movieId: Int
     var actor: Actor
     
@@ -74,13 +83,38 @@ struct Credit {
     }
 }
 
+struct Video {
+    var name: String
+    var key: String
+    var site: String
+    
+    init?(JSON: [String: AnyObject]) throws {
+        guard let name = JSON["name"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let key = JSON["key"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -key-")
+        }
+        guard let site = JSON["site"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -site-")
+        }
+        self.name = name
+        self.key = key
+        self.site = site
+    }
+}
+
 struct Movie : JSONDecodable, Hashable, Equatable {
     var title: String
     var releaseDate: String?
-    var voteAverage: Int?
+    var voteAverage: Double?
     var genreIds: [Int]?
     var id: Int
     var hashValue : Int { return self.id }
+    var poster_path: String?
+    var original_language: String?
+    var popularity: Double?
+    var adult: Int?
     
     init(title: String, id: Int, genreIds: [Int]?) {
         self.title = title
@@ -101,10 +135,30 @@ struct Movie : JSONDecodable, Hashable, Equatable {
         guard let releaseDate = JSON["release_date"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -release_date-")
         }
+        guard let voteAvg = JSON["vote_average"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -vote_average-")
+        }
+        guard let pop = JSON["popularity"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
+        }
+        guard let adult = JSON["adult"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -adult-")
+        }
+        guard let poster_path = JSON["poster_path"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -poster_path-")
+        }
+        guard let langue = JSON["original_language"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
+        }
         self.title = name
         self.id = id
         self.genreIds = genreIds
         self.releaseDate = releaseDate
+        self.voteAverage = voteAvg
+        self.popularity = pop
+        self.adult = adult
+        self.poster_path = poster_path
+        self.original_language = langue
     }
     
     static func == (lhs: Movie, rhs: Movie) -> Bool {
@@ -138,5 +192,46 @@ struct Genre: JSONDecodable, Equatable {
     }
 }
 
+// MARK: - Image
+struct Image: Codable {
+    init?(JSON: [String : AnyObject]) throws {
+        guard let id = JSON["id"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
+        }
+        guard let backdrops = JSON["backdrop"] as? [Backdrop] else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -backdrops-")
+        }
+        guard let posters = JSON["posters"] as? [Backdrop] else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -backdrops-")
+        }
+        guard let logos = JSON["logos"] as? [Backdrop] else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -logos-")
+        }
+        self.id = id
+        self.backdrops = backdrops
+        self.posters = posters
+        self.logos = logos
+    }
+    let id: Int
+    let backdrops, posters, logos: [Backdrop]
+}
 
+// MARK: - Backdrop
+struct Backdrop: Codable {
+    let aspectRatio: Double
+    let filePath: String
+    let height: Int
+    let iso639_1: String?
+    let voteAverage, voteCount, width: Int
+
+    enum CodingKeys: String, CodingKey {
+        case aspectRatio = "aspect_ratio"
+        case filePath = "file_path"
+        case height
+        case iso639_1 = "iso_639_1"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
+        case width
+    }
+}
 

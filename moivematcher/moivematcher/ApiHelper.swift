@@ -7,9 +7,9 @@
 
 import Foundation
 protocol ApiClient {
-    func fetchGenres(page: Int, completion: @escaping (APIResult<[Genre]>)-> Void)
-    func fetchActors(page: Int, completion: @escaping (APIResult<[Actor]>)-> Void)
+//    func fetchGenres(page: Int, completion: @escaping (APIResult<[Genre]>)-> Void)
     func fetchMovies(page: Int, completion: @escaping (APIResult<[Movie]>)-> Void)
-    func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void)
-    func fetchMoviesPosters(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void)
+//    func fetchMoviesRecommendations(movieId: String, completion: @escaping (APIResult<[Movie]>) -> Void)
+    func fetchMovieActors(movieId: String, completion: @escaping (APIResult<[PersonOfMovie]>) -> Void)
+    func fetchMovieDirector(movieId: String, completion: @escaping (APIResult<Crew>) -> Void)
 }
