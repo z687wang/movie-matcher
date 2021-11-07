@@ -255,6 +255,11 @@
                                     <segue destination="gnM-dV-wKt" kind="show" id="nIf-9K-Cbs"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="star.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="RWg-VK-iHc" userLabel="bookmark">
+                                <rect key="frame" x="169" y="702.5" width="76" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ab2-b0-i5T"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -270,6 +275,7 @@
         <image name="bookmark.fill" catalog="system" width="112" height="128"/>
         <image name="heart.circle" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="star.circle" catalog="system" width="128" height="121"/>
         <image name="video.fill" catalog="system" width="128" height="82"/>
         <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="linkColor">
