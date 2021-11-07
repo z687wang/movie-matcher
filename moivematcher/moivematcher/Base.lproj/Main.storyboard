@@ -71,22 +71,6 @@
             </objects>
             <point key="canvasLocation" x="-29" y="721"/>
         </scene>
-        <!--history-->
-        <scene sceneID="VPH-NU-f48">
-            <objects>
-                <viewController id="E9u-SX-F75" userLabel="history" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ogj-HL-FEY">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="BBq-7V-bdL"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="history" image="bookmark.fill" catalog="system" id="L3w-ET-yC9" userLabel="History"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="o8j-Oe-wWK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="159" y="-66"/>
-        </scene>
         <!--movie-->
         <scene sceneID="W3m-ZI-kIG">
             <objects>
@@ -114,7 +98,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="nPP-XV-lTw" kind="relationship" relationship="viewControllers" id="wGh-GU-nl0"/>
-                        <segue destination="E9u-SX-F75" kind="relationship" relationship="viewControllers" id="HVa-oQ-PeL"/>
+                        <segue destination="DZf-I2-ccE" kind="relationship" relationship="viewControllers" id="EHn-my-RBx"/>
                         <segue destination="UWQ-Bg-kAg" kind="relationship" relationship="viewControllers" id="DDp-tw-2aD"/>
                     </connections>
                 </tabBarController>
@@ -137,6 +121,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KmV-2E-6QR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="938" y="-66"/>
+        </scene>
+        <!--History-->
+        <scene sceneID="8PV-UW-fNq">
+            <objects>
+                <tableViewController id="DZf-I2-ccE" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="OJ7-UZ-Ie2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="uGN-Ky-eii">
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uGN-Ky-eii" id="vQI-oU-yNH">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DZf-I2-ccE" id="Wyx-pw-DI1"/>
+                            <outlet property="delegate" destination="DZf-I2-ccE" id="8IS-vA-NdO"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="History" image="bookmark.fill" catalog="system" id="dFq-pD-a7u"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Flw-hj-W8r" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="183" y="-66"/>
         </scene>
     </scenes>
     <resources>
