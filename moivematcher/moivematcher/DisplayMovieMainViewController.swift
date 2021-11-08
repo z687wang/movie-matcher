@@ -107,6 +107,7 @@ class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSou
         super.viewDidLoad();
         loadMoviesIDData();
         swipeableCardView.dataSource = self
+        swipeableCardView.controller = self
     }
     
     func loadMoviesIDData() {
@@ -123,6 +124,15 @@ class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSou
         let cardView = SampleSwipeableCard()
         cardView.viewModel = movieModel
         return cardView
+    }
+    
+    func didSelect(card: SwipeableCardViewCard, atIndex index: Int) {
+        let activeMovie = card.model
+        let rootVC = MovieDetailViewController()
+        rootVC.movieData = activeMovie
+        let navVC = UINavigationController(rootViewController: rootVC)
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true)
     }
     
     func viewForEmptyCards() -> UIView? {

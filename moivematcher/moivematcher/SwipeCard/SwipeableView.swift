@@ -13,7 +13,7 @@ import pop
 class SwipeableView: UIView {
 
     var delegate: SwipeableViewDelegate?
-
+    var model: MovieWithGenres?
     // MARK: Gesture Recognizer
 
     private var panGestureRecognizer: UIPanGestureRecognizer?

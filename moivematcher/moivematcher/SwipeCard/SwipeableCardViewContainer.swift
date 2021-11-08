@@ -20,6 +20,8 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
             reloadData()
         }
     }
+    
+    var controller: DisplayMovieMainViewController?
 
     var delegate: SwipeableCardViewDelegate?
 
@@ -93,7 +95,6 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
         cardViewFrame.size.width -= 2 * horizontalInset
         cardViewFrame.origin.x += horizontalInset
         cardViewFrame.origin.y += verticalInset
-
         cardView.frame = cardViewFrame
     }
 
@@ -107,6 +108,9 @@ extension SwipeableCardViewContainer {
         if let cardView = view as? SwipeableCardViewCard,
             let index = cardViews.index(of: cardView) {
             delegate?.didSelect(card: cardView, atIndex: index)
+            self.controller?.didSelect(card: cardView, atIndex: index)
+        } else {
+            print("else")
         }
         print("did tap")
     }

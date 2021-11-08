@@ -183,6 +183,7 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     var x: CGFloat = 0.0
     var y: CGFloat = 0.0
     var degree: Double = 0.0
+    var genresStr: String = ""
     
     init(title: String, id: Int, genreIds: [Genre]?) {
         self.title = title
@@ -228,6 +229,8 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
             }
             return nil
         }
+        let genresArray = self.genres.map{ $0.map {$0.name }}
+        self.genresStr = genresArray?.compactMap { $0 }.joined(separator: ", ") ?? ""
         self.releaseDate = releaseDate
         self.voteAverage = voteAvg
         self.popularity = pop
@@ -238,6 +241,10 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     
     static func == (lhs: MovieWithGenres, rhs: MovieWithGenres) -> Bool {
         return lhs.id == rhs.id
+    }
+    
+    func getGenres() -> String {
+        return self.genresStr
     }
 }
 
