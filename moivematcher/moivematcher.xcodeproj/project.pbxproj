@@ -7,9 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A02AA222738641F0019F582 /* DisplayMovieMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA212738641F0019F582 /* DisplayMovieMainViewController.swift */; };
+		0A02AA2D273983040019F582 /* SwipeableCardViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA2C273983040019F582 /* SwipeableCardViewContainer.swift */; };
+		0A02AA2F273983310019F582 /* SwipeableCardViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA2E273983310019F582 /* SwipeableCardViewDelegate.swift */; };
+		0A02AA31273983520019F582 /* SwipeableCardViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA30273983520019F582 /* SwipeableCardViewDataSource.swift */; };
+		0A02AA33273983750019F582 /* SwipeableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA32273983750019F582 /* SwipeableView.swift */; };
+		0A02AA35273983EA0019F582 /* SwipeableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA34273983EA0019F582 /* SwipeableViewDelegate.swift */; };
+		0A02AA37273984110019F582 /* SwipeDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA36273984110019F582 /* SwipeDirection.swift */; };
+		0A02AA3927398D120019F582 /* CGPoint+SwipeableAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA3827398D120019F582 /* CGPoint+SwipeableAdditions.swift */; };
+		0A02AA3B27398D340019F582 /* CGReact+SwipeAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA3A27398D340019F582 /* CGReact+SwipeAdditions.swift */; };
+		0A02AA3D27398D540019F582 /* NibView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA3C27398D540019F582 /* NibView.swift */; };
+		0A02AA3F27398D750019F582 /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA3E27398D750019F582 /* UIView+Constraints.swift */; };
+		0A02AA4127398D970019F582 /* SwipeableCardViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA4027398D970019F582 /* SwipeableCardViewCard.swift */; };
+		0A02AA4327398DA70019F582 /* SwipeableCardViewCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A02AA4227398DA70019F582 /* SwipeableCardViewCard.xib */; };
+		0A02AA4527398DCB0019F582 /* SampleSwipeableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA4427398DCB0019F582 /* SampleSwipeableCard.swift */; };
+		0A02AA492739A4DA0019F582 /* SampleSwipeableCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A02AA482739A4DA0019F582 /* SampleSwipeableCard.xib */; };
 		0AA73C2C2729A0A80019AD19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */; };
 		0AA73C2E2729A0A80019AD19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */; };
-		0AA73C302729A0A80019AD19 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C2F2729A0A80019AD19 /* ViewController.swift */; };
 		0AA73C332729A0A80019AD19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA73C312729A0A80019AD19 /* Main.storyboard */; };
 		0AA73C352729A0AB0019AD19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AA73C342729A0AB0019AD19 /* Assets.xcassets */; };
 		0AA73C382729A0AB0019AD19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA73C362729A0AB0019AD19 /* LaunchScreen.storyboard */; };
@@ -20,6 +34,9 @@
 		1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F952730DB9800EC87A1 /* HttpHelper.swift */; };
 		1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F972730DBD700EC87A1 /* ApiHelper.swift */; };
 		1CA44F9A2730DC2C00EC87A1 /* MovieMatcherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */; };
+		781A686703F1634C566BE62F /* Pods_moivematcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF0F408C08A06497D13FC11 /* Pods_moivematcher.framework */; };
+		93A5D967E159FBC4007543A2 /* Pods_moivematcher_moivematcherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */; };
+		C6287305E8CE72571D82B4ED /* Pods_moivematcherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,10 +57,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A02AA212738641F0019F582 /* DisplayMovieMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayMovieMainViewController.swift; sourceTree = "<group>"; };
+		0A02AA2C273983040019F582 /* SwipeableCardViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewContainer.swift; sourceTree = "<group>"; };
+		0A02AA2E273983310019F582 /* SwipeableCardViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewDelegate.swift; sourceTree = "<group>"; };
+		0A02AA30273983520019F582 /* SwipeableCardViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewDataSource.swift; sourceTree = "<group>"; };
+		0A02AA32273983750019F582 /* SwipeableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableView.swift; sourceTree = "<group>"; };
+		0A02AA34273983EA0019F582 /* SwipeableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableViewDelegate.swift; sourceTree = "<group>"; };
+		0A02AA36273984110019F582 /* SwipeDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeDirection.swift; sourceTree = "<group>"; };
+		0A02AA3827398D120019F582 /* CGPoint+SwipeableAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+SwipeableAdditions.swift"; sourceTree = "<group>"; };
+		0A02AA3A27398D340019F582 /* CGReact+SwipeAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGReact+SwipeAdditions.swift"; sourceTree = "<group>"; };
+		0A02AA3C27398D540019F582 /* NibView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibView.swift; sourceTree = "<group>"; };
+		0A02AA3E27398D750019F582 /* UIView+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		0A02AA4027398D970019F582 /* SwipeableCardViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableCardViewCard.swift; sourceTree = "<group>"; };
+		0A02AA4227398DA70019F582 /* SwipeableCardViewCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwipeableCardViewCard.xib; sourceTree = "<group>"; };
+		0A02AA4427398DCB0019F582 /* SampleSwipeableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleSwipeableCard.swift; sourceTree = "<group>"; };
+		0A02AA482739A4DA0019F582 /* SampleSwipeableCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleSwipeableCard.xib; sourceTree = "<group>"; };
 		0AA73C282729A0A80019AD19 /* moivematcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moivematcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0AA73C2F2729A0A80019AD19 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0AA73C322729A0A80019AD19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AA73C342729A0AB0019AD19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AA73C372729A0AB0019AD19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -53,10 +84,19 @@
 		0AA73C482729A0AB0019AD19 /* moivematcherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = moivematcherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA73C4C2729A0AB0019AD19 /* moivematcherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moivematcherUITests.swift; sourceTree = "<group>"; };
 		0AA73C4E2729A0AB0019AD19 /* moivematcherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moivematcherUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1288FE814E93CE1A1F05D7D7 /* Pods-moivematcherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcherTests.release.xcconfig"; path = "Target Support Files/Pods-moivematcherTests/Pods-moivematcherTests.release.xcconfig"; sourceTree = "<group>"; };
 		1CA44F932730DAF200EC87A1 /* MovieDatabaseApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDatabaseApi.swift; sourceTree = "<group>"; };
 		1CA44F952730DB9800EC87A1 /* HttpHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		1CA44F972730DBD700EC87A1 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieMatcherModel.swift; sourceTree = "<group>"; };
+		2824681E092D424BB2E03B2F /* Pods-moivematcher-moivematcherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher-moivematcherUITests.release.xcconfig"; path = "Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moivematcher_moivematcherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33433B4C318A84D209121C33 /* Pods-moivematcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher.debug.xcconfig"; path = "Target Support Files/Pods-moivematcher/Pods-moivematcher.debug.xcconfig"; sourceTree = "<group>"; };
+		3FF0F408C08A06497D13FC11 /* Pods_moivematcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moivematcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5584156A2802BD4D5B46B00C /* Pods-moivematcher-moivematcherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher-moivematcherUITests.debug.xcconfig"; path = "Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moivematcherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D84CC2A173AD6992F5F3A37B /* Pods-moivematcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher.release.xcconfig"; path = "Target Support Files/Pods-moivematcher/Pods-moivematcher.release.xcconfig"; sourceTree = "<group>"; };
+		DB469CB4C5D3F4F8C820C4B0 /* Pods-moivematcherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcherTests.debug.xcconfig"; path = "Target Support Files/Pods-moivematcherTests/Pods-moivematcherTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781A686703F1634C566BE62F /* Pods_moivematcher.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6287305E8CE72571D82B4ED /* Pods_moivematcherTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,12 +120,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A5D967E159FBC4007543A2 /* Pods_moivematcher_moivematcherUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A02AA2B273908350019F582 /* SwipeCard */ = {
+			isa = PBXGroup;
+			children = (
+				0A02AA2C273983040019F582 /* SwipeableCardViewContainer.swift */,
+				0A02AA2E273983310019F582 /* SwipeableCardViewDelegate.swift */,
+				0A02AA30273983520019F582 /* SwipeableCardViewDataSource.swift */,
+				0A02AA32273983750019F582 /* SwipeableView.swift */,
+				0A02AA34273983EA0019F582 /* SwipeableViewDelegate.swift */,
+				0A02AA36273984110019F582 /* SwipeDirection.swift */,
+				0A02AA3827398D120019F582 /* CGPoint+SwipeableAdditions.swift */,
+				0A02AA3A27398D340019F582 /* CGReact+SwipeAdditions.swift */,
+				0A02AA3C27398D540019F582 /* NibView.swift */,
+				0A02AA3E27398D750019F582 /* UIView+Constraints.swift */,
+				0A02AA4027398D970019F582 /* SwipeableCardViewCard.swift */,
+				0A02AA4227398DA70019F582 /* SwipeableCardViewCard.xib */,
+				0A02AA4427398DCB0019F582 /* SampleSwipeableCard.swift */,
+				0A02AA482739A4DA0019F582 /* SampleSwipeableCard.xib */,
+			);
+			path = SwipeCard;
+			sourceTree = "<group>";
+		};
 		0AA73C1F2729A0A80019AD19 = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +155,8 @@
 				0AA73C412729A0AB0019AD19 /* moivematcherTests */,
 				0AA73C4B2729A0AB0019AD19 /* moivematcherUITests */,
 				0AA73C292729A0A80019AD19 /* Products */,
+				A82DECE2C5152A7B6AC992F0 /* Pods */,
+				C3C7D74975029126AE914602 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,14 +173,15 @@
 		0AA73C2A2729A0A80019AD19 /* moivematcher */ = {
 			isa = PBXGroup;
 			children = (
+				0A02AA2B273908350019F582 /* SwipeCard */,
 				0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */,
 				0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */,
 				1CA44F932730DAF200EC87A1 /* MovieDatabaseApi.swift */,
 				1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */,
 				1CA44F972730DBD700EC87A1 /* ApiHelper.swift */,
 				1CA44F952730DB9800EC87A1 /* HttpHelper.swift */,
-				0AA73C2F2729A0A80019AD19 /* ViewController.swift */,
 				0AA73C312729A0A80019AD19 /* Main.storyboard */,
+				0A02AA212738641F0019F582 /* DisplayMovieMainViewController.swift */,
 				0AA73C342729A0AB0019AD19 /* Assets.xcassets */,
 				0AA73C362729A0AB0019AD19 /* LaunchScreen.storyboard */,
 				0AA73C392729A0AB0019AD19 /* Info.plist */,
@@ -139,6 +206,29 @@
 			path = moivematcherUITests;
 			sourceTree = "<group>";
 		};
+		A82DECE2C5152A7B6AC992F0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33433B4C318A84D209121C33 /* Pods-moivematcher.debug.xcconfig */,
+				D84CC2A173AD6992F5F3A37B /* Pods-moivematcher.release.xcconfig */,
+				5584156A2802BD4D5B46B00C /* Pods-moivematcher-moivematcherUITests.debug.xcconfig */,
+				2824681E092D424BB2E03B2F /* Pods-moivematcher-moivematcherUITests.release.xcconfig */,
+				DB469CB4C5D3F4F8C820C4B0 /* Pods-moivematcherTests.debug.xcconfig */,
+				1288FE814E93CE1A1F05D7D7 /* Pods-moivematcherTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C3C7D74975029126AE914602 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3FF0F408C08A06497D13FC11 /* Pods_moivematcher.framework */,
+				2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */,
+				63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,9 +236,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AA73C522729A0AB0019AD19 /* Build configuration list for PBXNativeTarget "moivematcher" */;
 			buildPhases = (
+				F7C6F27005092B0CA92E0A57 /* [CP] Check Pods Manifest.lock */,
 				0AA73C242729A0A80019AD19 /* Sources */,
 				0AA73C252729A0A80019AD19 /* Frameworks */,
 				0AA73C262729A0A80019AD19 /* Resources */,
+				BB2540DC327B533A3E97F84D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +255,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AA73C552729A0AB0019AD19 /* Build configuration list for PBXNativeTarget "moivematcherTests" */;
 			buildPhases = (
+				0104583AC9DE10993582156C /* [CP] Check Pods Manifest.lock */,
 				0AA73C3A2729A0AB0019AD19 /* Sources */,
 				0AA73C3B2729A0AB0019AD19 /* Frameworks */,
 				0AA73C3C2729A0AB0019AD19 /* Resources */,
@@ -181,9 +274,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AA73C582729A0AB0019AD19 /* Build configuration list for PBXNativeTarget "moivematcherUITests" */;
 			buildPhases = (
+				8741F5C4D0B38FF8ED744C55 /* [CP] Check Pods Manifest.lock */,
 				0AA73C442729A0AB0019AD19 /* Sources */,
 				0AA73C452729A0AB0019AD19 /* Frameworks */,
 				0AA73C462729A0AB0019AD19 /* Resources */,
+				D3E5126A3C236F3D8A133B2C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -243,7 +338,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A02AA492739A4DA0019F582 /* SampleSwipeableCard.xib in Resources */,
 				0AA73C382729A0AB0019AD19 /* LaunchScreen.storyboard in Resources */,
+				0A02AA4327398DA70019F582 /* SwipeableCardViewCard.xib in Resources */,
 				0AA73C352729A0AB0019AD19 /* Assets.xcassets in Resources */,
 				0AA73C332729A0A80019AD19 /* Main.storyboard in Resources */,
 			);
@@ -265,18 +362,133 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0104583AC9DE10993582156C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-moivematcherTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8741F5C4D0B38FF8ED744C55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-moivematcher-moivematcherUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB2540DC327B533A3E97F84D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moivematcher/Pods-moivematcher-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moivematcher/Pods-moivematcher-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moivematcher/Pods-moivematcher-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3E5126A3C236F3D8A133B2C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F7C6F27005092B0CA92E0A57 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-moivematcher-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0AA73C242729A0A80019AD19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A02AA37273984110019F582 /* SwipeDirection.swift in Sources */,
+				0A02AA4527398DCB0019F582 /* SampleSwipeableCard.swift in Sources */,
+				0A02AA3B27398D340019F582 /* CGReact+SwipeAdditions.swift in Sources */,
+				0A02AA35273983EA0019F582 /* SwipeableViewDelegate.swift in Sources */,
+				0A02AA3927398D120019F582 /* CGPoint+SwipeableAdditions.swift in Sources */,
 				1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */,
+				0A02AA222738641F0019F582 /* DisplayMovieMainViewController.swift in Sources */,
+				0A02AA3F27398D750019F582 /* UIView+Constraints.swift in Sources */,
+				0A02AA2F273983310019F582 /* SwipeableCardViewDelegate.swift in Sources */,
 				1CA44F9A2730DC2C00EC87A1 /* MovieMatcherModel.swift in Sources */,
-				0AA73C302729A0A80019AD19 /* ViewController.swift in Sources */,
 				1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */,
 				1CA44F942730DAF200EC87A1 /* MovieDatabaseApi.swift in Sources */,
 				0AA73C2C2729A0A80019AD19 /* AppDelegate.swift in Sources */,
+				0A02AA2D273983040019F582 /* SwipeableCardViewContainer.swift in Sources */,
+				0A02AA3D27398D540019F582 /* NibView.swift in Sources */,
+				0A02AA33273983750019F582 /* SwipeableView.swift in Sources */,
+				0A02AA31273983520019F582 /* SwipeableCardViewDataSource.swift in Sources */,
 				0AA73C2E2729A0A80019AD19 /* SceneDelegate.swift in Sources */,
+				0A02AA4127398D970019F582 /* SwipeableCardViewCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +662,7 @@
 		};
 		0AA73C532729A0AB0019AD19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33433B4C318A84D209121C33 /* Pods-moivematcher.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -477,6 +690,7 @@
 		};
 		0AA73C542729A0AB0019AD19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D84CC2A173AD6992F5F3A37B /* Pods-moivematcher.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -504,6 +718,7 @@
 		};
 		0AA73C562729A0AB0019AD19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB469CB4C5D3F4F8C820C4B0 /* Pods-moivematcherTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -528,6 +743,7 @@
 		};
 		0AA73C572729A0AB0019AD19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1288FE814E93CE1A1F05D7D7 /* Pods-moivematcherTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -552,6 +768,7 @@
 		};
 		0AA73C592729A0AB0019AD19 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5584156A2802BD4D5B46B00C /* Pods-moivematcher-moivematcherUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -574,6 +791,7 @@
 		};
 		0AA73C5A2729A0AB0019AD19 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2824681E092D424BB2E03B2F /* Pods-moivematcher-moivematcherUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

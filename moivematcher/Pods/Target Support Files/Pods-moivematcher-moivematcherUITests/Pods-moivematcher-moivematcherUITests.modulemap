@@ -1,0 +1,6 @@
+framework module Pods_moivematcher_moivematcherUITests {
+  umbrella header "Pods-moivematcher-moivematcherUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
