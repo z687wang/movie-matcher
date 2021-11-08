@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 //Model
 
@@ -104,68 +105,6 @@ struct Video {
     }
 }
 
-struct Movie : JSONDecodable, Hashable, Equatable {
-    var title: String
-    var releaseDate: String?
-    var voteAverage: Double?
-    var genreIds: [Int]?
-    var id: Int
-    var hashValue : Int { return self.id }
-    var poster_path: String?
-    var original_language: String?
-    var popularity: Double?
-    var adult: Int?
-    
-    init(title: String, id: Int, genreIds: [Int]?) {
-        self.title = title
-        self.id = id
-        self.genreIds = genreIds
-    }
-    
-    init?(JSON: [String: AnyObject]) throws {
-        guard let name = JSON["title"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
-        }
-        guard let id = JSON["id"] as? Int else {
-           throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
-        }
-        guard let genreIds = JSON["genre_ids"] as? [Int] else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -genresIds-")
-        }
-        guard let releaseDate = JSON["release_date"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -release_date-")
-        }
-        guard let voteAvg = JSON["vote_average"] as? Double else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -vote_average-")
-        }
-        guard let pop = JSON["popularity"] as? Double else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
-        }
-        guard let adult = JSON["adult"] as? Int else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -adult-")
-        }
-        guard let poster_path = JSON["poster_path"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -poster_path-")
-        }
-        guard let langue = JSON["original_language"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
-        }
-        self.title = name
-        self.id = id
-        self.genreIds = genreIds
-        self.releaseDate = releaseDate
-        self.voteAverage = voteAvg
-        self.popularity = pop
-        self.adult = adult
-        self.poster_path = poster_path
-        self.original_language = langue
-    }
-    
-    static func == (lhs: Movie, rhs: Movie) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
 struct Genre: JSONDecodable, Equatable {
     var name: String
     var id: Int
@@ -191,6 +130,117 @@ struct Genre: JSONDecodable, Equatable {
         return lhs.id == rhs.id
     }
 }
+
+struct Movie : JSONDecodable, Hashable, Equatable {
+    var title: String
+    var releaseDate: String?
+    var voteAverage: Int?
+    var genreIds: [Int]?
+    var id: Int
+    var hashValue : Int { return self.id }
+    
+    init(title: String, id: Int, genreIds: [Int]?) {
+        self.title = title
+        self.id = id
+        self.genreIds = genreIds
+    }
+    
+    init?(JSON: [String: AnyObject]) throws {
+        guard let name = JSON["title"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let id = JSON["id"] as? Int else {
+           throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
+        }
+        guard let genreIds = JSON["genre_ids"] as? [Int] else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -genresIds-")
+        }
+        guard let releaseDate = JSON["release_date"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -release_date-")
+        }
+        self.title = name
+        self.id = id
+        self.genreIds = genreIds
+        self.releaseDate = releaseDate
+    }
+    
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
+struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
+    var title: String
+    var releaseDate: String?
+    var voteAverage: Double?
+    var genres: [Genre]?
+    var id: Int
+    var hashValue : Int { return self.id }
+    var poster_path: String?
+    var original_language: String?
+    var popularity: Double?
+    var adult: Int?
+    var x: CGFloat = 0.0
+    var y: CGFloat = 0.0
+    var degree: Double = 0.0
+    
+    init(title: String, id: Int, genreIds: [Genre]?) {
+        self.title = title
+        self.id = id
+        self.genres = genreIds
+    }
+    
+    init?(JSON: [String: AnyObject]) throws {
+        guard let name = JSON["title"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
+        guard let id = JSON["id"] as? Int else {
+           throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
+        }
+        guard let genres = JSON["genres"] as? [[String:AnyObject]] else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -genresIds-")
+        }
+        guard let releaseDate = JSON["release_date"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -release_date-")
+        }
+        guard let voteAvg = JSON["vote_average"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -vote_average-")
+        }
+        guard let pop = JSON["popularity"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
+        }
+        guard let adult = JSON["adult"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -adult-")
+        }
+        guard let poster_path = JSON["poster_path"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -poster_path-")
+        }
+        guard let langue = JSON["original_language"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
+        }
+        self.title = name
+        self.id = id
+        self.genres = genres.flatMap {
+            do {
+                return try Genre(JSON: $0)
+            } catch (let error){
+                print(error)
+            }
+            return nil
+        }
+        self.releaseDate = releaseDate
+        self.voteAverage = voteAvg
+        self.popularity = pop
+        self.adult = adult
+        self.poster_path = poster_path
+        self.original_language = langue
+    }
+    
+    static func == (lhs: MovieWithGenres, rhs: MovieWithGenres) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+
 
 // MARK: - Image
 struct Image: Codable {
