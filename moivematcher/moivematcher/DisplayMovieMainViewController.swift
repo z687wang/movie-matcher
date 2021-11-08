@@ -11,40 +11,31 @@ import Combine
 
 
 var movieIDArray: [Int] = []
+var activeMovies: [MovieWithGenres] = []
 var page: Int = 1
 var hasNextPage: Bool = true
 
-class ActiveMoviesModel: ObservableObject {
-    var didChange = PassthroughSubject<Void, Never>()
-    var activeMovies: [MovieWithGenres] { didSet { didChange.send() } }
-    init(activeMovies: [MovieWithGenres]) {
-            self.activeMovies = activeMovies
-        }
-}
+//struct MoviesSectionView: View {
+//    @ObservedObject var moviesModel: ActiveMoviesModel
+//    var body: some View {
+//        ZStack{
+//            ForEach(moviesModel.activeMovies) { movie in
+//                MoviePosterView(movie: movie)
+//            }
+//        }
+//        .padding(8)
+//        .zIndex(1.0)
+//    }
+//}
 
-var activeMoviesModel = ActiveMoviesModel(activeMovies: [])
-
-struct MoviesSectionView: View {
-    @ObservedObject var moviesModel: ActiveMoviesModel
-    var body: some View {
-        ZStack{
-            ForEach(moviesModel.activeMovies) { movie in
-                MoviePosterView(movie: movie)
-            }
-        }
-        .padding(8)
-        .zIndex(1.0)
-    }
-}
-
-class MoviesSectionSwiftUIViewHostingController: UIHostingController<MoviesSectionView> {
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder, rootView: MoviesSectionView(moviesModel: activeMoviesModel))
-    }
-    func setNeedsBodyUpdate() {
-        
-    }
-}
+//class MoviesSectionSwiftUIViewHostingController: UIHostingController<MoviesSectionView> {
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder, rootView: MoviesSectionView(moviesModel: activeMoviesModel))
+//    }
+//    func setNeedsBodyUpdate() {
+//
+//    }
+//}
 
 struct MoviePosterView: View {
     @State var movie: MovieWithGenres
@@ -103,17 +94,19 @@ struct MoviePosterView: View {
 }
 
 
-class DisplayMovieMainViewController: UIViewController {
+class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSource {
 
     @IBOutlet weak var MovieNameLabel: UILabel!
     @IBOutlet weak var MovieYearLabel: UILabel!
     @IBOutlet weak var MoviesView: UIView!
+    @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     
     var apiClient = MovieApiClient()
     
     override func viewDidLoad() {
         super.viewDidLoad();
         loadMoviesIDData();
+        swipeableCardView.dataSource = self
     }
     
     func loadMoviesIDData() {
@@ -121,7 +114,23 @@ class DisplayMovieMainViewController: UIViewController {
         fetchInitialMoviesID(with: page)
     }
     
+    func numberOfCards() -> Int {
+        return activeMovies.count
+    }
+    
+    func card(forItemAtIndex index: Int) -> SwipeableCardViewCard {
+        let movieModel = activeMovies[index]
+        let cardView = SampleSwipeableCard()
+        cardView.viewModel = movieModel
+        return cardView
+    }
+    
+    func viewForEmptyCards() -> UIView? {
+        return nil
+    }
+    
     func fetchInitialMoviesID(with page: Int) {
+        print(page)
         self.apiClient.fetchMoviesID(page: page) { [weak self] (results) in
             switch results {
             case .failure(let error):
@@ -129,13 +138,13 @@ class DisplayMovieMainViewController: UIViewController {
             case .success(let resource, let hasPage):
                 movieIDArray = resource
                 hasNextPage = hasPage
+                print(movieIDArray)
                 self?.fetchGroupMoviesDetails(from: movieIDArray, completionHandler: { movies in
                     print(movies)
                 })
             }
-            
+    
         }
-        
     }
     
     func fetchMovieDetails(from id: Int, completionHandler: @escaping (_ movie: Movie)-> Void) {
@@ -146,7 +155,7 @@ class DisplayMovieMainViewController: UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let resource , _):
-                activeMoviesModel.activeMovies.append(resource)
+                activeMovies.append(resource)
             }
             group.leave()
         })
@@ -156,12 +165,14 @@ class DisplayMovieMainViewController: UIViewController {
         let group = DispatchGroup()
         for id in moviesId {
             group.enter()
+            activeMovies = []
             self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
                 case .success(let resource , _):
-                    activeMoviesModel.activeMovies.append(resource)
+                    activeMovies.append(resource)
+                    self.swipeableCardView.reloadData()
                 }
                 group.leave()
             })
@@ -183,3 +194,4 @@ class DisplayMovieMainViewController: UIViewController {
     */
 
 }
+
