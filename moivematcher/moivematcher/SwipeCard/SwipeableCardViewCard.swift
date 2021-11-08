@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class SwipeableCardViewCard: SwipeableView, NibView {
-
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         xibSetup()

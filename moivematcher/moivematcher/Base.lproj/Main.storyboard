@@ -8,6 +8,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Movie Detail View Controller-->
+        <scene sceneID="gf8-zA-AGW">
+            <objects>
+                <viewController id="sBN-YF-bTK" customClass="MovieDetailViewController" customModule="moivematcher" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xRh-4x-uyM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="rVQ-lZ-Iub"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7BK-vw-Tza" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-235" y="779"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -190,7 +205,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bUm-Ad-nCC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="472" y="779"/>
+            <point key="canvasLocation" x="1200" y="779"/>
         </scene>
         <!--movie-->
         <scene sceneID="avC-8d-zlC">
@@ -226,7 +241,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ab2-b0-i5T"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstItem="XmW-vW-K0o" firstAttribute="centerY" secondItem="wnS-yY-obe" secondAttribute="centerY" id="5dv-rV-se1"/>
                             <constraint firstItem="ab2-b0-i5T" firstAttribute="trailing" secondItem="XmW-vW-K0o" secondAttribute="trailing" constant="20" id="7mr-ya-fcw"/>
@@ -254,6 +269,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

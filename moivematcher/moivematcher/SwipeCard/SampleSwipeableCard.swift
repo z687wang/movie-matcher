@@ -14,19 +14,19 @@ class SampleSwipeableCard: SwipeableCardViewCard {
 
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
+    @IBOutlet weak var genresLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var backgroundContainerView: UIView!
     @IBOutlet private weak var imageBackgroundColorView: UIView!
     /// Core Motion Manager
     private let motionManager = CMMotionManager()
-
     /// Shadow View
     private weak var shadowView: UIView?
 
     /// Inner Margin
     private static let kInnerMargin: CGFloat = 20.0
 
-    var viewModel: MovieWithGenres? {
+    public var viewModel: MovieWithGenres? {
         didSet {
             configure(forViewModel: viewModel)
         }
@@ -36,10 +36,12 @@ class SampleSwipeableCard: SwipeableCardViewCard {
         if let viewModel = viewModel {
             titleLabel.text = viewModel.title
             subtitleLabel.text = viewModel.releaseDate
+            genresLabel.text = viewModel.genresStr
 //           imageBackgroundColorView.backgroundColor = viewModel.color
             let url = URL(string: "https://image.tmdb.org/t/p/original/" + viewModel.poster_path!)!
             self.downloadImage(from: url)
             backgroundContainerView.layer.cornerRadius = 14.0
+            self.model = viewModel
         }
     }
     
