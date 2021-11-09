@@ -7,6 +7,13 @@ target 'moivematcher' do
 
   # Pods for moivematcher
   pod 'pop', '1.0.10'
+  pod 'Nuke'
+  pod 'ACAnimator'
+  pod 'UICircularProgressRing'
+  pod 'SwiftDate'
+  pod 'ShowTime'
+  pod 'NVActivityIndicatorView'
+  pod 'Cosmos', '~> 23.0'
   target 'moivematcherTests' do
     inherit! :search_paths
     # Pods for testing

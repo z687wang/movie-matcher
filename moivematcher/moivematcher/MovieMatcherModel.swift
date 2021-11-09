@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import SwiftDate
+import Nuke
 
 //Model
 
@@ -169,15 +171,28 @@ struct Movie : JSONDecodable, Hashable, Equatable {
     }
 }
 
-struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
+enum MediaItemImageType {
+    case portrait
+    case backdrop
+}
+
+class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     var title: String
     var releaseDate: String?
+    var releaseDateObj: Date?
     var voteAverage: Double?
+    var voteCount: Int?
     var genres: [Genre]?
     var id: Int
     var hashValue : Int { return self.id }
     var poster_path: String?
+    var bg_path: String?
     var original_language: String?
+    var overview: String?
+    var revenue: Int?
+    
+    var posterURL: URL?
+    var bgURL: URL?
     var popularity: Double?
     var adult: Int?
     var x: CGFloat = 0.0
@@ -191,7 +206,7 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         self.genres = genreIds
     }
     
-    init?(JSON: [String: AnyObject]) throws {
+    required init?(JSON: [String: AnyObject]) throws {
         guard let name = JSON["title"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
         }
@@ -207,6 +222,9 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         guard let voteAvg = JSON["vote_average"] as? Double else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -vote_average-")
         }
+        guard let voteCount = JSON["vote_count"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -vote_count-")
+        }
         guard let pop = JSON["popularity"] as? Double else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
         }
@@ -218,6 +236,15 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         }
         guard let langue = JSON["original_language"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
+        }
+        guard let overview = JSON["overview"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -overview-")
+        }
+        guard let bg_path = JSON["backdrop_path"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -backdrop_path-")
+        }
+        guard let revenue = JSON["revenue"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -revenue-")
         }
         self.title = name
         self.id = id
@@ -232,11 +259,18 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         let genresArray = self.genres.map{ $0.map {$0.name }}
         self.genresStr = genresArray?.compactMap { $0 }.joined(separator: ", ") ?? ""
         self.releaseDate = releaseDate
+        self.releaseDateObj = Date(self.releaseDate ?? "")
         self.voteAverage = voteAvg
+        self.voteCount = voteCount
         self.popularity = pop
         self.adult = adult
+        self.bg_path = bg_path
         self.poster_path = poster_path
+        self.posterURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.poster_path!)!
+        self.bgURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.bg_path!)!
         self.original_language = langue
+        self.overview = overview
+        self.revenue = revenue
     }
     
     static func == (lhs: MovieWithGenres, rhs: MovieWithGenres) -> Bool {
@@ -245,6 +279,45 @@ struct MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     
     func getGenres() -> String {
         return self.genresStr
+    }
+    
+    private var _portraitAverageColor: UIColor?
+    private var _backdropAverageColor: UIColor?
+    
+    func averageColor(of imageType: MediaItemImageType, completion: @escaping (UIColor?) -> Void) {
+        // Return cached `averageColor` result if exists
+        if imageType == .portrait && _portraitAverageColor != nil {
+            completion(_portraitAverageColor)
+            return
+        }
+        if imageType == .backdrop && _backdropAverageColor != nil {
+            completion(_backdropAverageColor)
+            return
+        }
+        
+        let imageUrl = imageType == .backdrop ? self.bgURL : self.posterURL
+//        guard let imageUrl = URL(string: imagePath!) else {
+//            completion(nil)
+//            return
+//        }
+        
+        ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+            switch result {
+            case let .success(response):
+                let averageColor = response.image.averageColor?.lighter()
+                
+                // Cache result
+                if imageType == .portrait {
+                    self?._portraitAverageColor = averageColor
+                }
+                else if imageType == .backdrop {
+                    self?._backdropAverageColor = averageColor
+                }
+                
+                completion(averageColor)
+            case .failure(_): completion(nil)
+            }
+        }
     }
 }
 

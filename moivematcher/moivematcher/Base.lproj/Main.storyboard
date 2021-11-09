@@ -217,8 +217,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XmW-vW-K0o" customClass="SwipeableCardViewContainer" customModule="moivematcher" customModuleProvider="target">
-                                <rect key="frame" x="20" y="148" width="374" height="600"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XmW-vW-K0o" customClass="SwipeableCardViewContainer" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="20" y="107" width="374" height="706"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="600" id="s5k-fZ-jwy"/>
@@ -243,6 +243,99 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8lw-hb-rj8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1184.0579710144928" y="778.79464285714278"/>
+        </scene>
+        <!--Movie Detail View Controller-->
+        <scene sceneID="WKw-2J-7gv">
+            <objects>
+                <viewController storyboardIdentifier="MyMovieDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Q72-aE-oi7" customClass="MovieDetailViewController" customModule="moivematcher" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="e6L-qr-dzL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="th7-rP-f5q" userLabel="Hero Image View" customClass="ShadowImageView" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="313.5"/>
+                                <viewLayoutGuide key="safeArea" id="dH8-eS-Lqw"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadiusOffSetPercentage">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffSetByX">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOffSetByY">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="imageCornerRaidus">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowAlpha">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DyN-2e-0I0" customClass="GradientView" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="192"/>
+                                <viewLayoutGuide key="safeArea" id="FcS-2x-QPH"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="192" id="BXX-JM-deD"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                        <color key="value" white="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="startPointX">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="startPointY">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="endPointX">
+                                        <real key="value" value="0.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="endPointY">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ofg-OE-fyp" customClass="MultiCollectionView" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="-16" width="414" height="878"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="pv3-zt-8mN"/>
+                        <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Ofg-OE-fyp" secondAttribute="trailing" id="17N-nK-isl"/>
+                            <constraint firstItem="th7-rP-f5q" firstAttribute="top" secondItem="e6L-qr-dzL" secondAttribute="top" id="1db-mA-6g6"/>
+                            <constraint firstItem="th7-rP-f5q" firstAttribute="width" secondItem="e6L-qr-dzL" secondAttribute="width" id="2VI-gS-krR"/>
+                            <constraint firstAttribute="trailing" secondItem="DyN-2e-0I0" secondAttribute="trailing" id="A7d-9A-ULb"/>
+                            <constraint firstItem="Ofg-OE-fyp" firstAttribute="top" secondItem="e6L-qr-dzL" secondAttribute="top" id="UXT-nn-i8n"/>
+                            <constraint firstItem="th7-rP-f5q" firstAttribute="height" secondItem="e6L-qr-dzL" secondAttribute="height" multiplier="0.35" id="ZC5-xR-5hd"/>
+                            <constraint firstItem="Ofg-OE-fyp" firstAttribute="leading" secondItem="e6L-qr-dzL" secondAttribute="leading" id="nn4-uM-w6U"/>
+                            <constraint firstAttribute="bottom" secondItem="Ofg-OE-fyp" secondAttribute="bottom" id="rrb-Gl-tHO"/>
+                            <constraint firstItem="th7-rP-f5q" firstAttribute="centerX" secondItem="pv3-zt-8mN" secondAttribute="centerX" id="uXs-Px-k4H"/>
+                            <constraint firstItem="DyN-2e-0I0" firstAttribute="leading" secondItem="e6L-qr-dzL" secondAttribute="leading" id="uch-B7-uuQ"/>
+                            <constraint firstItem="DyN-2e-0I0" firstAttribute="top" secondItem="e6L-qr-dzL" secondAttribute="top" id="uug-0v-GiT"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Ofg-OE-fyp" id="mFl-LY-aUJ"/>
+                        <outlet property="heroImageView" destination="th7-rP-f5q" id="h1b-4D-ebo"/>
+                        <outlet property="topGradientView" destination="DyN-2e-0I0" id="hBM-gB-qlR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Phj-bl-bJt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1462.3188405797102" y="29.464285714285712"/>
         </scene>
     </scenes>
     <resources>
