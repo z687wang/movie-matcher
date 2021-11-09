@@ -54,7 +54,7 @@ class SampleSwipeableCard: SwipeableCardViewCard {
             // always update the UI from the main thread
             DispatchQueue.main.async() { [weak self] in
                 let image = UIImage(data: data)!
-                let targetSize = CGSize(width: 325, height: 487)
+                let targetSize = CGSize(width: 360, height: 540)
                 // Compute the scaling ratio for the width and height separately
                 let widthScaleRatio = targetSize.width / image.size.width
                 let heightScaleRatio = targetSize.height / image.size.height

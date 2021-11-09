@@ -25,14 +25,14 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lhL-QV-UVc">
                     <rect key="frame" x="0.0" y="20" width="325" height="557"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KzP-I3-pDi">
-                            <rect key="frame" x="0.0" y="0.0" width="325" height="467"/>
+                        <view contentMode="scaleToFill" horizontalHuggingPriority="360" verticalHuggingPriority="540" horizontalCompressionResistancePriority="360" verticalCompressionResistancePriority="540" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KzP-I3-pDi">
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="540"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="310" verticalHuggingPriority="410" horizontalCompressionResistancePriority="295" verticalCompressionResistancePriority="410" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n1H-9c-dJi">
-                                    <rect key="frame" x="-13" y="-21" width="353" height="488"/>
+                                    <rect key="frame" x="56" y="55" width="213" height="318"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="487" id="CVM-cO-mJf"/>
-                                        <constraint firstAttribute="width" constant="325" id="ip6-pL-1gB"/>
+                                        <constraint firstAttribute="height" constant="540" id="CVM-cO-mJf"/>
+                                        <constraint firstAttribute="width" constant="360" id="ip6-pL-1gB"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
@@ -54,14 +54,14 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9d-cS-uWr">
-                                            <rect key="frame" x="0.0" y="29" width="275" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R9d-cS-uWr">
+                                            <rect key="frame" x="0.0" y="30" width="275" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IfW-4U-ewg">
-                                            <rect key="frame" x="102" y="29" width="165" height="21"/>
+                                            <rect key="frame" x="102" y="30" width="165" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
@@ -112,7 +112,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="lhL-QV-UVc" secondAttribute="top" constant="-20" id="kfg-sh-c1P"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-62" y="53"/>
+            <point key="canvasLocation" x="-63.200000000000003" y="52.623688155922046"/>
         </view>
         <viewController id="Ce6-gc-Lwi">
             <point key="canvasLocation" x="662" y="50"/>

@@ -23,6 +23,10 @@
 		0A02AA4527398DCB0019F582 /* SampleSwipeableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA4427398DCB0019F582 /* SampleSwipeableCard.swift */; };
 		0A02AA492739A4DA0019F582 /* SampleSwipeableCard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A02AA482739A4DA0019F582 /* SampleSwipeableCard.xib */; };
 		0A02AA4B2739DBE00019F582 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA4A2739DBE00019F582 /* MovieDetailViewController.swift */; };
+		0A02AA4E2739EB4E0019F582 /* MovieDetails.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A02AA4D2739EB4E0019F582 /* MovieDetails.storyboard */; };
+		0A02AA512739EC5A0019F582 /* MultiCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA502739EC5A0019F582 /* MultiCollectionView.swift */; };
+		0A02AA532739ECB70019F582 /* MultiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA522739ECB60019F582 /* MultiCollectionViewCell.swift */; };
+		0A02AA552739ED200019F582 /* MultiCollectionViewRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A02AA542739ED200019F582 /* MultiCollectionViewRow.swift */; };
 		0AA73C2C2729A0A80019AD19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */; };
 		0AA73C2E2729A0A80019AD19 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */; };
 		0AA73C332729A0A80019AD19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AA73C312729A0A80019AD19 /* Main.storyboard */; };
@@ -74,6 +78,10 @@
 		0A02AA4427398DCB0019F582 /* SampleSwipeableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleSwipeableCard.swift; sourceTree = "<group>"; };
 		0A02AA482739A4DA0019F582 /* SampleSwipeableCard.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SampleSwipeableCard.xib; sourceTree = "<group>"; };
 		0A02AA4A2739DBE00019F582 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
+		0A02AA4D2739EB4E0019F582 /* MovieDetails.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MovieDetails.storyboard; sourceTree = "<group>"; };
+		0A02AA502739EC5A0019F582 /* MultiCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCollectionView.swift; sourceTree = "<group>"; };
+		0A02AA522739ECB60019F582 /* MultiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCollectionViewCell.swift; sourceTree = "<group>"; };
+		0A02AA542739ED200019F582 /* MultiCollectionViewRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiCollectionViewRow.swift; sourceTree = "<group>"; };
 		0AA73C282729A0A80019AD19 /* moivematcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = moivematcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -150,6 +158,25 @@
 			path = SwipeCard;
 			sourceTree = "<group>";
 		};
+		0A02AA4C2739EB320019F582 /* MovieDetails */ = {
+			isa = PBXGroup;
+			children = (
+				0A02AA4D2739EB4E0019F582 /* MovieDetails.storyboard */,
+				0A02AA4A2739DBE00019F582 /* MovieDetailViewController.swift */,
+			);
+			path = MovieDetails;
+			sourceTree = "<group>";
+		};
+		0A02AA4F2739EC430019F582 /* MultiCollections */ = {
+			isa = PBXGroup;
+			children = (
+				0A02AA502739EC5A0019F582 /* MultiCollectionView.swift */,
+				0A02AA522739ECB60019F582 /* MultiCollectionViewCell.swift */,
+				0A02AA542739ED200019F582 /* MultiCollectionViewRow.swift */,
+			);
+			path = MultiCollections;
+			sourceTree = "<group>";
+		};
 		0AA73C1F2729A0A80019AD19 = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +202,8 @@
 		0AA73C2A2729A0A80019AD19 /* moivematcher */ = {
 			isa = PBXGroup;
 			children = (
+				0A02AA4F2739EC430019F582 /* MultiCollections */,
+				0A02AA4C2739EB320019F582 /* MovieDetails */,
 				0A02AA2B273908350019F582 /* SwipeCard */,
 				0AA73C2B2729A0A80019AD19 /* AppDelegate.swift */,
 				0AA73C2D2729A0A80019AD19 /* SceneDelegate.swift */,
@@ -187,7 +216,6 @@
 				0AA73C342729A0AB0019AD19 /* Assets.xcassets */,
 				0AA73C362729A0AB0019AD19 /* LaunchScreen.storyboard */,
 				0AA73C392729A0AB0019AD19 /* Info.plist */,
-				0A02AA4A2739DBE00019F582 /* MovieDetailViewController.swift */,
 			);
 			path = moivematcher;
 			sourceTree = "<group>";
@@ -343,6 +371,7 @@
 			files = (
 				0A02AA492739A4DA0019F582 /* SampleSwipeableCard.xib in Resources */,
 				0AA73C382729A0AB0019AD19 /* LaunchScreen.storyboard in Resources */,
+				0A02AA4E2739EB4E0019F582 /* MovieDetails.storyboard in Resources */,
 				0A02AA4327398DA70019F582 /* SwipeableCardViewCard.xib in Resources */,
 				0AA73C352729A0AB0019AD19 /* Assets.xcassets in Resources */,
 				0AA73C332729A0A80019AD19 /* Main.storyboard in Resources */,
@@ -491,7 +520,10 @@
 				0A02AA33273983750019F582 /* SwipeableView.swift in Sources */,
 				0A02AA4B2739DBE00019F582 /* MovieDetailViewController.swift in Sources */,
 				0A02AA31273983520019F582 /* SwipeableCardViewDataSource.swift in Sources */,
+				0A02AA552739ED200019F582 /* MultiCollectionViewRow.swift in Sources */,
 				0AA73C2E2729A0A80019AD19 /* SceneDelegate.swift in Sources */,
+				0A02AA512739EC5A0019F582 /* MultiCollectionView.swift in Sources */,
+				0A02AA532739ECB70019F582 /* MultiCollectionViewCell.swift in Sources */,
 				0A02AA4127398D970019F582 /* SwipeableCardViewCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
