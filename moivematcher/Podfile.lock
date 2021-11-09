@@ -1,16 +1,46 @@
 PODS:
+  - ACAnimator (1.0.1)
+  - Cosmos (23.0.0)
+  - Nuke (10.5.1)
+  - NVActivityIndicatorView (5.1.1):
+    - NVActivityIndicatorView/Base (= 5.1.1)
+  - NVActivityIndicatorView/Base (5.1.1)
   - pop (1.0.10)
+  - ShowTime (2.5.2)
+  - SwiftDate (6.3.1)
+  - UICircularProgressRing (8.0.0)
 
 DEPENDENCIES:
+  - ACAnimator
+  - Cosmos (~> 23.0)
+  - Nuke
+  - NVActivityIndicatorView
   - pop (= 1.0.10)
+  - ShowTime
+  - SwiftDate
+  - UICircularProgressRing
 
 SPEC REPOS:
   trunk:
+    - ACAnimator
+    - Cosmos
+    - Nuke
+    - NVActivityIndicatorView
     - pop
+    - ShowTime
+    - SwiftDate
+    - UICircularProgressRing
 
 SPEC CHECKSUMS:
+  ACAnimator: 5ebdf39455b2e1838746964fe01766876086bcbe
+  Cosmos: b5c6a9a637e28a061b54c8f8b1d8529d7d4db73f
+  Nuke: 6ae28db7d24c07d040bcc52f6957b32dac23e91b
+  NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  ShowTime: 5cb2c5314da2983cec44f27123a15473cf29306f
+  SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  UICircularProgressRing: 19927375b2b21b5fa5fd9582f15ccdef9659da16
 
-PODFILE CHECKSUM: aed2d6e333020e544556ee4692acc18273c12b0c
+PODFILE CHECKSUM: 6a2f8f33874866604fc480bc71349495c918e81e
 
 COCOAPODS: 1.11.2
