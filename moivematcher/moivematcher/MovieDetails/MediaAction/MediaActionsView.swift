@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Cosmos
 
 protocol MediaActionsViewDelegate: class {
+    func actionsViewDidSelectLikeButton(_ actionsView: MediaActionsView)
+    func actionsViewDidSelectDislikeButton(_ actionsView: MediaActionsView)
     func actionsViewDidSelectPlayButton(_ actionsView: MediaActionsView)
-    func actionsViewDidSelectAddButton(_ actionsView: MediaActionsView)
-    func actionsViewDidSelectDownloadButton(_ actionsView: MediaActionsView)
 }
 
 class MediaActionsView: UIView {
@@ -19,10 +20,11 @@ class MediaActionsView: UIView {
     weak var delegate: MediaActionsViewDelegate?
     
     private static let titleLabelFont = UIFont(name: "Nunito-Black", size: 22)!
-    private static let titleLabelTop: CGFloat = 110.0
+    private static let titleLabelTop: CGFloat = 140.0
     private static let titleLabelLeading: CGFloat = 67.0
     private static let titleLabelTrailing: CGFloat = 67.0
-
+    @IBOutlet weak var ratingView: CosmosView!
+    
     static let playButtonSize: CGFloat = 74.0
     
     // MARK: - Outlets -
@@ -93,15 +95,14 @@ class MediaActionsView: UIView {
     
     // MARK: - Actions -
     
-    @IBAction func playButtonSelected(_ sender: Any) {
+    @IBAction func likeButtonClicked(_ sender: UIButton) {
+        delegate?.actionsViewDidSelectDislikeButton(self)
+    }
+    
+    @IBAction func dislikeButtonClicked(_ sender: UIButton) {
+        delegate?.actionsViewDidSelectDislikeButton(self)
+    }
+    @IBAction func PlayButttonClicked(_ sender: Any) {
         delegate?.actionsViewDidSelectPlayButton(self)
-    }
-    
-    @IBAction func addButtonSelected(_ sender: Any) {
-        delegate?.actionsViewDidSelectAddButton(self)
-    }
-    
-    @IBAction func downloadButtonSelected(_ sender: Any) {
-        delegate?.actionsViewDidSelectDownloadButton(self)
     }
 }

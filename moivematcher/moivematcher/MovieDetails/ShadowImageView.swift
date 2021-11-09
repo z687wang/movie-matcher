@@ -13,7 +13,7 @@ import Nuke
 
 @objc protocol ShadowImageViewDelegate: class {
     @objc optional func shadowImageViewDidUpdateImageFrame(_ shadowImageView: ShadowImageView)
-    @objc optional func shadowImageViewDidUpdateBlurFrame(_ shadowImageView: ShadowImageView)    
+    @objc optional func shadowImageViewDidUpdateBlurFrame(_ shadowImageView: ShadowImageView)
 }
 
 @IBDesignable
@@ -224,7 +224,7 @@ public class ShadowImageView: ImageDisplayingView {
     }
     
     // Conform ImageDisplaying protocol from Nuke
-    public func nuke_display(image: PlatformImage?) {
+    public func nuke_display(image: PlatformImage?, data: Data?) {
         self.image = image
     }
 }

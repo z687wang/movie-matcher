@@ -2,25 +2,24 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2co-o6-FvE">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Movie Details View Controller-->
+        <!--Movie Detail View Controller-->
         <scene sceneID="WZE-XA-NIp">
             <objects>
-                <viewController id="2co-o6-FvE" customClass="MovieDetailsViewController" customModule="Muvis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MyMovieDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="2co-o6-FvE" customClass="MovieDetailViewController" customModule="moivematcher" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="pdQ-dL-mvM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqL-yf-W1m" customClass="MultiCollectionView" customModule="Muvis" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bqL-yf-W1m" customClass="MultiCollectionView" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="812"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qsy-xN-5VS" userLabel="Hero Image View" customClass="ShadowImageView" customModule="Muvis" customModuleProvider="target">
+                            <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qsy-xN-5VS" userLabel="Hero Image View" customClass="ShadowImageView" customModule="moivematcher" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="313.5"/>
                                 <viewLayoutGuide key="safeArea" id="kT8-1H-IjV"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -42,7 +41,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p6W-lT-IYB" customClass="GradientView" customModule="Muvis" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p6W-lT-IYB" customClass="GradientView" customModule="moivematcher" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="192"/>
                                 <viewLayoutGuide key="safeArea" id="TiQ-ug-ESr"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -99,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FPk-Yh-HCW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="117.59999999999999" y="-287.40629685157421"/>
+            <point key="canvasLocation" x="-162.31884057971016" y="-236.38392857142856"/>
         </scene>
     </scenes>
 </document>
