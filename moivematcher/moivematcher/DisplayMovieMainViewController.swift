@@ -37,63 +37,6 @@ var hasNextPage: Bool = true
 //    }
 //}
 
-struct MoviePosterView: View {
-    @State var movie: MovieWithGenres
-    let movieGradient = Gradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.5)])
-    
-    var body: some View {
-        ZStack(alignment: .topLeading) {
-            AsyncImage(url: URL(string: movie.poster_path!));
-                
-            // Linear Gradient
-            LinearGradient(gradient: movieGradient, startPoint: .top, endPoint: .bottom)
-            VStack {
-                Spacer()
-                VStack(alignment: .leading){
-                    HStack {
-                        Text(movie.title).font(.largeTitle).fontWeight(.bold)
-                        Text(String(movie.releaseDate!)).font(.title)
-                    }
-                }
-            }
-            .padding()
-            .foregroundColor(.white)
-        }
-        
-        .cornerRadius(8)
-        .offset(x: movie.x, y: movie.y)
-        .rotationEffect(.init(degrees: movie.degree))
-        .gesture (
-            DragGesture()
-                .onChanged { value in
-                    withAnimation(.default) {
-                        movie.x = value.translation.width
-                        // MARK: - BUG 5
-                        movie.y = value.translation.height
-                        movie.degree = 7 * (value.translation.width > 0 ? 1 : -1)
-                    }
-                }
-                .onEnded { (value) in
-                    withAnimation(.interpolatingSpring(mass: 1.0, stiffness: 50, damping: 8, initialVelocity: 0)) {
-                        switch value.translation.width {
-                        case 0...100:
-                            movie.x = 0; movie.degree = 0; movie.y = 0
-                        case let x where x > 100:
-                            movie.x = 500; movie.degree = 12
-                        case (-100)...(-1):
-                            movie.x = 0; movie.degree = 0; movie.y = 0
-                        case let x where x < -100:
-                            movie.x  = -500; movie.degree = -12
-                        default:
-                            movie.x = 0; movie.y = 0
-                        }
-                    }
-                }
-        )
-    }
-}
-
-
 class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSource {
 
     @IBOutlet weak var MovieNameLabel: UILabel!
@@ -106,6 +49,7 @@ class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSou
     override func viewDidLoad() {
         super.viewDidLoad();
         loadMoviesIDData();
+        self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + 90.0)
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
     }
@@ -128,11 +72,10 @@ class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSou
     
     func didSelect(card: SwipeableCardViewCard, atIndex index: Int) {
         let activeMovie = card.model
-        let rootVC = MovieDetailViewController()
-        rootVC.movieData = activeMovie
-        let navVC = UINavigationController(rootViewController: rootVC)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+        let destVC = self.storyboard?.instantiateViewController(withIdentifier: "MyMovieDetailViewController") as! MovieDetailViewController
+        destVC.movieData = activeMovie
+//        destVC.modalPresentationStyle = .overFullScreen
+        self.present(destVC, animated: true, completion: nil)
     }
     
     func viewForEmptyCards() -> UIView? {
@@ -193,15 +136,8 @@ class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSou
 //        }
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    }
 
 }
 
