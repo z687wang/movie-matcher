@@ -27,10 +27,10 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             collectionView.contentInsetAdjustmentBehavior = .never
             collectionView.register(UINib(nibName: MovieMetadataCellView.typeName, bundle: nil), forCellWithReuseIdentifier: MovieMetadataCellView.typeName)
             collectionView.register(UINib(nibName: MediaDescriptionCellView.typeName, bundle: nil), forCellWithReuseIdentifier: MediaDescriptionCellView.typeName)
-    //            collectionView.register(UINib(nibName: ClipCellView.typeName, bundle: nil), forCellWithReuseIdentifier: ClipCellView.typeName)
-    //            collectionView.register(UINib(nibName: CircularCellView.typeName, bundle: nil), forCellWithReuseIdentifier: CircularCellView.typeName)
-    //            collectionView.register(UINib(nibName: PosterCellView.typeName, bundle: nil), forCellWithReuseIdentifier: PosterCellView.typeName)
-    //            collectionView.register(UINib(nibName: MediaHeaderView.typeName, bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MediaHeaderView.typeName)
+            collectionView.register(UINib(nibName: DirectorCellView.typeName, bundle: nil), forCellWithReuseIdentifier: DirectorCellView.typeName)
+            collectionView.register(UINib(nibName: ActorCellView.typeName, bundle: nil), forCellWithReuseIdentifier: ActorCellView.typeName)
+            collectionView.register(UINib(nibName: CrewCellView.typeName, bundle: nil), forCellWithReuseIdentifier: CrewCellView.typeName)
+            collectionView.register(UINib(nibName: MediaHeaderView.typeName, bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MediaHeaderView.typeName)
         }
     }
 //
@@ -42,6 +42,40 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
                 collectionView.reloadData()
             }
         }
+    }
+    
+    private var directorsSection: Int {
+        guard self.movieData.directors.count > 0 else {
+            return -1
+        }
+        
+        return 2
+    }
+    
+    private var actorsSection: Int {
+        guard self.movieData.actors.count > 0 else {
+            return -1
+        }
+        
+        if self.movieData.directors.count > 0 {
+            return 3
+        }
+        
+        return 2
+    }
+    
+    private var crewsSection: Int {
+        guard self.movieData.crews.count > 0 else {
+            return -1
+        }
+        
+        if self.movieData.directors.count > 0  && self.movieData.actors.count > 0 {
+            return 4
+        }
+        else if self.movieData.directors.count > 0 || self.movieData.actors.count > 0{
+            return 3
+        }
+        return 2
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -76,6 +110,7 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
                     if let mediaDescriptionCell = self?.collectionView.cellForItem(at: IndexPath(item: 0, section: 1)) as? MediaDescriptionCellView {
                         self?.setMediaDescriptionCellViewFontColor(cell: mediaDescriptionCell, labelFontColor: self?.labelFontColor, textFontColor: self?.textFontColor)
                     }
+                    
                     self?.setMediaActionsViewLabelFontColor()
                     let maskSize = CGSize(width: image.size.width, height: image.size.height)
                     let path = strongSelf.bottomCurvedMask(for: maskSize, curvature: 0.15)
@@ -88,10 +123,13 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         
         self.addMediaActionsView()
         
-//        self.movieData.averageColor(of: .backdrop, completion: { [weak self] (color) in
-//            if let color = color {
-//            }
-//        })
+        if self.movieData.fullyDetailed {
+            print("fully detailed")
+            self.isContentReady = true
+        }
+        else {
+            print("TODO: need to fetch full details of movie")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -228,6 +266,7 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         view.addSubview(mediaActionsView)
         self.mediaActionsView.playImageView.tintColor = UIColor.black
         self.mediaActionsView.ratingView.rating = self.movieData.voteAverage! / 2.0
+        self.mediaActionsView.ratingView.settings.starSize = 22
 //        self.mediaActionsView.ratingView.settings.filledImage = UIImage(named: "GoldStarFilled")
 //        self.mediaActionsView.ratingView.settings.emptyImage = UIImage(named: "GoldStarEmpty")
         mediaActionsView.delegate = self
@@ -250,17 +289,21 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         guard isContentReady else {
             return 2
         }
-        
         var count = 2
-//        if mediaItem.clips.count > 0 { count += 1 }
-//        if mediaItem.actors.count > 0 { count += 1 }
-//        if mediaItem.relatedMovies.count > 0 { count += 1 }
-//
+        if self.movieData.directors.count > 0 { count += 1 }
+        if self.movieData.actors.count > 0 { count += 1 }
+        if self.movieData.crews.count > 0 { count += 1 }
         return count
     }
     
     func collectionView(_ collectionView: MultiCollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
+        case actorsSection:
+            return self.movieData.actors.count
+        case directorsSection:
+            return self.movieData.directors.count
+        case crewsSection:
+            return self.movieData.crews.count
         default:
             return 1
         }
@@ -274,8 +317,12 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             return MediaDescriptionCellView.typeName
 //        case clipsSection:
 //            return ClipCellView.typeName
-//        case actorsSection:
-//            return CircularCellView.typeName
+        case actorsSection:
+            return ActorCellView.typeName
+        case directorsSection:
+            return DirectorCellView.typeName
+        case crewsSection:
+            return CrewCellView.typeName
 //        case recommendationsSection:
 //            return PosterCellView.typeName
         default:
@@ -301,31 +348,87 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
 //            clipCellView.titleLabel.text = ytItem.title
 //            loadClipImage(into: clipCellView.imageView, from: ytItem)
 //        }
-//        else if let circularCellView = cell as? CircularCellView {
-//            let actorItem = mediaItem.actors[indexPath.item]
-//            circularCellView.titleLabel.text = actorItem.name
-//
-//            if let imageUrl = URL(string: actorItem.profilePath) {
-//                // TODO: Set placeholder image temporarly while the other image is being requested
-//                ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
-//                    guard let strongSelf = self else {
-//                        return
-//                    }
-//
-//                    switch result {
-//                    case let .success(response):
-//                        let image = response.image
-//                        let cellSize = strongSelf.collectionView(collectionView, sizeForItemAt: indexPath)
-//                        let imageWidth = cellSize.width - CircularCellView.imageHorizontalPadding * 2
-//                        let imageSize = CGSize(width: imageWidth, height: imageWidth)
-//                        let scaledImage = image.scaled(to: imageSize, scalingMode: .aspectFill, horizontalAligment: .center, verticalAligment: .top)
-//                        let roundedImage = scaledImage.rounded()
-//                        circularCellView.imageView.image = roundedImage
-//                    case .failure(_): break
-//                    }
-//                }
-//            }
-//        }
+        else if let actorCellView = cell as? ActorCellView {
+            let actorItem = self.movieData.actors[indexPath.item]
+            actorCellView.titleLabel.text = actorItem.name
+            actorCellView.titleLabel.textColor = self.labelFontColor
+            if let imageUrl = actorItem.profileURL {
+                // TODO: Set placeholder image temporarly while the other image is being requested
+                ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    switch result {
+                    case let .success(response):
+                        let image = response.image
+                        let cellSize = strongSelf.collectionView(collectionView, sizeForItemAt: indexPath)
+                        let imageWidth = cellSize.width - CircularCellView.imageHorizontalPadding * 2
+                        let imageSize = CGSize(width: imageWidth, height: imageWidth)
+                        let scaledImage = image.scaled(to: imageSize, scalingMode: .aspectFill, horizontalAligment: .center, verticalAligment: .top)
+                        let roundedImage = scaledImage.rounded()
+                        actorCellView.imageView.image = roundedImage
+                        actorCellView.titleLabel.textColor = self?.labelFontColor
+                    case .failure(_):
+                        actorCellView.titleLabel.textColor = self?.labelFontColor
+                        break
+                    }
+                }
+            }
+        }
+        else if let directorCellView = cell as? DirectorCellView {
+            let directorItem = self.movieData.directors[indexPath.item]
+            directorCellView.titleLabel.text = directorItem.name
+            directorCellView.titleLabel.textColor = self.labelFontColor
+            if let imageUrl = directorItem.profileURL {
+                // TODO: Set placeholder image temporarly while the other image is being requested
+                ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    switch result {
+                    case let .success(response):
+                        let image = response.image
+                        let cellSize = strongSelf.collectionView(collectionView, sizeForItemAt: indexPath)
+                        let imageWidth = cellSize.width - CircularCellView.imageHorizontalPadding * 2
+                        let imageSize = CGSize(width: imageWidth, height: imageWidth)
+                        let scaledImage = image.scaled(to: imageSize, scalingMode: .aspectFill, horizontalAligment: .center, verticalAligment: .top)
+                        let roundedImage = scaledImage.rounded()
+                        directorCellView.imageView.image = roundedImage
+                        directorCellView.titleLabel.textColor = self?.labelFontColor
+                    case .failure(_):
+                        directorCellView.titleLabel.textColor = self?.labelFontColor
+                        break
+                    }
+                }
+            }
+        }
+        else if let crewCellView = cell as? CrewCellView {
+            let crewItem = self.movieData.crews[indexPath.item]
+            crewCellView.titleLabel.text = crewItem.name
+            crewCellView.titleLabel.textColor = self.labelFontColor
+            if let imageUrl = crewItem.profileURL {
+                // TODO: Set placeholder image temporarly while the other image is being requested
+                ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    switch result {
+                    case let .success(response):
+                        let image = response.image
+                        let cellSize = strongSelf.collectionView(collectionView, sizeForItemAt: indexPath)
+                        let imageWidth = cellSize.width - CircularCellView.imageHorizontalPadding * 2
+                        let imageSize = CGSize(width: imageWidth, height: imageWidth)
+                        let scaledImage = image.scaled(to: imageSize, scalingMode: .aspectFill, horizontalAligment: .center, verticalAligment: .top)
+                        let roundedImage = scaledImage.rounded()
+                        crewCellView.imageView.image = roundedImage
+                        crewCellView.titleLabel.textColor = self?.labelFontColor
+                    case .failure(_):
+                        crewCellView.titleLabel.textColor = self?.labelFontColor
+                        break
+                    }
+                }
+            }
+        }
 //        else if let posterCellView = cell as? PosterCellView {
 //            let item = mediaItem.relatedMovies[indexPath.item]
 //            if let imageUrl = URL(string: item.portraitPath) {
@@ -349,8 +452,12 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             return CGSize(width: collectionView.frame.width, height: height)
 //        case clipsSection:
 //            return CGSize(width: 232, height: 228)
-//        case actorsSection:
-//            return CGSize(width: 156, height: 184)
+        case actorsSection:
+            return CGSize(width: 156, height: 184)
+        case directorsSection:
+            return CGSize(width: 156, height: 184)
+        case crewsSection:
+            return CGSize(width: 156, height: 184)
 //        case recommendationsSection:
 //            return CGSize(width: 160, height: 240)
         default:
@@ -361,8 +468,8 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     
     func collectionView(_ collectionView: MultiCollectionView, referenceSizeForHeaderInSection section: Int) -> CGSize {
         switch section {
-//        case clipsSection, actorsSection, recommendationsSection:
-//            return CGSize(width: collectionView.frame.width, height: 65)
+        case directorsSection, actorsSection, crewsSection:
+            return CGSize(width: collectionView.frame.width, height: 65)
         default:
             return .zero
         }
@@ -370,10 +477,11 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     
     func collectionView(_ collectionView: MultiCollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch indexPath.section {
-//        case clipsSection, actorsSection, recommendationsSection:
-//            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MediaHeaderView.typeName, for: indexPath) as! MediaHeaderView
-//            headerView.label.text = headerTitle(for: indexPath.section)
-//            return headerView
+        case directorsSection, actorsSection, crewsSection:
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MediaHeaderView.typeName, for: indexPath) as! MediaHeaderView
+            headerView.label.text = headerTitle(for: indexPath.section)
+            headerView.label.textColor = self.labelFontColor
+            return headerView
         default:
             return UICollectionReusableView()
         }
@@ -381,8 +489,8 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     
     func collectionView(_ collectionView: MultiCollectionView, insetForSectionAt section: Int) -> UIEdgeInsets {
         switch section {
-//        case clipsSection, actorsSection:
-//            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        case directorsSection, actorsSection, crewsSection:
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
 //        case recommendationsSection:
 //            return UIEdgeInsets(top: 0, left: 20, bottom: 30, right: 20)
         default:
@@ -394,8 +502,8 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         switch section {
 //        case clipsSection:
 //            return 25
-//        case actorsSection:
-//            return 5
+        case directorsSection, actorsSection, crewsSection:
+            return 5
 //        case recommendationsSection:
 //            return 20
         default:
@@ -573,8 +681,12 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         switch section {
 //        case clipsSection:
 //            return "Clips & Trailers"
-//        case actorsSection:
-//            return "Cast"
+        case actorsSection:
+            return "Cast"
+        case directorsSection:
+            return "Directors"
+        case crewsSection:
+            return "Crews"
 //        case recommendationsSection:
 //            return "You Might Also Like"
         default:

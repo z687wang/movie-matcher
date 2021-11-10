@@ -47,10 +47,6 @@
                         <constraint firstAttribute="height" constant="74" id="R2I-OG-dJx"/>
                         <constraint firstAttribute="width" constant="74" id="cQr-rj-OKv"/>
                     </constraints>
-                    <connections>
-                        <action selector="PlayButttonClicked:" destination="HMu-Sp-MhL" eventType="touchUpInside" id="oEY-vq-8sv"/>
-                        <action selector="playButtonSelected:" destination="HMu-Sp-MhL" eventType="touchUpInside" id="nuZ-Hs-quF"/>
-                    </connections>
                 </button>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play-icon-shadow" translatesAutoresizingMaskIntoConstraints="NO" id="kex-53-GWO" userLabel="Play Image View Background">
                     <rect key="frame" x="275.5" y="18.5" width="37" height="37"/>

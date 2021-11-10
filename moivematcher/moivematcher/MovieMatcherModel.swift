@@ -20,6 +20,23 @@ protocol JSONDecodable {
     init?(JSON: [String: AnyObject]) throws
 }
 
+class YouTubeItem: NSObject {
+
+    var tmdbId: String = ""
+    var youtubeId: String = ""
+    var title: String = ""
+    var type: String = ""
+    
+    // Thumbnail path construction based on: https://stackoverflow.com/a/2068371/1792699
+    lazy var thumbnailPathHigh: String = {
+        return "https://img.youtube.com/vi/\(youtubeId)/maxresdefault.jpg"
+    }()
+    
+    lazy var thumbnailPathMedium: String = {
+        return "https://i.ytimg.com/vi/\(youtubeId)/mqdefault.jpg"
+    }()
+}
+
 struct Crew: JSONDecodable {
     
     init?(JSON: [String : AnyObject]) throws {
@@ -29,13 +46,45 @@ struct Crew: JSONDecodable {
         guard let job = JSON["job"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -job-")
         }
+        guard let id = JSON["id"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
+        }
+        guard let knowForDepartment = JSON["known_for_department"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -knowForDepartment-")
+        }
+        guard let popularity = JSON["popularity"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
+        }
+        guard let department = JSON["department"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -department-")
+        }
+        let profilePath = JSON["profile_path"] as? String ?? ""
+        guard let creditID = JSON["credit_id"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -credit_id-")
+        }
         self.name = name
         self.job = job
+        self.id = id
+        self.knowForDepartment = knowForDepartment
+        self.popularity = popularity
+        self.department = department
+        self.profilePath = profilePath
+        if self.profilePath != "" {
+            self.profileURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.profilePath!)!
+        }
+        self.creditID = creditID
     }
-    
     
     var name: String
     var job: String
+    var id: Int?
+    var knowForDepartment: String?
+    var popularity: Double?
+    var profilePath: String?
+    var department: String?
+    var profileURL: URL?
+    var creditID: String?
+    
     
     init(name: String, job: String) {
         self.name = name
@@ -47,6 +96,14 @@ struct Crew: JSONDecodable {
 struct Actor: JSONDecodable, Equatable {
     var name: String
     var id: Int
+    var knowForDepartment: String?
+    var popularity: Double?
+    var profilePath: String?
+    var profileURL: URL?
+    var creditID: String?
+    var character: String?
+    var order: Int?
+    var castID: Int?
     
     init(name: String, id: Int) {
         self.name = name
@@ -61,14 +118,44 @@ struct Actor: JSONDecodable, Equatable {
         guard let id = JSON["id"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
         }
+        guard let knowForDepartment = JSON["known_for_department"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -knowForDepartment-")
+        }
+        guard let popularity = JSON["popularity"] as? Double else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
+        }
+        let profilePath = JSON["profile_path"] as? String ?? ""
+        guard let creditID = JSON["credit_id"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -credit_id-")
+        }
+        guard let character = JSON["character"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -character-")
+        }
+        guard let castID = JSON["cast_id"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -cast_id-")
+        }
+        guard let order = JSON["order"] as? Int else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -order-")
+        }
         self.name = name
         self.id = id
+        self.knowForDepartment = knowForDepartment
+        self.popularity = popularity
+        self.character = character
+        self.profilePath = profilePath
+        if self.profilePath != "" {
+            self.profileURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.profilePath!)!
+        }
+        self.creditID = creditID
+        self.order = order
+        self.castID = castID
     }
     
     static func ==(lhs: Actor, rhs: Actor) -> Bool {
         return lhs.id == rhs.id
     }
 }
+
 
 struct PersonOfMovie {
     var movieId: Int
@@ -199,6 +286,11 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     var y: CGFloat = 0.0
     var degree: Double = 0.0
     var genresStr: String = ""
+    var fullyDetailed: Bool = false
+    var actors: [Actor] = []
+    var directors: [Crew] = []
+    var crews: [Crew] = []
+    var clips: [YouTubeItem] = []
     
     init(title: String, id: Int, genreIds: [Genre]?) {
         self.title = title
@@ -271,6 +363,83 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         self.original_language = langue
         self.overview = overview
         self.revenue = revenue
+        var section_count = 0
+        if
+            let movieVideos = JSON["videos"] as? [String: AnyObject],
+            let movieVideoResults = movieVideos["results"] as? [[String: AnyObject]] {
+            
+            var clips: [YouTubeItem] = []
+            for video in movieVideoResults {
+                guard
+                    let site = video["site"] as? String,
+                    site == "YouTube",
+                    let title = video["name"] as? String, !title.isEmpty,
+                    let tmdbId = video["id"] as? String, !tmdbId.isEmpty,
+                    let ytKey = video["key"] as? String, !ytKey.isEmpty,
+                    let type = video["type"] as? String, !type.isEmpty
+                    else {
+                        continue
+                }
+                
+                let ytItem = YouTubeItem()
+                ytItem.title = title
+                ytItem.tmdbId = tmdbId
+                ytItem.youtubeId = ytKey
+                ytItem.type = type
+                
+                clips.append(ytItem)
+            }
+            self.clips = clips
+            section_count += 1
+        }
+        
+        if
+            let movieCredits = JSON["credits"] as? [String: AnyObject],
+            let movieCast = movieCredits["cast"] as? [[String: AnyObject]] {
+            
+            var actors: [Actor] = []
+            for castMember in movieCast {
+                guard
+                    let actor = try Actor(JSON: castMember)
+                    else {
+                        continue
+                }
+
+                actors.append(actor)
+                // Fetch a max of 10 actors
+                if actors.count > 10 {
+                    break
+                }
+            }
+            self.actors = actors
+            section_count += 1
+        }
+        
+        if
+            let movieCredits = JSON["credits"] as? [String: AnyObject],
+            let movieCrew = movieCredits["crew"] as? [[String: AnyObject]] {
+            var crews: [Crew] = []
+            var directors: [Crew] = []
+            for castMember in movieCrew {
+                guard
+                    let crew = try Crew(JSON: castMember)
+                    else {
+                        continue
+                }
+                if crew.department == "Directing" {
+                        directors.append(crew)
+                } else {
+                    crews.append(crew)
+                }
+            }
+            self.directors = directors
+            self.crews = Array(crews.prefix(10))
+            section_count += 1
+        }
+        if section_count == 3 {
+            self.fullyDetailed = true
+        }
+        
     }
     
     static func == (lhs: MovieWithGenres, rhs: MovieWithGenres) -> Bool {

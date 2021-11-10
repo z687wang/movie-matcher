@@ -85,23 +85,4 @@ class PosterCellView: UICollectionViewCell, NameDescribable, MediaCellView {
 
 }
 
-class CircularCellView: UICollectionViewCell, NameDescribable {
-
-    static let imageHorizontalPadding: CGFloat = 20
-    
-    @IBOutlet weak var imageView: ShadowImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint! {
-        didSet {
-            imageViewLeadingConstraint.constant = CircularCellView.imageHorizontalPadding
-        }
-    }
-    
-    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint! {
-        didSet {
-            imageViewTrailingConstraint.constant = 20
-        }
-    }
-}
 

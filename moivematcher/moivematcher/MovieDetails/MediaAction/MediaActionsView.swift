@@ -1,9 +1,4 @@
 //
-//  MediaActionsView.swift
-//  Muvis
-//
-//  Created by Alejandro Cotilla on 2/20/19.
-//  Copyright © 2019 Carolco LLC. All rights reserved.
 //
 
 import UIKit

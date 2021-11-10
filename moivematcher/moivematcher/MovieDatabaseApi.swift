@@ -64,7 +64,10 @@ enum MovieEndpoint: Endpoint {
         case .Actor(let page), .Movie(let page), .Genre(let page):
             parameters["page"] = page
             return parameters
-        case .MovieDetails, .MovieRecommendations, .MovieCredits:
+        case .MovieDetails:
+            parameters["append_to_response"] = "credits,videos,recommendations,similar"
+            return parameters
+        case .MovieRecommendations, .MovieCredits:
             return parameters
         }
     }
