@@ -271,6 +271,8 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     var voteCount: Int?
     var genres: [Genre]?
     var id: Int
+    var imdbID: String?
+    var doubanID: String?
     var hashValue : Int { return self.id }
     var poster_path: String?
     var bg_path: String?
@@ -304,6 +306,9 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         }
         guard let id = JSON["id"] as? Int else {
            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
+        }
+        guard let imdbID = JSON["imdb_id"] as? String else {
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -imdb_id-")
         }
         guard let genres = JSON["genres"] as? [[String:AnyObject]] else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -genresIds-")
@@ -340,10 +345,11 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         }
         self.title = name
         self.id = id
+        self.imdbID = imdbID
         self.genres = genres.flatMap {
             do {
                 return try Genre(JSON: $0)
-            } catch (let error){
+            } catch (let error) {
                 print(error)
             }
             return nil

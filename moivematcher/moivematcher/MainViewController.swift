@@ -11,7 +11,13 @@ import Combine
 
 
 var movieIDArray: [Int] = []
-var activeMovies: [MovieWithGenres] = []
+var likedMovieIDArray: [Int] = []
+var dislikedMovieIDArray: [Int] = []
+var notInterestedMovieIDArary: [Int] = []
+var saveForLaterMovieIDArray: [Int] = []
+var genresLikedDict: [String: [Int]] = [:]
+var directorsLikedDict: [String: [Int]] = [:]
+var actorsLikedDict: [String: [Int]] = [:]
 var page: Int = 1
 var hasNextPage: Bool = true
 
@@ -57,17 +63,40 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     func loadMoviesIDData() {
         print("start to load data")
         fetchInitialMoviesID(with: page)
+        page += 1
     }
     
     func numberOfCards() -> Int {
-        return activeMovies.count
+        return movieIDArray.count
     }
     
     func card(forItemAtIndex index: Int) -> SwipeableCardViewCard {
-        let movieModel = activeMovies[index]
+        let movieID = movieIDArray[index]
         let cardView = SampleSwipeableCard()
-        cardView.viewModel = movieModel
+        self.fetchMovieDetails(from: movieID, completionHandler: { movie in
+            cardView.viewModel = movie
+        })
         return cardView
+    }
+    
+    func endSwipeAction(onView view: SwipeableView) {
+        let swipeDirection = view.swipeDirection!
+        let targetMovie = view.model!
+        let targetMovieID = targetMovie.id
+        let targetMovieGenre = targetMovie.genres
+        let targetMovieActors = targetMovie.actors
+        let targetMovieDirectors = targetMovie.directors
+        
+        switch swipeDirection {
+        case .left:
+            likedMovieIDArray.append(targetMovieID)
+        case .right:
+            dislikedMovieIDArray.append(targetMovieID)
+        case .up, .topLeft, .topRight:
+            saveForLaterMovieIDArray.append(targetMovieID)
+        case .down, .bottomLeft, .bottomRight:
+            notInterestedMovieIDArary.append(targetMovieID)
+        }
     }
     
     func didSelect(card: SwipeableCardViewCard, atIndex index: Int) {
@@ -83,7 +112,12 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func fetchInitialMoviesID(with page: Int) {
+        print("current page:")
         print(page)
+        print("Liked Movie ID")
+        print(likedMovieIDArray)
+        print("Disliked Movie ID")
+        print(dislikedMovieIDArray)
         self.apiClient.fetchMoviesID(page: page) { [weak self] (results) in
             switch results {
             case .failure(let error):
@@ -91,16 +125,14 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             case .success(let resource, let hasPage):
                 movieIDArray = resource
                 hasNextPage = hasPage
+                print("Next Patch of Movie IDs")
                 print(movieIDArray)
-                self?.fetchGroupMoviesDetails(from: movieIDArray, completionHandler: { movies in
-                    print(movies)
-                })
+                self?.swipeableCardView.reloadData()
             }
-    
         }
     }
     
-    func fetchMovieDetails(from id: Int, completionHandler: @escaping (_ movie: Movie)-> Void) {
+    func fetchMovieDetails(from id: Int, completionHandler: @escaping (_ movie: MovieWithGenres)-> Void) {
         let group = DispatchGroup()
         group.enter()
         self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
@@ -108,7 +140,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             case .failure(let error):
                 print(error)
             case .success(let resource , _):
-                activeMovies.append(resource)
+                completionHandler(resource)
             }
             group.leave()
         })
@@ -118,14 +150,13 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         let group = DispatchGroup()
         for id in moviesId {
             group.enter()
-            activeMovies = []
             self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
                 switch result {
                 case .failure(let error):
                     print(error)
                 case .success(let resource , _):
-                    activeMovies.append(resource)
-                    self.swipeableCardView.reloadData()
+                    print(resource)
+//                    activeMovies.append(resource)
                 }
                 group.leave()
             })

@@ -73,10 +73,10 @@ final class MyDoubanAPIClient: DoubanAPIClient {
     }
     
     func getDoubanMovieIDFromIMDBID(imdb_id: String, completion: @escaping (APIResult<[Genre]>) -> Void) {
-        
+        return
     }
     
     func getDoubanMovieDetailFromDoubanID(douban_id: String, completion: @escaping (APIResult<String>) -> Void) {
-        <#code#>
+        return
     }
 }
