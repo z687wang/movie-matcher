@@ -45,7 +45,7 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="blurRadius">
                                 <real key="value" value="2"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="questionmark.folder.fill" catalog="system"/>
+                            <userDefinedRuntimeAttribute type="image" keyPath="image" value="person.fill" catalog="system"/>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hopefully a two lines label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUm-PE-HEa">
@@ -76,7 +76,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="questionmark.folder.fill" catalog="system" width="128" height="97"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -602,7 +602,6 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     }
     
     private func heroImageReach(for containerFrame: CGRect? = nil) -> CGFloat {
-        // Determine hero image size after being scaled to fill
         let imageAreaSize = containerFrame?.size ?? heroImageView.frame.size
         let imageAspectRatio = CGSize(width: 16.0, height: 9.0)
         let scale = max(imageAreaSize.width / imageAspectRatio.width, imageAreaSize.height / imageAspectRatio.height)
@@ -621,7 +620,6 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         let actionsViewY = heroImageReach() - MediaActionsView.playButtonSize / 2.0
         let actionsViewPosition = CGPoint(x: 0, y: actionsViewY)
         let actionsViewHeight = MediaActionsView.cellHeightForTitle(self.movieData.title.uppercased(), width: collectionView.frame.width)
-        print(actionsViewHeight)
         let actionsViewSize = CGSize(width: collectionView.frame.width, height: actionsViewHeight)
         mediaActionsView.frame = CGRect(origin: actionsViewPosition, size: actionsViewSize)
     }
@@ -682,7 +680,7 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
 //        case clipsSection:
 //            return "Clips & Trailers"
         case actorsSection:
-            return "Cast"
+            return "Casts"
         case directorsSection:
             return "Directors"
         case crewsSection:
@@ -693,8 +691,6 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             return ""
         }
     }
-    
-    
     
     /*
     // MARK: - Navigation
