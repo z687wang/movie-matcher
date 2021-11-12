@@ -15,7 +15,7 @@ class SampleSwipeableCard: SwipeableCardViewCard {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var subtitleLabel: UILabel!
     @IBOutlet weak var genresLabel: UILabel!
-    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var imageView: ShadowImageView!
     @IBOutlet private weak var backgroundContainerView: UIView!
     @IBOutlet private weak var imageBackgroundColorView: UIView!
     /// Core Motion Manager

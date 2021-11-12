@@ -37,7 +37,7 @@ var hasNextPage: Bool = true
 //    }
 //}
 
-class DisplayMovieMainViewController: UIViewController, SwipeableCardViewDataSource {
+class MainViewController: UIViewController, SwipeableCardViewDataSource {
 
     @IBOutlet weak var MovieNameLabel: UILabel!
     @IBOutlet weak var MovieYearLabel: UILabel!
