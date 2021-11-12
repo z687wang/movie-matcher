@@ -64,7 +64,10 @@ enum MovieEndpoint: Endpoint {
         case .Actor(let page), .Movie(let page), .Genre(let page):
             parameters["page"] = page
             return parameters
-        case .MovieDetails, .MovieRecommendations, .MovieCredits:
+        case .MovieDetails:
+            parameters["append_to_response"] = "credits,videos,recommendations,similar"
+            return parameters
+        case .MovieRecommendations, .MovieCredits:
             return parameters
         }
     }
@@ -214,31 +217,4 @@ final class MovieApiClient: ApiClient, HttpClient {
             }
         }, completion: completion)
     }
-    
-//    func fetchMovieCredits(endpoint: Endpoint, completion: @escaping (APIResult<[Credit]>) -> Void) {
-//
-//        let request = endpoint.request
-//
-//        fetch(request: request, parse: { (json) -> [Credit]? in
-//            guard let movieCredits = json["cast"] as? [[String:AnyObject]], let movieId = json["id"] as? Int else {
-//                return nil
-//            }
-//
-//            let credits = movieCredits.flatMap { (credit) -> Credit? in
-//                do {
-//                    return try Credit(JSON: credit, movieId: movieId)
-//                } catch (let error){
-//                    print(error)
-//                }
-//                return nil
-//            }
-//
-//            if credits.isEmpty {
-//                return nil
-//            } else {
-//                return credits
-//            }
-//        }, completion: completion)
-//    }
-
 }

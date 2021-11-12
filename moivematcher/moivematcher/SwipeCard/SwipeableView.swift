@@ -14,6 +14,7 @@ class SwipeableView: UIView {
 
     var delegate: SwipeableViewDelegate?
     var model: MovieWithGenres?
+    var swipeDirection: SwipeDirection?
     // MARK: Gesture Recognizer
 
     private var panGestureRecognizer: UIPanGestureRecognizer?
@@ -123,7 +124,7 @@ class SwipeableView: UIView {
 
     private var dragPercentage: CGFloat {
         guard let dragDirection = dragDirection else { return 0.0 }
-
+        self.swipeDirection = dragDirection
         let normalizedDragPoint = panGestureTranslation.normalizedDistanceForSize(frame.size)
         let swipePoint = normalizedDragPoint.scalarProjectionPointWith(dragDirection.point)
 

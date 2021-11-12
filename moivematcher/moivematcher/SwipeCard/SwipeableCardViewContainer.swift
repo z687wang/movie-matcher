@@ -21,7 +21,7 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
         }
     }
     
-    var controller: DisplayMovieMainViewController?
+    var controller: MainViewController?
 
     var delegate: SwipeableCardViewDelegate?
 
@@ -37,7 +37,6 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
         backgroundColor = .clear
         translatesAutoresizingMaskIntoConstraints = false
     }
@@ -109,14 +108,10 @@ extension SwipeableCardViewContainer {
             let index = cardViews.index(of: cardView) {
             delegate?.didSelect(card: cardView, atIndex: index)
             self.controller?.didSelect(card: cardView, atIndex: index)
-        } else {
-            print("else")
         }
-        print("did tap")
     }
 
     func didBeginSwipe(onView view: SwipeableView) {
-        // React to Swipe Began?
         print("begin to swap")
     }
 
@@ -124,7 +119,9 @@ extension SwipeableCardViewContainer {
         guard let dataSource = dataSource else {
             return
         }
-
+        
+        self.controller?.endSwipeAction(onView: view)
+        
         // Remove swiped card
         view.removeFromSuperview()
 
@@ -149,7 +146,7 @@ extension SwipeableCardViewContainer {
 
         }
         else {
-            print("We need to reload Data")
+            self.controller!.loadMoviesIDData()
         }
     }
 
