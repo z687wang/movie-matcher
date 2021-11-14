@@ -114,8 +114,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             getLikedMovieIds()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
+            // deleteLikedMovies()
         case .up, .topLeft, .topRight:
-            deleteLikedMovies()
             saveForLaterMovieIDArray.append(targetMovieID)
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
@@ -234,11 +234,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         let context = appDelegate.persistentContainer.viewContext
         let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
         let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        do {
-            let result = try context.execute(request)
-        } catch {
-            fatalError("Failed to execute request: \(error)")
-        }
+        request.resultType = .resultTypeObjectIDs
         do {
             let result = try context.execute(request) as? NSBatchDeleteResult
             let objectIDArray = result?.result as? [NSManagedObjectID]
@@ -247,7 +243,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 fromRemoteContextSave: changes,
                 into: [context])
         } catch {
-            fatalError("Failed to perform batch update: \(error)")
+            fatalError("Failed to execute request: \(error)")
         }
     }
     
