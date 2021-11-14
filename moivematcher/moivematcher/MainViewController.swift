@@ -60,6 +60,10 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
         self.insertGradientBackground()
+        
+        // uncommented if need reset entity
+        deleteLikedMovies()
+        deleteDislikedMovies()
     }
     
     func insertGradientBackground() {
@@ -114,7 +118,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             getLikedMovieIds()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
-            // deleteLikedMovies()
+            saveDislikedMovie(movie: targetMovie)
+            getDislikedMovieIds()
         case .up, .topLeft, .topRight:
             saveForLaterMovieIDArray.append(targetMovieID)
         case .down, .bottomLeft, .bottomRight:
@@ -205,6 +210,18 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         deleteMovies(entityName: "LikedMovies")
     }
     
+    func saveDislikedMovie(movie: MovieWithGenres) {
+        saveMovies(movie: movie, entityName: "DislikedMovies")
+    }
+    
+    func getDislikedMovieIds() -> [Int] {
+        return getMoviesIds(entityName: "DislikedMovies")
+    }
+    
+    func deleteDislikedMovies() {
+        deleteMovies(entityName: "DislikedMovies")
+    }
+    
     func saveMovies(movie: MovieWithGenres, entityName: String) {
         // Get the context
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -232,7 +249,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         do {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                print("Liked Id: \(data.value(forKey: "id") as! Int)")
+                print("\(entityName): \(data.value(forKey: "id") as! Int)")
                 ans.append(data.value(forKey: "id") as! Int)
             }
         } catch {
