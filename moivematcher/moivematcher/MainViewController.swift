@@ -115,6 +115,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
         case .up, .topLeft, .topRight:
+            deleteLikedMovies()
             saveForLaterMovieIDArray.append(targetMovieID)
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
@@ -219,13 +220,35 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         do {
             let result = try context.fetch(request)
             for data in result as! [NSManagedObject] {
-                print(data.value(forKey: "id") as! Int)
+                print("Liked Id: \(data.value(forKey: "id") as! Int)")
                 ans.append(data.value(forKey: "id") as! Int)
             }
         } catch {
             print("Error - CoreData failed reading")
         }
         return ans
+    }
+    
+    func deleteLikedMovies() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        do {
+            let result = try context.execute(request)
+        } catch {
+            fatalError("Failed to execute request: \(error)")
+        }
+        do {
+            let result = try context.execute(request) as? NSBatchDeleteResult
+            let objectIDArray = result?.result as? [NSManagedObjectID]
+            let changes = [NSDeletedObjectsKey : objectIDArray]
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: changes,
+                into: [context])
+        } catch {
+            fatalError("Failed to perform batch update: \(error)")
+        }
     }
     
 }
