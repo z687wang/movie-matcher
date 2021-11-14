@@ -194,21 +194,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
 //    }
     
     func saveLikedMovie(movie: MovieWithGenres) {
-        // Get the context
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        // Create a new Entity object & set some data values
-        let entity = NSEntityDescription.entity(forEntityName: "LikedMovies", in: context)
-        let newMovie = NSManagedObject(entity: entity!, insertInto: context)
-        newMovie.setValue(movie.id, forKey: "id")
-       
-        // Save the data
-        do {
-           try context.save() // Data Saved to persistent storage
-          } catch {
-           print("Error - CoreData failed saving")
-        }
+        saveMovies(movie: movie, entityName: "LikedMovies")
     }
     
     func getLikedMovieIds() -> [Int] {
@@ -244,6 +230,24 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 into: [context])
         } catch {
             fatalError("Failed to execute request: \(error)")
+        }
+    }
+    
+    func saveMovies(movie: MovieWithGenres, entityName: String) {
+        // Get the context
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        // Create a new Entity object & set some data values
+        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
+        let newMovie = NSManagedObject(entity: entity!, insertInto: context)
+        newMovie.setValue(movie.id, forKey: "id")
+       
+        // Save the data
+        do {
+           try context.save() // Data Saved to persistent storage
+          } catch {
+           print("Error - CoreData failed saving")
         }
     }
     
