@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileHeader: View {
-    let gradient = Gradient(colors: [.blue, .purple])
+    let gradient = Gradient(colors: [.green, .blue])
     
     var body: some View {
         VStack {
@@ -25,10 +25,10 @@ struct ProfileHeader: View {
 //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
                         .padding(.top, 44)
                     
-                    Text("Eddie Brock").font(.system(size: 20)).bold().foregroundColor(.white)
+                    Text("Yalu Cai").font(.system(size: 20)).bold().foregroundColor(.white)
                         .padding(.top, 12)
                     
-                    Text("@venom").font(.system(size: 18)).foregroundColor(.white)
+                    Text("@yc468").font(.system(size: 18)).foregroundColor(.white)
                     .padding(.top, 4)
                 }
                 Spacer()

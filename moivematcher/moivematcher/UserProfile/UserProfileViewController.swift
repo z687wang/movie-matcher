@@ -9,12 +9,18 @@ import UIKit
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var viewModel = GenreViewModel()
+    
     var body: some View {
-        ProfileHeader()
+        VStack {
+            ProfileHeader()
+            
+        }
     }
 }
 
-class UserProfileViewController: UIHostingController<ContentView> {
+class UserProfileViewController: UIHostingController<ContentView>, UICollectionViewDelegate {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder,rootView: ContentView());
