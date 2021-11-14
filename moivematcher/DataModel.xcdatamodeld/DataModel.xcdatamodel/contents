@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="20G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="FavMovies" representedClassName="FavMovies" syncable="YES" codeGenerationType="class"/>
+    <entity name="LikedMovies" representedClassName="LikedMovies" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
-        <element name="FavMovies" positionX="-63" positionY="-18" width="128" height="29"/>
+        <element name="LikedMovies" positionX="-63" positionY="-18" width="128" height="44"/>
     </elements>
 </model>

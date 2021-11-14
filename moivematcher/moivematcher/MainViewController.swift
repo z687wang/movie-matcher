@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 import Combine
-
+import CoreData
 
 var movieIDArray: [Int] = []
 var likedMovieIDArray: [Int] = []
@@ -110,6 +110,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         case .left:
             likedMovieIDArray.append(targetMovieID)
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
+            saveLikedMovie(movie: targetMovie)
+            getLikedMovie()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
         case .up, .topLeft, .topRight:
@@ -189,6 +191,39 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //    }
+    
+    func saveLikedMovie(movie: MovieWithGenres) {
+        // Get the context
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        
+        // Create a new Entity object & set some data values
+        let entity = NSEntityDescription.entity(forEntityName: "LikedMovies", in: context)
+        let newMovie = NSManagedObject(entity: entity!, insertInto: context)
+        newMovie.setValue(movie.id, forKey: "id")
+       
+        // Save the data
+        do {
+           try context.save() // Data Saved to persistent storage
+          } catch {
+           print("Error - CoreData failed saving")
+        }
+    }
+    
+    func getLikedMovieIds() -> [Int] {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
+        request.returnsObjectsAsFaults = false
+       do {
+           let result = try context.fetch(request)
+           for data in result as! [NSManagedObject] {
+               print(data.value(forKey: "names") as! String)
+               print(data.value(forKey: "age") as! Decimal)
+         }
+       } catch {
+           print("Error - CoreData failed reading")
+       }
+        
+    }
 
 }
 
