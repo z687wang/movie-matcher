@@ -38,25 +38,21 @@ class RecommendationViewModel: ObservableObject {
     @Published private(set) var recommendedMovieImage: UIImage?
     
     init() {
-        //TODO: API获取的movie list
-        recommendationModel = RecommendationModel(ratings: [:], movies: movielist)
-        
-        currentMovie = recommendationModel.movies.randomElement()
+        recommendationModel = RecommendationModel(ratings: [:], movies: RecommendDataLoader().loadMovies())
+//        currentMovie = recommendationModel.movies.randomElement()
     }
     
-    func getMovie(fromId id: Int64) -> Movie? {
-        recommendationModel.movies.first { $0.id == id }
-    }
+//    func getMovie(fromId id: Int64) -> Movie? {
+//        recommendationModel.movies.first { $0.id == id }
+//    }
+//
+//    func nextMovie() {
+//        currentMovie = recommendationModel.movies.randomElement()
+//    }
     
-    func nextMovie() {
-        currentMovie = recommendationModel.movies.randomElement()
-    }
-    //TODO: I think if swipe right -> rate 5, swipe left -> rate 1
-    func rateCurrentMovie(rating: Int) {
-        if let movieToRate = currentMovie {
-            recommendationModel.rate(movie: movieToRate, rating: Double(rating))
-            currentMovie = recommendationModel.movies.randomElement()
-        }
+    func rateCurrentMovie(movie: Movie, rating: Int) {
+        let movieToRate = movie
+        recommendationModel.rate(movie: movieToRate, rating: Double(rating))
     }
     
     func recommendMovies() -> [Movie] {
@@ -68,5 +64,7 @@ class RecommendationViewModel: ObservableObject {
     func getMovieData() {
         backgroundImage = nil
     }
+    
+    
 }
 

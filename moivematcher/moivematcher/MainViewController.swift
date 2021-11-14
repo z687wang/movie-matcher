@@ -49,7 +49,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     @IBOutlet weak var MovieYearLabel: UILabel!
     @IBOutlet weak var MoviesView: UIView!
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
-    
+    var recommendationViewModel = RecommendationViewModel()
     var apiClient = MovieApiClient()
     var gradientLayer: CAGradientLayer?
     
@@ -102,21 +102,29 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         let swipeDirection = view.swipeDirection!
         let targetMovie = view.model!
         let targetMovieID = targetMovie.id
-        let targetMovieGenre = targetMovie.genres
+        let targetMovieGenre = targetMovie.genres!
         let targetMovieActors = targetMovie.actors
         let targetMovieDirectors = targetMovie.directors
+        
+        var res: [Int] = []
+        for i in targetMovieGenre{
+            res.append(i.id)
+        }
+        let movie = Movie(title: targetMovie.title, id: (targetMovie.imdbID! as NSString).integerValue, genreIds:res)
         
         switch swipeDirection {
         case .left:
             likedMovieIDArray.append(targetMovieID)
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-            destVC.reloadData()
+            self.recommendationViewModel.rateCurrentMovie( movie: movie, rating: 5)
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
+            self.recommendationViewModel.rateCurrentMovie(movie: movie, rating: 1)
         case .up, .topLeft, .topRight:
             saveForLaterMovieIDArray.append(targetMovieID)
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
+            self.recommendationViewModel.rateCurrentMovie(movie: movie, rating: 1)
         }
     }
     
@@ -148,6 +156,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 hasNextPage = hasPage
                 print("Next Patch of Movie IDs")
                 print(movieIDArray)
+//                print(recommendationViewModel.recommendedMovie())
                 self?.swipeableCardView.reloadData()
             }
         }
