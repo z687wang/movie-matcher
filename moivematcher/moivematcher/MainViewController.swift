@@ -51,6 +51,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     
     var apiClient = MovieApiClient()
+    var gradientLayer: CAGradientLayer?
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -58,6 +59,24 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + 90.0)
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
+        self.insertGradientBackground()
+    }
+    
+    func insertGradientBackground() {
+        self.gradientLayer = CAGradientLayer()
+        let colorTop =  UIColor(red: 0.18, green: 0.75, blue: 0.78, alpha: 1.00).cgColor
+        let colorBottom = UIColor(red: 0.19, green: 0.09, blue: 0.42, alpha: 1.00).cgColor
+        self.gradientLayer!.colors = [colorTop, colorBottom]
+        self.gradientLayer!.startPoint = CGPoint(x: 0, y: 0)
+        self.gradientLayer!.endPoint = CGPoint(x: 0, y: 1)
+        self.gradientLayer!.frame = self.view.bounds
+        self.view.layer.insertSublayer(self.gradientLayer!, at:0)
+    }
+    
+    func setGradientBackground(topColor: UIColor, botColor: UIColor) {
+        let colorTop =  topColor.cgColor
+        let colorBottom = botColor.cgColor
+        self.gradientLayer!.colors = [colorTop, colorBottom]
     }
     
     func loadMoviesIDData() {
@@ -90,6 +109,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         switch swipeDirection {
         case .left:
             likedMovieIDArray.append(targetMovieID)
+            let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
+            destVC.reloadData()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
         case .up, .topLeft, .topRight:

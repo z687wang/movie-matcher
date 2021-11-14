@@ -29,7 +29,7 @@ extension Double {
         }
         else if self >= 1000000 && self < 1000000000 {
             if(floor(millionNum) == millionNum) {
-                return("\(Int(thousandNum))K").replacingOccurrences(of: ".0", with: "")
+                return("\(Int(millionNum))M").replacingOccurrences(of: ".0", with: "")
             }
             return ("\(millionNum.roundTo(places: 1))M").replacingOccurrences(of: ".0", with: "")
         }

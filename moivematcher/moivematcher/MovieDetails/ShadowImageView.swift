@@ -2,9 +2,7 @@
 //  ShadowImageView.swift
 //  ShadowImageView
 //
-//  Created by olddonkey on 2017/4/29.
-//  Copyright © 2017年 olddonkey. All rights reserved.
-//
+// Reference:
 // Source: https://github.com/olddonkey/ShadowImageView
 
 import UIKit

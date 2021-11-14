@@ -87,6 +87,10 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
     ///   - cardView: card view to update frame on
     ///   - index: index used to apply horizontal and vertical insets
     private func setFrame(forCardView cardView: SwipeableCardViewCard, atIndex index: Int) {
+//        if index == 0 {
+//            let swipeCardView = cardView as? SampleSwipeableCard
+//            
+//        }
         var cardViewFrame = bounds
         let horizontalInset = (CGFloat(index) * SwipeableCardViewContainer.horizontalInset)
         let verticalInset = CGFloat(index) * SwipeableCardViewContainer.verticalInset
