@@ -111,7 +111,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             likedMovieIDArray.append(targetMovieID)
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
             saveLikedMovie(movie: targetMovie)
-            getLikedMovie()
+            getLikedMovieIds()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
         case .up, .topLeft, .topRight:
@@ -211,19 +211,22 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func getLikedMovieIds() -> [Int] {
+        var ans : [Int] = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
         request.returnsObjectsAsFaults = false
-       do {
-           let result = try context.fetch(request)
-           for data in result as! [NSManagedObject] {
-               print(data.value(forKey: "names") as! String)
-               print(data.value(forKey: "age") as! Decimal)
-         }
-       } catch {
-           print("Error - CoreData failed reading")
-       }
-        
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                print(data.value(forKey: "id") as! Int)
+                ans.append(data.value(forKey: "id") as! Int)
+            }
+        } catch {
+            print("Error - CoreData failed reading")
+        }
+        return ans
     }
-
+    
 }
 
