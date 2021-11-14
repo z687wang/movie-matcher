@@ -35,12 +35,15 @@ class SampleSwipeableCard: SwipeableCardViewCard {
     private func configure(forViewModel viewModel: MovieWithGenres?) {
         if let viewModel = viewModel {
             titleLabel.text = viewModel.title
-            titleLabel.numberOfLines = 0
-            titleLabel.adjustsFontSizeToFitWidth = true
             subtitleLabel.text = viewModel.releaseDate
             genresLabel.text = viewModel.genresStr
+            // uncommented for dynamic fit
+            /*
+            titleLabel.numberOfLines = 0
+            titleLabel.adjustsFontSizeToFitWidth = true
             genresLabel.numberOfLines = 0
             genresLabel.adjustsFontSizeToFitWidth = true
+             */
 //           imageBackgroundColorView.backgroundColor = viewModel.color
             let url = URL(string: "https://image.tmdb.org/t/p/original/" + viewModel.poster_path!)!
             self.downloadImage(from: url)

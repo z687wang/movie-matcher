@@ -61,10 +61,6 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gaw-Sp-5GY">
                                             <rect key="frame" x="0.0" y="0.0" width="275" height="29"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="275" id="LcC-Rv-KTE"/>
-                                                <constraint firstAttribute="height" constant="29" id="hT3-DL-rvd"/>
-                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
