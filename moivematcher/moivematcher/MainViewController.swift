@@ -62,8 +62,12 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         self.insertGradientBackground()
         
         // uncommented if need reset entity
+        /*
         deleteLikedMovies()
         deleteDislikedMovies()
+        deleteNotInterestedMovies()
+        deleteLaterMovies()
+         */
     }
     
     func insertGradientBackground() {
@@ -114,16 +118,22 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         case .left:
             likedMovieIDArray.append(targetMovieID)
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-            saveLikedMovie(movie: targetMovie)
             getLikedMovieIds()
+            saveLikedMovie(movie: targetMovie)
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
-            saveDislikedMovie(movie: targetMovie)
             getDislikedMovieIds()
+            saveDislikedMovie(movie: targetMovie)
         case .up, .topLeft, .topRight:
             saveForLaterMovieIDArray.append(targetMovieID)
+            getLaterMoviesIds()
+            saveLaterMovie(movie: targetMovie)
+            
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
+            saveNotInterestedMovie(movie: targetMovie)
+            getNotInterestedMovieIds()
+            
         }
     }
     
@@ -198,6 +208,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //    }
     
+    // liked
     func saveLikedMovie(movie: MovieWithGenres) {
         saveMovies(movie: movie, entityName: "LikedMovies")
     }
@@ -210,6 +221,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         deleteMovies(entityName: "LikedMovies")
     }
     
+    // disliked
     func saveDislikedMovie(movie: MovieWithGenres) {
         saveMovies(movie: movie, entityName: "DislikedMovies")
     }
@@ -220,6 +232,32 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func deleteDislikedMovies() {
         deleteMovies(entityName: "DislikedMovies")
+    }
+    
+    // not interested
+    func saveNotInterestedMovie(movie: MovieWithGenres) {
+        saveMovies(movie: movie, entityName: "NotInterestedMovies")
+    }
+    
+    func getNotInterestedMovieIds() -> [Int] {
+        return getMoviesIds(entityName: "NotInterestedMovies")
+    }
+    
+    func deleteNotInterestedMovies() {
+        deleteMovies(entityName: "NotInterestedMovies")
+    }
+    
+    // save for later
+    func saveLaterMovie(movie: MovieWithGenres) {
+        saveMovies(movie: movie, entityName: "LaterMovies")
+    }
+    
+    func getLaterMoviesIds() -> [Int] {
+        return getMoviesIds(entityName: "LaterMovies")
+    }
+    
+    func deleteLaterMovies() {
+        deleteMovies(entityName: "LaterMovies")
     }
     
     func saveMovies(movie: MovieWithGenres, entityName: String) {

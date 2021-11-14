@@ -3,11 +3,19 @@
     <entity name="DislikedMovies" representedClassName="DislikedMovies" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="LaterMovies" representedClassName="LaterMovies" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="LikedMovies" representedClassName="LikedMovies" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="NotInterestedMovies" representedClassName="NotInterestedMovies" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="LikedMovies" positionX="-54" positionY="-9" width="128" height="44"/>
         <element name="DislikedMovies" positionX="-36" positionY="18" width="128" height="44"/>
+        <element name="NotInterestedMovies" positionX="-18" positionY="36" width="128" height="44"/>
+        <element name="LaterMovies" positionX="0" positionY="54" width="128" height="44"/>
     </elements>
 </model>
