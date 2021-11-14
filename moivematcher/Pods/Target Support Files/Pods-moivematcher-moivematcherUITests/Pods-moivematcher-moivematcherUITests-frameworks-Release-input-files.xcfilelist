@@ -1,0 +1,12 @@
+${PODS_ROOT}/Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/ACAnimator/ACAnimator.framework
+${BUILT_PRODUCTS_DIR}/CollectionKit/CollectionKit.framework
+${BUILT_PRODUCTS_DIR}/CollectionViewSlantedLayout/CollectionViewSlantedLayout.framework
+${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework
+${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework
+${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework
+${BUILT_PRODUCTS_DIR}/RAMAnimatedTabBarController/RAMAnimatedTabBarController.framework
+${BUILT_PRODUCTS_DIR}/ShowTime/ShowTime.framework
+${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework
+${BUILT_PRODUCTS_DIR}/UICircularProgressRing/UICircularProgressRing.framework
+${BUILT_PRODUCTS_DIR}/pop/pop.framework

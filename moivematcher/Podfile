@@ -1,0 +1,29 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'moivematcher' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for moivematcher
+  pod 'pop', '1.0.10'
+  pod 'Nuke'
+  pod 'ACAnimator'
+  pod 'UICircularProgressRing'
+  pod 'SwiftDate'
+  pod 'ShowTime'
+  pod 'NVActivityIndicatorView'
+  pod 'Cosmos', '~> 23.0'
+  pod 'CollectionKit'
+  pod 'RAMAnimatedTabBarController'
+  pod 'CollectionViewSlantedLayout', '~> 3.1'
+  target 'moivematcherTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'moivematcherUITests' do
+    # Pods for testing
+  end
+
+end
