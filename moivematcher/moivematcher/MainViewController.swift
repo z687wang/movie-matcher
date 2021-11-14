@@ -198,39 +198,11 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func getLikedMovieIds() -> [Int] {
-        var ans : [Int] = []
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-                print("Liked Id: \(data.value(forKey: "id") as! Int)")
-                ans.append(data.value(forKey: "id") as! Int)
-            }
-        } catch {
-            print("Error - CoreData failed reading")
-        }
-        return ans
+        return getMoviesIds(entityName: "LikedMovies")
     }
     
     func deleteLikedMovies() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LikedMovies")
-        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        request.resultType = .resultTypeObjectIDs
-        do {
-            let result = try context.execute(request) as? NSBatchDeleteResult
-            let objectIDArray = result?.result as? [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey : objectIDArray]
-            NSManagedObjectContext.mergeChanges(
-                fromRemoteContextSave: changes,
-                into: [context])
-        } catch {
-            fatalError("Failed to execute request: \(error)")
-        }
+        deleteMovies(entityName: "LikedMovies")
     }
     
     func saveMovies(movie: MovieWithGenres, entityName: String) {
@@ -251,5 +223,40 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         }
     }
     
+    func getMoviesIds(entityName: String) -> [Int] {
+        var ans : [Int] = []
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                print("Liked Id: \(data.value(forKey: "id") as! Int)")
+                ans.append(data.value(forKey: "id") as! Int)
+            }
+        } catch {
+            print("Error - CoreData failed reading")
+        }
+        return ans
+    }
+    
+    func deleteMovies(entityName: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        request.resultType = .resultTypeObjectIDs
+        do {
+            let result = try context.execute(request) as? NSBatchDeleteResult
+            let objectIDArray = result?.result as? [NSManagedObjectID]
+            let changes = [NSDeletedObjectsKey : objectIDArray]
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: changes,
+                into: [context])
+        } catch {
+            fatalError("Failed to execute request: \(error)")
+        }
+    }
 }
 
