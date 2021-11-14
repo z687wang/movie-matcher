@@ -131,9 +131,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
-            saveNotInterestedMovie(movie: targetMovie)
             getNotInterestedMovieIds()
-            
+            saveNotInterestedMovie(movie: targetMovie)
         }
     }
     
