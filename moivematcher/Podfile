@@ -14,6 +14,9 @@ target 'moivematcher' do
   pod 'ShowTime'
   pod 'NVActivityIndicatorView'
   pod 'Cosmos', '~> 23.0'
+  pod 'CollectionKit'
+  pod 'RAMAnimatedTabBarController'
+  pod 'CollectionViewSlantedLayout', '~> 3.1'
   target 'moivematcherTests' do
     inherit! :search_paths
     # Pods for testing

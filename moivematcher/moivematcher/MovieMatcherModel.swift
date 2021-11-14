@@ -301,7 +301,7 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     }
     
     required init?(JSON: [String: AnyObject]) throws {
-        guard let name = JSON["title"] as? String else {
+        guard let title = JSON["title"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
         }
         guard let id = JSON["id"] as? Int else {
@@ -343,7 +343,7 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         guard let revenue = JSON["revenue"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -revenue-")
         }
-        self.title = name
+        self.title = title
         self.id = id
         self.imdbID = imdbID
         self.genres = genres.flatMap {
