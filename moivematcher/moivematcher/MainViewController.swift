@@ -51,18 +51,19 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        // deletePages()
         loadMoviesIDData();
         self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + 90.0)
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
         self.insertGradientBackground()
         
-        // uncommented if need reset entity/
+        // uncommented if need reset entity
         // deleteLikedMovies()
         // deleteDislikedMovies()
         // deleteNotInterestedMovies()
         // deleteLaterMovies()
-        deletePages()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
