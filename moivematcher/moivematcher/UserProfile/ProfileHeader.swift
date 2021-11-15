@@ -25,10 +25,10 @@ struct ProfileHeader: View {
 //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
                         .padding(.top, 44)
                     
-                    Text("Yalu Cai").font(.system(size: 20)).bold().foregroundColor(.white)
+                    Text("Beta User").font(.system(size: 20)).bold().foregroundColor(.white)
                         .padding(.top, 12)
                     
-                    Text("@yc468").font(.system(size: 18)).foregroundColor(.white)
+                    Text("@anything").font(.system(size: 18)).foregroundColor(.white)
                     .padding(.top, 4)
                 }
                 Spacer()
