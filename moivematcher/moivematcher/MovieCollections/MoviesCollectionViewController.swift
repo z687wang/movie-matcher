@@ -6,7 +6,7 @@
 //
 import Foundation
 import UIKit
-
+import Nuke
 import CollectionViewSlantedLayout
 
 
@@ -14,20 +14,39 @@ class MoviesCollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
+    var mylikedMoviesIDArray: [Int] = [] {
+        didSet {
+            self.isContentReady = false
+            self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
+        }
+    }
+    var likedMovies: [MovieWithGenres] = []
+    var likeMoviesPosters: [UIImage] = []
     var gradientLayer: CAGradientLayer?
-
+    var apiClient = MovieApiClient()
     let reuseIdentifier = "likedMoviesViewCell"
 
     override func loadView() {
         super.loadView()
     }
+    
+    private(set) var isContentReady: Bool = false {
+        didSet {
+            if isContentReady {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    let context = self.collectionView.collectionViewLayout.invalidationContext(forBoundsChange: self.collectionView.bounds)
+                    context.contentOffsetAdjustment = CGPoint.zero
+                    self.collectionView.collectionViewLayout.invalidateLayout(with: context)
+                    self.collectionView.layoutSubviews()
+                }
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.isNavigationBarHidden = true
-        collectionViewLayout.isFirstCellExcluded = false
-        collectionViewLayout.isLastCellExcluded = false
-//        self.insertGradientBackground()
         collectionViewLayout.isFirstCellExcluded = true
         collectionViewLayout.isLastCellExcluded = true
         collectionViewLayout.scrollDirection = .horizontal
@@ -47,8 +66,56 @@ class MoviesCollectionViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
-        collectionView.collectionViewLayout.invalidateLayout()
+        self.mylikedMoviesIDArray = getLikedMovieIds()
+        print(self.mylikedMoviesIDArray.count)
+        self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
+    }
+    
+    func fetchGroupMoviesDetails(from moviesId: [Int], completionHandler: @escaping (_ movies: [MovieWithGenres])-> Void) {
+        let group = DispatchGroup()
+        self.likedMovies = []
+        for id in moviesId {
+            group.enter()
+            self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let resource , _):
+                    self.likedMovies.append(resource)
+                    if let imageUrl = resource.posterURL {
+                        ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                            switch result {
+                            case let .success(response):
+                                guard let strongSelf = self else { return }
+                                let image = response.image
+                                let targetSize = CGSize(width: 375, height: 563)
+                                // Compute the scaling ratio for the width and height separately
+                                let widthScaleRatio = targetSize.width / image.size.width
+                                let heightScaleRatio = targetSize.height / image.size.height
+
+                                // To keep the aspect ratio, scale by the smaller scaling ratio
+                                let scaleFactor = min(widthScaleRatio, heightScaleRatio)
+                                let scaledImageSize = CGSize(
+                                    width: image.size.width * scaleFactor,
+                                    height: image.size.height * scaleFactor
+                                )
+                                let renderer = UIGraphicsImageRenderer(size: scaledImageSize)
+                                let scaledImage = renderer.image { _ in
+                                    image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
+                                }
+                                self!.likeMoviesPosters.append(scaledImage)
+                                if self!.likeMoviesPosters.count == self!.mylikedMoviesIDArray.count {
+                                        self!.isContentReady = true
+                                }
+                            case .failure(_):
+                                break
+                            }
+                        }
+                    }
+                }
+                group.leave()
+            })
+        }
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -72,7 +139,11 @@ class MoviesCollectionViewController: UIViewController {
 extension MoviesCollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return likedMovieIDArray.count
+        guard isContentReady else {
+            return 0
+        }
+        print(self.mylikedMoviesIDArray.count)
+        return self.mylikedMoviesIDArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -82,9 +153,8 @@ extension MoviesCollectionViewController: UICollectionViewDataSource {
                             as? MoviesCollectionSlantedCell else {
             fatalError()
         }
-
-        cell.populate(movieID: likedMovieIDArray[indexPath.row])
-
+        cell.viewModel = likedMovies[indexPath.row]
+        cell.imageView.image = likeMoviesPosters[indexPath.row]
         if let layout = collectionView.collectionViewLayout as? CollectionViewSlantedLayout {
             cell.contentView.transform = CGAffineTransform(rotationAngle: layout.slantingAngle)
         }
@@ -101,7 +171,6 @@ extension MoviesCollectionViewController: CollectionViewDelegateSlantedLayout {
         let activeMovie = cell!.viewModel
         let destVC = self.storyboard?.instantiateViewController(withIdentifier: "MyMovieDetailViewController") as! MovieDetailViewController
         destVC.movieData = activeMovie
-//        destVC.modalPresentationStyle = .overFullScreen
         self.present(destVC, animated: true, completion: nil)
     }
 

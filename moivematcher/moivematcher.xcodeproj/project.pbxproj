@@ -75,6 +75,14 @@
 		0AA73C432729A0AB0019AD19 /* moivematcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C422729A0AB0019AD19 /* moivematcherTests.swift */; };
 		0AA73C4D2729A0AB0019AD19 /* moivematcherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C4C2729A0AB0019AD19 /* moivematcherUITests.swift */; };
 		0AA73C4F2729A0AB0019AD19 /* moivematcherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA73C4E2729A0AB0019AD19 /* moivematcherUITestsLaunchTests.swift */; };
+		18A85F742741E58300469CB4 /* RecommendDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F712741E58300469CB4 /* RecommendDataLoader.swift */; };
+		18A85F752741E58300469CB4 /* RecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F722741E58300469CB4 /* RecommendationModel.swift */; };
+		18A85F762741E58300469CB4 /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F732741E58300469CB4 /* RecommendationView.swift */; };
+		18A85F782741E63500469CB4 /* links.csv in Resources */ = {isa = PBXBuildFile; fileRef = 18A85F772741E63400469CB4 /* links.csv */; };
+		18A85F7C2741E64800469CB4 /* movieDB.csv in Resources */ = {isa = PBXBuildFile; fileRef = 18A85F7B2741E64800469CB4 /* movieDB.csv */; };
+		18A85F7F2741E65100469CB4 /* MovieRecommenderModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F7D2741E65100469CB4 /* MovieRecommenderModel.mlmodel */; };
+		18A85F822741E67500469CB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F812741E67500469CB4 /* ViewController.swift */; };
+		18A85F852741EFC800469CB4 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */; };
 		1CA44F942730DAF200EC87A1 /* tmdbAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F932730DAF200EC87A1 /* tmdbAPI.swift */; };
 		1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F952730DB9800EC87A1 /* HttpHelper.swift */; };
 		1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F972730DBD700EC87A1 /* ApiHelper.swift */; };
@@ -85,6 +93,7 @@
 		781A686703F1634C566BE62F /* Pods_moivematcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF0F408C08A06497D13FC11 /* Pods_moivematcher.framework */; };
 		93A5D967E159FBC4007543A2 /* Pods_moivematcher_moivematcherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */; };
 		C6287305E8CE72571D82B4ED /* Pods_moivematcherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */; };
+		E5773CB92741ABC000F123E1 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E5773CB72741ABBF00F123E1 /* DataModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +190,14 @@
 		0AA73C4C2729A0AB0019AD19 /* moivematcherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moivematcherUITests.swift; sourceTree = "<group>"; };
 		0AA73C4E2729A0AB0019AD19 /* moivematcherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moivematcherUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1288FE814E93CE1A1F05D7D7 /* Pods-moivematcherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcherTests.release.xcconfig"; path = "Target Support Files/Pods-moivematcherTests/Pods-moivematcherTests.release.xcconfig"; sourceTree = "<group>"; };
+		18A85F712741E58300469CB4 /* RecommendDataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendDataLoader.swift; sourceTree = "<group>"; };
+		18A85F722741E58300469CB4 /* RecommendationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationModel.swift; sourceTree = "<group>"; };
+		18A85F732741E58300469CB4 /* RecommendationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
+		18A85F772741E63400469CB4 /* links.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = links.csv; sourceTree = "<group>"; };
+		18A85F7B2741E64800469CB4 /* movieDB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = movieDB.csv; path = moivematcher/movieDB.csv; sourceTree = SOURCE_ROOT; };
+		18A85F7D2741E65100469CB4 /* MovieRecommenderModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MovieRecommenderModel.mlmodel; path = moivematcher/MovieRecommenderModel.mlmodel; sourceTree = SOURCE_ROOT; };
+		18A85F812741E67500469CB4 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		1CA44F932730DAF200EC87A1 /* tmdbAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmdbAPI.swift; sourceTree = "<group>"; };
 		1CA44F952730DB9800EC87A1 /* HttpHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		1CA44F972730DBD700EC87A1 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
@@ -196,6 +213,7 @@
 		63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moivematcherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D84CC2A173AD6992F5F3A37B /* Pods-moivematcher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher.release.xcconfig"; path = "Target Support Files/Pods-moivematcher/Pods-moivematcher.release.xcconfig"; sourceTree = "<group>"; };
 		DB469CB4C5D3F4F8C820C4B0 /* Pods-moivematcherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcherTests.debug.xcconfig"; path = "Target Support Files/Pods-moivematcherTests/Pods-moivematcherTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E5773CB82741ABBF00F123E1 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +318,7 @@
 		0A02AA98273A21A30019F582 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				18A85F7B2741E64800469CB4 /* movieDB.csv */,
 				0A02AA96273A20A40019F582 /* Nunito-Black.ttf */,
 				0A02AA94273A20A30019F582 /* Nunito-Bold.ttf */,
 				0A02AA95273A20A30019F582 /* Nunito-Regular.ttf */,
@@ -425,7 +444,7 @@
 		0AA73C2A2729A0A80019AD19 /* moivematcher */ = {
 			isa = PBXGroup;
 			children = (
-				1CE4DD452741ACE800B71F4F /* UserProfile */,
+				18A85F812741E67500469CB4 /* ViewController.swift */,
 				0A39E2E6273F4C5500D5A126 /* Utils */,
 				0A02AA98273A21A30019F582 /* Fonts */,
 				0A02AA6A273A15BD0019F582 /* Dependencies */,
@@ -438,13 +457,20 @@
 				1CA44F932730DAF200EC87A1 /* tmdbAPI.swift */,
 				1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */,
 				1CA44F972730DBD700EC87A1 /* ApiHelper.swift */,
+				18A85F7D2741E65100469CB4 /* MovieRecommenderModel.mlmodel */,
 				1CA44F952730DB9800EC87A1 /* HttpHelper.swift */,
 				0AA73C312729A0A80019AD19 /* Main.storyboard */,
 				0A02AA212738641F0019F582 /* MainViewController.swift */,
+				18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */,
+				18A85F722741E58300469CB4 /* RecommendationModel.swift */,
+				18A85F772741E63400469CB4 /* links.csv */,
+				18A85F732741E58300469CB4 /* RecommendationView.swift */,
+				18A85F712741E58300469CB4 /* RecommendDataLoader.swift */,
 				0AA73C342729A0AB0019AD19 /* Assets.xcassets */,
 				0AA73C362729A0AB0019AD19 /* LaunchScreen.storyboard */,
 				0AA73C392729A0AB0019AD19 /* Info.plist */,
 				0A157BFD273CACB3007A1B63 /* doubanAPI.swift */,
+				E5773CB72741ABBF00F123E1 /* DataModel.xcdatamodeld */,
 			);
 			path = moivematcher;
 			sourceTree = "<group>";
@@ -621,9 +647,11 @@
 				0A02AA4327398DA70019F582 /* SwipeableCardViewCard.xib in Resources */,
 				0A157BF2273B726A007A1B63 /* MediaHeaderView.xib in Resources */,
 				0A02AA63273A0BED0019F582 /* PosterCellView.xib in Resources */,
+				18A85F7C2741E64800469CB4 /* movieDB.csv in Resources */,
 				0A157BFA273B7421007A1B63 /* ActorCellView.xib in Resources */,
 				0A02AA61273A0A6A0019F582 /* MediaDescriptionCellView.xib in Resources */,
 				0A02AA9C273A21CB0019F582 /* Nunito-SemiBold.ttf in Resources */,
+				18A85F782741E63500469CB4 /* links.csv in Resources */,
 				0A02AA5F273A0A620019F582 /* MovieMetadataCellView.xib in Resources */,
 				0AA73C352729A0AB0019AD19 /* Assets.xcassets in Resources */,
 				0AA73C332729A0A80019AD19 /* Main.storyboard in Resources */,
@@ -766,10 +794,13 @@
 				0A02AA3B27398D340019F582 /* CGReact+SwipeAdditions.swift in Sources */,
 				0A02AA9E273A33B50019F582 /* UserScoreView.swift in Sources */,
 				0A02AA35273983EA0019F582 /* SwipeableViewDelegate.swift in Sources */,
+				E5773CB92741ABC000F123E1 /* DataModel.xcdatamodeld in Sources */,
+				18A85F852741EFC800469CB4 /* DataModel.xcdatamodeld in Sources */,
 				0A157BFE273CACB3007A1B63 /* doubanAPI.swift in Sources */,
 				0A02AA3927398D120019F582 /* CGPoint+SwipeableAdditions.swift in Sources */,
 				1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */,
 				0A02AA222738641F0019F582 /* MainViewController.swift in Sources */,
+				18A85F822741E67500469CB4 /* ViewController.swift in Sources */,
 				0A02AA3F27398D750019F582 /* UIView+Constraints.swift in Sources */,
 				0A02AAA3273AD7770019F582 /* MediaActionsView.swift in Sources */,
 				1CE4DD4E2741C67500B71F4F /* ViewModel.swift in Sources */,
@@ -779,8 +810,10 @@
 				0A39E2D7273EB5BE00D5A126 /* MoviesCollectionViewCellProtocol.swift in Sources */,
 				1CA44F9A2730DC2C00EC87A1 /* MovieMatcherModel.swift in Sources */,
 				1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */,
+				18A85F7F2741E65100469CB4 /* MovieRecommenderModel.mlmodel in Sources */,
 				1CA44F942730DAF200EC87A1 /* tmdbAPI.swift in Sources */,
 				0A1FD3C727409AC700088316 /* MoviesCollectionViewSlantedCell.swift in Sources */,
+				18A85F742741E58300469CB4 /* RecommendDataLoader.swift in Sources */,
 				0AA73C2C2729A0A80019AD19 /* AppDelegate.swift in Sources */,
 				0A02AA8C273A1A880019F582 /* UIApplication+ACExtensions.swift in Sources */,
 				0A02AA2D273983040019F582 /* SwipeableCardViewContainer.swift in Sources */,
@@ -793,6 +826,7 @@
 				0A02AA4B2739DBE00019F582 /* MovieDetailViewController.swift in Sources */,
 				0A02AAA8273AE5710019F582 /* MovieMetaDataCellView.swift in Sources */,
 				0A02AA31273983520019F582 /* SwipeableCardViewDataSource.swift in Sources */,
+				18A85F762741E58300469CB4 /* RecommendationView.swift in Sources */,
 				0A02AA87273A1A880019F582 /* Color+ACExtensions.swift in Sources */,
 				0A02AA552739ED200019F582 /* MultiCollectionViewRow.swift in Sources */,
 				0AA73C2E2729A0A80019AD19 /* SceneDelegate.swift in Sources */,
@@ -806,6 +840,7 @@
 				0A02AA532739ECB70019F582 /* MultiCollectionViewCell.swift in Sources */,
 				0A02AA8D273A1A880019F582 /* UINavigationController+ACExtensions.swift in Sources */,
 				0A02AA4127398D970019F582 /* SwipeableCardViewCard.swift in Sources */,
+				18A85F752741E58300469CB4 /* RecommendationModel.swift in Sources */,
 				0A02AA88273A1A880019F582 /* CGSize+ACExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1170,6 +1205,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		E5773CB72741ABBF00F123E1 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E5773CB82741ABBF00F123E1 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = E5773CB82741ABBF00F123E1 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0AA73C202729A0A80019AD19 /* Project object */;
 }
