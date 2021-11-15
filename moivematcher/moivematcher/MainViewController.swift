@@ -89,7 +89,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func loadMoviesIDData() {
         print("start to load data")
-        if(page % 2 == 1){
+        if(page % 2 == 0){
             showRecommendMoviesID(with: page)
         } else{
             fetchInitialMoviesID(with: page)
