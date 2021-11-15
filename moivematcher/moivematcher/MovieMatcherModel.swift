@@ -93,7 +93,11 @@ struct Crew: JSONDecodable {
     
 }
 
-struct Actor: JSONDecodable, Equatable {
+struct Actor: JSONDecodable, Equatable, Hashable, Comparable {
+    static func < (lhs: Actor, rhs: Actor) -> Bool {
+        lhs.id > rhs.id
+    }
+    
     var name: String
     var id: Int
     var knowForDepartment: String?
