@@ -62,6 +62,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         // deleteDislikedMovies()
         // deleteNotInterestedMovies()
         // deleteLaterMovies()
+        getLatestPage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -344,14 +345,15 @@ func getLatestPage() -> Int {
     let context = appDelegate.persistentContainer.viewContext
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pages")
     request.returnsObjectsAsFaults = false
-    var ans = 0
+    var ans : [Int] = [0]
     do {
         let result = try context.fetch(request)
-        let data = result.last as! NSManagedObject
-        ans = data.value(forKey: "id") as! Int
-        print("current page \(ans)")
+        for data in result as! [NSManagedObject] {
+            print("page number: \(data.value(forKey: "pageNum") as! Int)")
+            ans.append(data.value(forKey: "pageNum") as! Int)
+        }
     } catch {
         print("Error - CoreData failed reading")
     }
-    return ans
+    return ans.max() as! Int
 }
