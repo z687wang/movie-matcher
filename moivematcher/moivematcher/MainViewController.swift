@@ -29,17 +29,19 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        // deletePages()
         loadMoviesIDData();
         self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + 90.0)
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
         self.insertGradientBackground()
         
-        // uncommented if need reset entity/
-        deleteLikedMovies()
-        deleteDislikedMovies()
-        deleteNotInterestedMovies()
-        deleteLaterMovies()
+        // uncommented if need reset entity
+        // deleteLikedMovies()
+        // deleteDislikedMovies()
+        // deleteNotInterestedMovies()
+        // deleteLaterMovies()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +78,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             
         }
         page += 1
-        
+        savePage(page: page)
+        getLatestPage()
     }
     
     func numberOfCards() -> Int {
@@ -213,6 +216,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
 }
 
+// liked
 func saveLikedMovie(movie: MovieWithGenres) {
     saveMovies(movie: movie, entityName: "LikedMovies")
 }
@@ -222,7 +226,7 @@ func getLikedMovieIds() -> [Int] {
 }
 
 func deleteLikedMovies() {
-    deleteMovies(entityName: "LikedMovies")
+    deleteEntity(entityName: "LikedMovies")
 }
 
 // disliked
@@ -235,7 +239,7 @@ func getDislikedMovieIds() -> [Int] {
 }
 
 func deleteDislikedMovies() {
-    deleteMovies(entityName: "DislikedMovies")
+    deleteEntity(entityName: "DislikedMovies")
 }
 
 // not interested
@@ -248,7 +252,7 @@ func getNotInterestedMovieIds() -> [Int] {
 }
 
 func deleteNotInterestedMovies() {
-    deleteMovies(entityName: "NotInterestedMovies")
+    deleteEntity(entityName: "NotInterestedMovies")
 }
 
 // save for later
@@ -261,7 +265,7 @@ func getLaterMoviesIds() -> [Int] {
 }
 
 func deleteLaterMovies() {
-    deleteMovies(entityName: "LaterMovies")
+    deleteEntity(entityName: "LaterMovies")
 }
 
 func saveMovies(movie: MovieWithGenres, entityName: String) {
@@ -300,7 +304,7 @@ func getMoviesIds(entityName: String) -> [Int] {
     return ans
 }
 
-func deleteMovies(entityName: String) {
+func deleteEntity(entityName: String) {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = appDelegate.persistentContainer.viewContext
     let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -316,4 +320,46 @@ func deleteMovies(entityName: String) {
     } catch {
         fatalError("Failed to execute request: \(error)")
     }
+}
+
+func savePage(page: Int) {
+    // Get the context
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    
+    // Create a new Entity object & set some data values
+    let entity = NSEntityDescription.entity(forEntityName: "Pages", in: context)
+    let newPage = NSManagedObject(entity: entity!, insertInto: context)
+    newPage.setValue(page, forKey: "pageNum")
+   
+    // Save the data
+    do {
+       try context.save() // Data Saved to persistent storage
+      } catch {
+       print("Error - CoreData failed saving")
+    }
+}
+
+func getLatestPage() -> Int {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pages")
+    request.returnsObjectsAsFaults = false
+    var myPages : [Int] = []
+    do {
+        let result = try context.fetch(request)
+        for data in result as! [NSManagedObject] {
+            print("page number: \(data.value(forKey: "pageNum") as! Int)")
+            myPages.append(data.value(forKey: "pageNum") as! Int)
+        }
+    } catch {
+        print("Error - CoreData failed reading")
+    }
+    let ans = myPages.max() ?? 0
+    print("next page: \(ans)")
+    return ans
+}
+
+func deletePages() {
+    deleteEntity(entityName: "Pages")
 }
