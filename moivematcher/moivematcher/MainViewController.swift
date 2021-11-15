@@ -21,7 +21,7 @@ var actorsLikedDict: [String: [Int]] = [:]
 var page: Int = 1
 var hasNextPage: Bool = true
 var genresLikedArray: [String] = ["Action", "Adventure", "Animation"]
-var actorsLikedArray: [String] = []
+var actorsLikedArray: [Actor] = []
 
 //struct MoviesSectionView: View {
 //    @ObservedObject var moviesModel: ActiveMoviesModel
@@ -114,6 +114,9 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
             for g in targetMovieGenre! {
                 genresLikedArray.append(g.name)
+            }
+            for a in targetMovieActors {
+                actorsLikedArray.append(a)
             }
             print(genresLikedArray)
 //            destVC.reloadData()

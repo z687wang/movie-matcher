@@ -17,9 +17,9 @@ extension Array where Element: Comparable & Hashable {
     }
 }
 
-class GridViewModel: ObservableObject {
+class ActorViewModel: ObservableObject {
     
-    @Published var genres = [String]()
+    @Published var actors = [Actor]()
 
     init() {
         var length = 0
@@ -33,7 +33,7 @@ class GridViewModel: ObservableObject {
         }
         
         if genresLikedArray.count > 0 {
-            self.genres = Array(genresLikedArray[...length])
+            self.actors = Array(Set(genresLikedArray.sortByNumberOfOccurences()))
             print(Array(Set(genresLikedArray.sortByNumberOfOccurences())))
         }
         else {
@@ -45,7 +45,7 @@ class GridViewModel: ObservableObject {
 
 struct ContentView: View {
     
-    var vm = GridViewModel()
+    var vm = ActorViewModel()
     var body: some View {
         
         VStack {
@@ -77,12 +77,18 @@ struct ContentView: View {
                     .padding()
 //                    .background(SwiftUI.Color.red)
                 }
-                ForEach(Array(Set(genresLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { genre in
+            }).padding(.horizontal, 12)
+            Text("Favorite Actors")
+                .font(.system(size: 20, weight: .bold))
+            LazyVGrid(columns: [
+                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
+                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
+                GridItem(.flexible(minimum: 50, maximum: 200)),
+            ], spacing: 12, content: {
+                ForEach(Array(Set(actorsLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { a in
 //                    AppInfo(app: app)
                     VStack() {
-                        SwiftUI.Image(genre)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
+                        AsyncImage(url: a.profileURL)
                                 .frame(width: 100, height: 100)
                                 .clipShape(Circle())
                                 .clipped()
@@ -91,14 +97,13 @@ struct ContentView: View {
 //                        Spacer()
 //                            .frame(width: 100, height: 100)
 //                            .background(SwiftUI.Color.blue)
-                        Text(genre)
+                        Text(a.name)
                             .font(.system(size: 12, weight: .semibold))
                     }
                     .padding()
 //                    .background(SwiftUI.Color.red)
                 }
             }).padding(.horizontal, 12)
-                .navigationTitle("Favorite Genres")
         }
     }
 }
