@@ -18,8 +18,9 @@ class GenreViewModel: ObservableObject {
         else {
             length = genresLikedArray.count
         }
+        
         if genresLikedArray.count > 0 {
-            genres = Array(genresLikedArray[...length])
+            genres = Array(genresLikedArray[...(length + 1)])
         }
         else {
             genres = ["Action"]

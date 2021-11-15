@@ -10,12 +10,41 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var viewModel = GenreViewModel()
+    @ObservedObject var vm = GenreViewModel()
     
     var body: some View {
+        
         VStack {
             ProfileHeader()
-            
+            Text("Favorite Genres")
+                .font(.system(size: 20, weight: .bold))
+            LazyVGrid(columns: [
+                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
+                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
+                GridItem(.flexible(minimum: 50, maximum: 200)),
+            ], spacing: 12, content: {
+                ForEach(genresLikedArray[...2], id: \.self) { genre in
+//                    AppInfo(app: app)
+                    VStack() {
+                        SwiftUI.Image(genre)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .clipped()
+        //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                                .padding()
+//                        Spacer()
+//                            .frame(width: 100, height: 100)
+//                            .background(SwiftUI.Color.blue)
+                        Text(genre)
+                            .font(.system(size: 12, weight: .semibold))
+                    }
+                    .padding()
+//                    .background(SwiftUI.Color.red)
+                }
+            }).padding(.horizontal, 12)
+                .navigationTitle("Favorite Genres")
         }
     }
 }
