@@ -109,8 +109,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         switch swipeDirection {
         case .left:
             likedMovieIDArray.append(targetMovieID)
-            let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-            destVC.reloadData()
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
         case .up, .topLeft, .topRight:

@@ -14,6 +14,7 @@ class MoviesCollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
+    var mylikedMoviesIDArray: [Int] = []
     var gradientLayer: CAGradientLayer?
 
     let reuseIdentifier = "likedMoviesViewCell"
@@ -25,8 +26,6 @@ class MoviesCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        navigationController?.isNavigationBarHidden = true
-        collectionViewLayout.isFirstCellExcluded = false
-        collectionViewLayout.isLastCellExcluded = false
 //        self.insertGradientBackground()
         collectionViewLayout.isFirstCellExcluded = true
         collectionViewLayout.isLastCellExcluded = true
@@ -47,6 +46,7 @@ class MoviesCollectionViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.mylikedMoviesIDArray = likedMovieIDArray
         collectionView.reloadData()
         collectionView.collectionViewLayout.invalidateLayout()
     }
@@ -72,7 +72,7 @@ class MoviesCollectionViewController: UIViewController {
 extension MoviesCollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return likedMovieIDArray.count
+        return self.mylikedMoviesIDArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -83,7 +83,7 @@ extension MoviesCollectionViewController: UICollectionViewDataSource {
             fatalError()
         }
 
-        cell.populate(movieID: likedMovieIDArray[indexPath.row])
+        cell.populate(movieID: self.mylikedMoviesIDArray[indexPath.row])
 
         if let layout = collectionView.collectionViewLayout as? CollectionViewSlantedLayout {
             cell.contentView.transform = CGAffineTransform(rotationAngle: layout.slantingAngle)
