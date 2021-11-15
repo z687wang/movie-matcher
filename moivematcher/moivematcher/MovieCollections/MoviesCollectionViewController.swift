@@ -46,7 +46,7 @@ class MoviesCollectionViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.mylikedMoviesIDArray = likedMovieIDArray
+        self.mylikedMoviesIDArray = getLikedMovieIds()
         collectionView.reloadData()
         collectionView.collectionViewLayout.invalidateLayout()
     }
