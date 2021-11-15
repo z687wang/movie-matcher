@@ -50,6 +50,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         dislikedMovieIDArray = getDislikedMovieIds()
         saveForLaterMovieIDArray = getLaterMoviesIds()
         notInterestedMovieIDArary = getNotInterestedMovieIds()
+        page = getLatestPage()
         
     }
     func insertGradientBackground() {
@@ -79,7 +80,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         }
         page += 1
         savePage(page: page)
-        getLatestPage()
     }
     
     func numberOfCards() -> Int {
@@ -355,7 +355,7 @@ func getLatestPage() -> Int {
     } catch {
         print("Error - CoreData failed reading")
     }
-    let ans = myPages.max() ?? 0
+    let ans = myPages.max() ?? 1
     print("next page: \(ans)")
     return ans
 }
