@@ -14,7 +14,12 @@ class MoviesCollectionViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
-    var mylikedMoviesIDArray: [Int] = []
+    var mylikedMoviesIDArray: [Int] = [] {
+        didSet {
+            self.isContentReady = false
+            self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
+        }
+    }
     var likedMovies: [MovieWithGenres] = []
     var likeMoviesPosters: [UIImage] = []
     var gradientLayer: CAGradientLayer?
@@ -28,7 +33,14 @@ class MoviesCollectionViewController: UIViewController {
     private(set) var isContentReady: Bool = false {
         didSet {
             if isContentReady {
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                    self.collectionView.collectionViewLayout.invalidateLayout()
+                    let context = self.collectionView.collectionViewLayout.invalidationContext(forBoundsChange: self.collectionView.bounds)
+                    context.contentOffsetAdjustment = CGPoint.zero
+                    self.collectionView.collectionViewLayout.invalidateLayout(with: context)
+                    self.collectionView.layoutSubviews()
+                }
             }
         }
     }
@@ -55,8 +67,8 @@ class MoviesCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.mylikedMoviesIDArray = getLikedMovieIds()
+        print(self.mylikedMoviesIDArray.count)
         self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
-        collectionView.collectionViewLayout.invalidateLayout()
     }
     
     func fetchGroupMoviesDetails(from moviesId: [Int], completionHandler: @escaping (_ movies: [MovieWithGenres])-> Void) {
@@ -130,6 +142,7 @@ extension MoviesCollectionViewController: UICollectionViewDataSource {
         guard isContentReady else {
             return 0
         }
+        print(self.mylikedMoviesIDArray.count)
         return self.mylikedMoviesIDArray.count
     }
 
