@@ -17,34 +17,10 @@ extension Array where Element: Comparable & Hashable {
     }
 }
 
-class ActorViewModel: ObservableObject {
-    
-    @Published var actors = [Actor]()
-
-    init() {
-        var length = 0
-        
-        if actorsLikedArray.count >= 3 {
-            length = 2
-        }
-        else {
-            length = actorsLikedArray.count
-        }
-        
-        if actorsLikedArray.count > 0 {
-            self.actors = Array(Array(Set(actorsLikedArray.sortByNumberOfOccurences()))[...length])
-//            print(Array(Set(genresLikedArray.sortByNumberOfOccurences())))
-        }
-        else {
-            print("less than 3 movies")
-//            self.genres = ["Animation"]
-        }
-    }
-}
-
 struct ContentView: View {
     
-    var vm = ActorViewModel()
+    var vmActor = ActorViewModel()
+    var vmGenre = GenreViewModel()
     var body: some View {
         
         VStack {
@@ -56,7 +32,7 @@ struct ContentView: View {
                 GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
                 GridItem(.flexible(minimum: 50, maximum: 180)),
             ], spacing: 12, content: {
-                ForEach(Array(Set(genresLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { genre in
+                ForEach(vmGenre.genres, id: \.self) { genre in
 //                    AppInfo(app: app)
                     VStack() {
                         SwiftUI.Image(genre)
@@ -84,7 +60,7 @@ struct ContentView: View {
                 GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
                 GridItem(.flexible(minimum: 80, maximum: 180)),
             ], spacing: 12, content: {
-                ForEach(vm.actors, id: \.self) { a in
+                ForEach(vmActor.actors, id: \.self) { a in
 //                    AppInfo(app: app)
                     VStack() {
                         AsyncImage(url: a.profileURL) {

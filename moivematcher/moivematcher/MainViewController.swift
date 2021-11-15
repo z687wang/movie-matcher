@@ -20,7 +20,7 @@ var directorsLikedDict: [String: [Int]] = [:]
 var actorsLikedDict: [String: [Int]] = [:]
 var page: Int = 1
 var hasNextPage: Bool = true
-var genresLikedArray: [String] = ["Action", "Adventure", "Animation"]
+var genresLikedArray: [String] = []
 var actorsLikedArray: [Actor] = []
 
 //struct MoviesSectionView: View {
