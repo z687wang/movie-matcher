@@ -44,10 +44,6 @@ var hasNextPage: Bool = true
 //}
 
 class MainViewController: UIViewController, SwipeableCardViewDataSource {
-
-    @IBOutlet weak var MovieNameLabel: UILabel!
-    @IBOutlet weak var MovieYearLabel: UILabel!
-    @IBOutlet weak var MoviesView: UIView!
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     
     var apiClient = MovieApiClient()
@@ -61,15 +57,21 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         swipeableCardView.controller = self
         self.insertGradientBackground()
         
-        // uncommented if need reset entity
-        /*
-        deleteLikedMovies()
-        deleteDislikedMovies()
-        deleteNotInterestedMovies()
-        deleteLaterMovies()
-         */
+        // uncommented if need reset entity/
+//        deleteLikedMovies()
+//        deleteDislikedMovies()
+//        deleteNotInterestedMovies()
+//        deleteLaterMovies()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        likedMovieIDArray = getLikedMovieIds()
+        dislikedMovieIDArray = getDislikedMovieIds()
+        saveForLaterMovieIDArray = getLaterMoviesIds()
+        notInterestedMovieIDArary = getNotInterestedMovieIds()
+        
+    }
     func insertGradientBackground() {
         self.gradientLayer = CAGradientLayer()
         let colorTop =  UIColor(red: 0.18, green: 0.75, blue: 0.78, alpha: 1.00).cgColor
@@ -116,23 +118,25 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         
         switch swipeDirection {
         case .left:
-            likedMovieIDArray.append(targetMovieID)
-            let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-            getLikedMovieIds()
-            saveLikedMovie(movie: targetMovie)
+            if !likedMovieIDArray.contains(targetMovieID) {
+                likedMovieIDArray.append(targetMovieID)
+                saveLikedMovie(movie: targetMovie)
+            }
         case .right:
-            dislikedMovieIDArray.append(targetMovieID)
-            getDislikedMovieIds()
-            saveDislikedMovie(movie: targetMovie)
+            if !dislikedMovieIDArray.contains(targetMovieID) {
+                dislikedMovieIDArray.append(targetMovieID)
+                saveDislikedMovie(movie: targetMovie)
+            }
         case .up, .topLeft, .topRight:
-            saveForLaterMovieIDArray.append(targetMovieID)
-            getLaterMoviesIds()
-            saveLaterMovie(movie: targetMovie)
-            
+            if !saveForLaterMovieIDArray.contains(targetMovieID) {
+                saveForLaterMovieIDArray.append(targetMovieID)
+                saveLaterMovie(movie: targetMovie)
+            }
         case .down, .bottomLeft, .bottomRight:
-            notInterestedMovieIDArary.append(targetMovieID)
-            getNotInterestedMovieIds()
-            saveNotInterestedMovie(movie: targetMovie)
+            if !notInterestedMovieIDArary.contains(targetMovieID) {
+                notInterestedMovieIDArary.append(targetMovieID)
+                saveNotInterestedMovie(movie: targetMovie)
+            }
         }
     }
     
