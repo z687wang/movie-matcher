@@ -179,6 +179,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 group.leave()
             })
         }
+    }
 }
 
 func saveLikedMovie(movie: MovieWithGenres) {
