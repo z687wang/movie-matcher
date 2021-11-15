@@ -87,6 +87,9 @@
 		1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F952730DB9800EC87A1 /* HttpHelper.swift */; };
 		1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F972730DBD700EC87A1 /* ApiHelper.swift */; };
 		1CA44F9A2730DC2C00EC87A1 /* MovieMatcherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */; };
+		1CE4DD472741AD0F00B71F4F /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE4DD462741AD0F00B71F4F /* UserProfileViewController.swift */; };
+		1CE4DD492741AF4500B71F4F /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE4DD482741AF4500B71F4F /* ProfileHeader.swift */; };
+		1CE4DD4E2741C67500B71F4F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE4DD4D2741C67500B71F4F /* ViewModel.swift */; };
 		781A686703F1634C566BE62F /* Pods_moivematcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF0F408C08A06497D13FC11 /* Pods_moivematcher.framework */; };
 		93A5D967E159FBC4007543A2 /* Pods_moivematcher_moivematcherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */; };
 		C6287305E8CE72571D82B4ED /* Pods_moivematcherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CBE4DE2EC25FBC56313BC5 /* Pods_moivematcherTests.framework */; };
@@ -199,6 +202,9 @@
 		1CA44F952730DB9800EC87A1 /* HttpHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		1CA44F972730DBD700EC87A1 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
 		1CA44F992730DC2C00EC87A1 /* MovieMatcherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieMatcherModel.swift; sourceTree = "<group>"; };
+		1CE4DD462741AD0F00B71F4F /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		1CE4DD482741AF4500B71F4F /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
+		1CE4DD4D2741C67500B71F4F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2824681E092D424BB2E03B2F /* Pods-moivematcher-moivematcherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher-moivematcherUITests.release.xcconfig"; path = "Target Support Files/Pods-moivematcher-moivematcherUITests/Pods-moivematcher-moivematcherUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2AE9F8FC8CDD7A8BA10FBCD9 /* Pods_moivematcher_moivematcherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_moivematcher_moivematcherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33433B4C318A84D209121C33 /* Pods-moivematcher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-moivematcher.debug.xcconfig"; path = "Target Support Files/Pods-moivematcher/Pods-moivematcher.debug.xcconfig"; sourceTree = "<group>"; };
@@ -484,6 +490,16 @@
 				0AA73C4E2729A0AB0019AD19 /* moivematcherUITestsLaunchTests.swift */,
 			);
 			path = moivematcherUITests;
+			sourceTree = "<group>";
+		};
+		1CE4DD452741ACE800B71F4F /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				1CE4DD462741AD0F00B71F4F /* UserProfileViewController.swift */,
+				1CE4DD4D2741C67500B71F4F /* ViewModel.swift */,
+				1CE4DD482741AF4500B71F4F /* ProfileHeader.swift */,
+			);
+			path = UserProfile;
 			sourceTree = "<group>";
 		};
 		A82DECE2C5152A7B6AC992F0 /* Pods */ = {
@@ -787,8 +803,10 @@
 				18A85F822741E67500469CB4 /* ViewController.swift in Sources */,
 				0A02AA3F27398D750019F582 /* UIView+Constraints.swift in Sources */,
 				0A02AAA3273AD7770019F582 /* MediaActionsView.swift in Sources */,
+				1CE4DD4E2741C67500B71F4F /* ViewModel.swift in Sources */,
 				0A02AA2F273983310019F582 /* SwipeableCardViewDelegate.swift in Sources */,
 				0A02AA8E273A1A880019F582 /* UIImage+ACExtensions.swift in Sources */,
+				1CE4DD492741AF4500B71F4F /* ProfileHeader.swift in Sources */,
 				0A39E2D7273EB5BE00D5A126 /* MoviesCollectionViewCellProtocol.swift in Sources */,
 				1CA44F9A2730DC2C00EC87A1 /* MovieMatcherModel.swift in Sources */,
 				1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */,
@@ -803,6 +821,7 @@
 				0A157BEE273B6F04007A1B63 /* CircularCellView.swift in Sources */,
 				0A02AA3D27398D540019F582 /* NibView.swift in Sources */,
 				0A02AA5D273A09DB0019F582 /* MovieDetails.swift in Sources */,
+				1CE4DD472741AD0F00B71F4F /* UserProfileViewController.swift in Sources */,
 				0A02AA33273983750019F582 /* SwipeableView.swift in Sources */,
 				0A02AA4B2739DBE00019F582 /* MovieDetailViewController.swift in Sources */,
 				0A02AAA8273AE5710019F582 /* MovieMetaDataCellView.swift in Sources */,

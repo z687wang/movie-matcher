@@ -20,6 +20,8 @@ var directorsLikedDict: [String: [Int]] = [:]
 var actorsLikedDict: [String: [Int]] = [:]
 var page: Int = 1
 var hasNextPage: Bool = true
+var genresLikedArray: [String] = []
+var actorsLikedArray: [Actor] = []
 
 class MainViewController: UIViewController, SwipeableCardViewDataSource {
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
@@ -111,6 +113,12 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                     likedMovieIDArray.append(targetMovieID)
                     saveLikedMovie(movie: targetMovie)
                     self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
+                    for g in targetMovieGenre! {
+                        genresLikedArray.append(g.name)
+                    }
+                    for a in targetMovieActors {
+                        actorsLikedArray.append(a)
+                    }
                 }
             case .right:
                 if !dislikedMovieIDArray.contains(targetMovieID) {
@@ -132,6 +140,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 }
                 
             }
+>>>>>>> moivematcher/moivematcher/MainViewController.swift
         }
     }
     
