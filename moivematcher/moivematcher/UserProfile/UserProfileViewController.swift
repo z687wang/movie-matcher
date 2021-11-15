@@ -24,17 +24,16 @@ class ActorViewModel: ObservableObject {
     init() {
         var length = 0
         
-        if genresLikedArray.count >= 3 {
-            print("length is 2")
+        if actorsLikedArray.count >= 3 {
             length = 2
         }
         else {
-            length = genresLikedArray.count
+            length = actorsLikedArray.count
         }
         
-        if genresLikedArray.count > 0 {
-            self.actors = Array(Set(genresLikedArray.sortByNumberOfOccurences()))
-            print(Array(Set(genresLikedArray.sortByNumberOfOccurences())))
+        if actorsLikedArray.count > 0 {
+            self.actors = Array(Array(Set(actorsLikedArray.sortByNumberOfOccurences()))[...length])
+//            print(Array(Set(genresLikedArray.sortByNumberOfOccurences())))
         }
         else {
             print("less than 3 movies")
@@ -53,9 +52,9 @@ struct ContentView: View {
             Text("Favorite Genres")
                 .font(.system(size: 20, weight: .bold))
             LazyVGrid(columns: [
-                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
-                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
-                GridItem(.flexible(minimum: 50, maximum: 200)),
+                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 50, maximum: 180)),
             ], spacing: 12, content: {
                 ForEach(Array(Set(genresLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { genre in
 //                    AppInfo(app: app)
@@ -81,19 +80,29 @@ struct ContentView: View {
             Text("Favorite Actors")
                 .font(.system(size: 20, weight: .bold))
             LazyVGrid(columns: [
-                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
-                GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16),
-                GridItem(.flexible(minimum: 50, maximum: 200)),
+                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 100, maximum: 180)),
             ], spacing: 12, content: {
-                ForEach(Array(Set(actorsLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { a in
+                ForEach(vm.actors, id: \.self) { a in
 //                    AppInfo(app: app)
                     VStack() {
-                        AsyncImage(url: a.profileURL)
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                                .clipped()
-        //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                                .padding()
+                        AsyncImage(url: a.profileURL) {
+                            phase in
+                                 if let image = phase.image {
+                                     image.resizable()
+                                         .aspectRatio(contentMode: .fill)
+                                } else if phase.error != nil {
+                                    Text("Error!")
+                                } else {
+                                    Text("Loading...")
+                                }
+                        }
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .clipped()
+//                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .padding()
 //                        Spacer()
 //                            .frame(width: 100, height: 100)
 //                            .background(SwiftUI.Color.blue)
@@ -102,6 +111,7 @@ struct ContentView: View {
                     }
                     .padding()
 //                    .background(SwiftUI.Color.red)
+                    
                 }
             }).padding(.horizontal, 12)
         }
