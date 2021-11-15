@@ -208,109 +208,109 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
 //    }
     
     // liked
-    func saveLikedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "LikedMovies")
-    }
+}
+
+func saveLikedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "LikedMovies")
+}
+
+func getLikedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "LikedMovies")
+}
+
+func deleteLikedMovies() {
+    deleteMovies(entityName: "LikedMovies")
+}
+
+// disliked
+func saveDislikedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "DislikedMovies")
+}
+
+func getDislikedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "DislikedMovies")
+}
+
+func deleteDislikedMovies() {
+    deleteMovies(entityName: "DislikedMovies")
+}
+
+// not interested
+func saveNotInterestedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "NotInterestedMovies")
+}
+
+func getNotInterestedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "NotInterestedMovies")
+}
+
+func deleteNotInterestedMovies() {
+    deleteMovies(entityName: "NotInterestedMovies")
+}
+
+// save for later
+func saveLaterMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "LaterMovies")
+}
+
+func getLaterMoviesIds() -> [Int] {
+    return getMoviesIds(entityName: "LaterMovies")
+}
+
+func deleteLaterMovies() {
+    deleteMovies(entityName: "LaterMovies")
+}
+
+func saveMovies(movie: MovieWithGenres, entityName: String) {
+    // Get the context
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
     
-    func getLikedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "LikedMovies")
-    }
-    
-    func deleteLikedMovies() {
-        deleteMovies(entityName: "LikedMovies")
-    }
-    
-    // disliked
-    func saveDislikedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "DislikedMovies")
-    }
-    
-    func getDislikedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "DislikedMovies")
-    }
-    
-    func deleteDislikedMovies() {
-        deleteMovies(entityName: "DislikedMovies")
-    }
-    
-    // not interested
-    func saveNotInterestedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "NotInterestedMovies")
-    }
-    
-    func getNotInterestedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "NotInterestedMovies")
-    }
-    
-    func deleteNotInterestedMovies() {
-        deleteMovies(entityName: "NotInterestedMovies")
-    }
-    
-    // save for later
-    func saveLaterMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "LaterMovies")
-    }
-    
-    func getLaterMoviesIds() -> [Int] {
-        return getMoviesIds(entityName: "LaterMovies")
-    }
-    
-    func deleteLaterMovies() {
-        deleteMovies(entityName: "LaterMovies")
-    }
-    
-    func saveMovies(movie: MovieWithGenres, entityName: String) {
-        // Get the context
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        // Create a new Entity object & set some data values
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
-        let newMovie = NSManagedObject(entity: entity!, insertInto: context)
-        newMovie.setValue(movie.id, forKey: "id")
-       
-        // Save the data
-        do {
-           try context.save() // Data Saved to persistent storage
-          } catch {
-           print("Error - CoreData failed saving")
-        }
-    }
-    
-    func getMoviesIds(entityName: String) -> [Int] {
-        var ans : [Int] = []
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-                print("\(entityName): \(data.value(forKey: "id") as! Int)")
-                ans.append(data.value(forKey: "id") as! Int)
-            }
-        } catch {
-            print("Error - CoreData failed reading")
-        }
-        return ans
-    }
-    
-    func deleteMovies(entityName: String) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        request.resultType = .resultTypeObjectIDs
-        do {
-            let result = try context.execute(request) as? NSBatchDeleteResult
-            let objectIDArray = result?.result as? [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey : objectIDArray]
-            NSManagedObjectContext.mergeChanges(
-                fromRemoteContextSave: changes,
-                into: [context])
-        } catch {
-            fatalError("Failed to execute request: \(error)")
-        }
+    // Create a new Entity object & set some data values
+    let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
+    let newMovie = NSManagedObject(entity: entity!, insertInto: context)
+    newMovie.setValue(movie.id, forKey: "id")
+   
+    // Save the data
+    do {
+       try context.save() // Data Saved to persistent storage
+      } catch {
+       print("Error - CoreData failed saving")
     }
 }
 
+func getMoviesIds(entityName: String) -> [Int] {
+    var ans : [Int] = []
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    request.returnsObjectsAsFaults = false
+    do {
+        let result = try context.fetch(request)
+        for data in result as! [NSManagedObject] {
+            print("\(entityName): \(data.value(forKey: "id") as! Int)")
+            ans.append(data.value(forKey: "id") as! Int)
+        }
+    } catch {
+        print("Error - CoreData failed reading")
+    }
+    return ans
+}
+
+func deleteMovies(entityName: String) {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    let request = NSBatchDeleteRequest(fetchRequest: fetch)
+    request.resultType = .resultTypeObjectIDs
+    do {
+        let result = try context.execute(request) as? NSBatchDeleteResult
+        let objectIDArray = result?.result as? [NSManagedObjectID]
+        let changes = [NSDeletedObjectsKey : objectIDArray]
+        NSManagedObjectContext.mergeChanges(
+            fromRemoteContextSave: changes,
+            into: [context])
+    } catch {
+        fatalError("Failed to execute request: \(error)")
+    }
+}
