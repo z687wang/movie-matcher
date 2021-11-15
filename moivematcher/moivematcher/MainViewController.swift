@@ -21,28 +21,6 @@ var actorsLikedDict: [String: [Int]] = [:]
 var page: Int = 1
 var hasNextPage: Bool = true
 
-//struct MoviesSectionView: View {
-//    @ObservedObject var moviesModel: ActiveMoviesModel
-//    var body: some View {
-//        ZStack{
-//            ForEach(moviesModel.activeMovies) { movie in
-//                MoviePosterView(movie: movie)
-//            }
-//        }
-//        .padding(8)
-//        .zIndex(1.0)
-//    }
-//}
-
-//class MoviesSectionSwiftUIViewHostingController: UIHostingController<MoviesSectionView> {
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder, rootView: MoviesSectionView(moviesModel: activeMoviesModel))
-//    }
-//    func setNeedsBodyUpdate() {
-//
-//    }
-//}
-
 class MainViewController: UIViewController, SwipeableCardViewDataSource {
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     var recommendationViewModel = RecommendationViewModel()
@@ -58,10 +36,10 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         self.insertGradientBackground()
         
         // uncommented if need reset entity/
-//        deleteLikedMovies()
-//        deleteDislikedMovies()
-//        deleteNotInterestedMovies()
-//        deleteLaterMovies()
+        deleteLikedMovies()
+        deleteDislikedMovies()
+        deleteNotInterestedMovies()
+        deleteLaterMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +136,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         let activeMovie = card.model
         let destVC = self.storyboard?.instantiateViewController(withIdentifier: "MyMovieDetailViewController") as! MovieDetailViewController
         destVC.movieData = activeMovie
-//        destVC.modalPresentationStyle = .overFullScreen
         self.present(destVC, animated: true, completion: nil)
     }
     
@@ -233,16 +210,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 group.leave()
             })
         }
-        
-//        group.notify(queue: DispatchQueue.global(qos: .userInitiated)) {
-//            completionHandler(movies)
-//        }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    }
-    
-    // liked
 }
 
 func saveLikedMovie(movie: MovieWithGenres) {

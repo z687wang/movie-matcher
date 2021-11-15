@@ -15,12 +15,21 @@ class MoviesCollectionViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
     var mylikedMoviesIDArray: [Int] = []
+    var likedMovies: [MovieWithGenres] = []
     var gradientLayer: CAGradientLayer?
-
+    var apiClient = MovieApiClient()
     let reuseIdentifier = "likedMoviesViewCell"
 
     override func loadView() {
         super.loadView()
+    }
+    
+    private(set) var isContentReady: Bool = false {
+        didSet {
+            if isContentReady {
+                collectionView.reloadData()
+            }
+        }
     }
 
     override func viewDidLoad() {
@@ -47,8 +56,30 @@ class MoviesCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.mylikedMoviesIDArray = getLikedMovieIds()
-        collectionView.reloadData()
+        self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in
+            
+        }
         collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    func fetchGroupMoviesDetails(from moviesId: [Int], completionHandler: @escaping (_ movies: [MovieWithGenres])-> Void) {
+        let group = DispatchGroup()
+        self.likedMovies = []
+        for id in moviesId {
+            group.enter()
+            self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
+                switch result {
+                case .failure(let error):
+                    print(error)
+                case .success(let resource , _):
+                    self.likedMovies.append(resource)
+                    if self.likedMovies.count == self.mylikedMoviesIDArray.count {
+                            self.isContentReady = true
+                    }
+                }
+                group.leave()
+            })
+        }
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -72,6 +103,9 @@ class MoviesCollectionViewController: UIViewController {
 extension MoviesCollectionViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard isContentReady else {
+            return 0
+        }
         return self.mylikedMoviesIDArray.count
     }
 
@@ -82,8 +116,9 @@ extension MoviesCollectionViewController: UICollectionViewDataSource {
                             as? MoviesCollectionSlantedCell else {
             fatalError()
         }
-
-        cell.populate(movieID: self.mylikedMoviesIDArray[indexPath.row])
+        cell.viewModel = likedMovies[indexPath.row]
+        cell.setupBindables()
+//        cell.populate(movieID: self.mylikedMoviesIDArray[indexPath.row])
 
         if let layout = collectionView.collectionViewLayout as? CollectionViewSlantedLayout {
             cell.contentView.transform = CGAffineTransform(rotationAngle: layout.slantingAngle)
