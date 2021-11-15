@@ -52,8 +52,8 @@ struct ContentView: View {
             Text("Favorite Genres")
                 .font(.system(size: 20, weight: .bold))
             LazyVGrid(columns: [
-                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
-                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
                 GridItem(.flexible(minimum: 50, maximum: 180)),
             ], spacing: 12, content: {
                 ForEach(Array(Set(genresLikedArray.sortByNumberOfOccurences()))[...2], id: \.self) { genre in
@@ -62,7 +62,7 @@ struct ContentView: View {
                         SwiftUI.Image(genre)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
+                                .frame(width: 80, height: 80)
                                 .clipShape(Circle())
                                 .clipped()
         //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
@@ -80,9 +80,9 @@ struct ContentView: View {
             Text("Favorite Actors")
                 .font(.system(size: 20, weight: .bold))
             LazyVGrid(columns: [
-                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
-                GridItem(.flexible(minimum: 100, maximum: 180), spacing: 12),
-                GridItem(.flexible(minimum: 100, maximum: 180)),
+                GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 80, maximum: 180), spacing: 12),
+                GridItem(.flexible(minimum: 80, maximum: 180)),
             ], spacing: 12, content: {
                 ForEach(vm.actors, id: \.self) { a in
 //                    AppInfo(app: app)
@@ -98,7 +98,7 @@ struct ContentView: View {
                                     Text("Loading...")
                                 }
                         }
-                        .frame(width: 100, height: 100)
+                        .frame(width: 80, height: 80)
                         .clipShape(Circle())
                         .clipped()
 //                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
@@ -108,12 +108,32 @@ struct ContentView: View {
 //                            .background(SwiftUI.Color.blue)
                         Text(a.name)
                             .font(.system(size: 12, weight: .semibold))
+                            .frame(height: 30)
+                            .truncationMode(.tail)
                     }
                     .padding()
 //                    .background(SwiftUI.Color.red)
                     
                 }
+                
             }).padding(.horizontal, 12)
+//            LazyVGrid(columns: [
+//                GridItem(.adaptive(minimum: 100, maximum: 180), spacing: 10),
+//                GridItem(.adaptive(minimum: 100, maximum: 180), spacing: 10),
+//                GridItem(.adaptive(minimum: 100, maximum: 180)),
+//            ], spacing: 12, content: {
+//                ForEach(vm.actors, id: \.self) { a in
+////                    AppInfo(app: app)
+//                    VStack() {
+//                        Text(a.name)
+//                            .font(.system(size: 12, weight: .semibold))
+//                    }
+////                    .padding()
+////                    .background(SwiftUI.Color.red)
+//
+//                }
+//
+//            }).padding(.horizontal, 12)
         }
     }
 }
