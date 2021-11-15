@@ -36,10 +36,10 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         self.insertGradientBackground()
         
         // uncommented if need reset entity/
-//        deleteLikedMovies()
-//        deleteDislikedMovies()
-//        deleteNotInterestedMovies()
-//        deleteLaterMovies()
+        deleteLikedMovies()
+        deleteDislikedMovies()
+        deleteNotInterestedMovies()
+        deleteLaterMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {

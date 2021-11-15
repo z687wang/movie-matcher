@@ -69,7 +69,7 @@ class MoviesCollectionSlantedCell: CollectionViewSlantedCell {
         })
     }
     
-    private func setupBindables() {
+    func setupBindables() {
         guard let viewModel = viewModel else { return }
 //        self.titleLabel.text = viewModel.title
         if let imageUrl = viewModel.posterURL {
