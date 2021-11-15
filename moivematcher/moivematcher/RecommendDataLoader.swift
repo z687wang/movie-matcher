@@ -16,6 +16,25 @@ struct RecommendDataLoader{
         }
         return [Movie]()
     }
+    
+    func generateTmdbId(outputRec: [Int64]) -> [Int64]{
+        var res: [Int64] = []
+        if let linkData = loadFile(from: "links", withExtension: ".csv"){
+            
+            let links = linkData.components(separatedBy: "\n")
+            for i in outputRec{
+                for j in links{
+                    let info = j.components(separatedBy: ",")
+                    if(Int64(info[0]) == i){
+                        var tmbd = info[2].split(separator: "\r")[0]
+                        res.append(Int64(tmbd)!)
+                    }
+                }
+            }
+        }
+        return res
+    }
+    
     func loadFile(from filePath: String, withExtension fileExtension: String) -> String? {
         if let fileUrl = Bundle.main.url(forResource: filePath, withExtension: fileExtension) {
             return try? String(contentsOf: fileUrl)

@@ -39,23 +39,13 @@ class RecommendationViewModel: ObservableObject {
     
     init() {
         recommendationModel = RecommendationModel(ratings: [:], movies: RecommendDataLoader().loadMovies())
-//        currentMovie = recommendationModel.movies.randomElement()
+    }
+
+    func rateCurrentMovie(id: Int, rating: Int) {
+        recommendationModel.rate(id: id, rating: Double(rating))
     }
     
-//    func getMovie(fromId id: Int64) -> Movie? {
-//        recommendationModel.movies.first { $0.id == id }
-//    }
-//
-//    func nextMovie() {
-//        currentMovie = recommendationModel.movies.randomElement()
-//    }
-    
-    func rateCurrentMovie(movie: Movie, rating: Int) {
-        let movieToRate = movie
-        recommendationModel.rate(movie: movieToRate, rating: Double(rating))
-    }
-    
-    func recommendMovies() -> [Movie] {
+    func recommendMovies() -> [Int64] {
         let movies = recommendationModel.recommendMovies(numberOfItems: 10)
         print(movies)
         return movies
@@ -64,7 +54,5 @@ class RecommendationViewModel: ObservableObject {
     func getMovieData() {
         backgroundImage = nil
     }
-    
-    
 }
 

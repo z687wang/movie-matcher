@@ -81,8 +81,14 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func loadMoviesIDData() {
         print("start to load data")
-        fetchInitialMoviesID(with: page)
+        if(page % 2 == 1){
+            showRecommendMoviesID(with: page)
+        } else{
+            fetchInitialMoviesID(with: page)
+            
+        }
         page += 1
+        
     }
     
     func numberOfCards() -> Int {
@@ -116,15 +122,16 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         case .left:
             likedMovieIDArray.append(targetMovieID)
             let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-            self.recommendationViewModel.rateCurrentMovie( movie: movie, rating: 5)
+            self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
         case .right:
             dislikedMovieIDArray.append(targetMovieID)
-            self.recommendationViewModel.rateCurrentMovie(movie: movie, rating: 1)
+            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 1)
         case .up, .topLeft, .topRight:
             saveForLaterMovieIDArray.append(targetMovieID)
+            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 4)
         case .down, .bottomLeft, .bottomRight:
             notInterestedMovieIDArary.append(targetMovieID)
-            self.recommendationViewModel.rateCurrentMovie(movie: movie, rating: 1)
+            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
         }
     }
     
@@ -160,6 +167,23 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 self?.swipeableCardView.reloadData()
             }
         }
+    }
+    
+    func showRecommendMoviesID(with page: Int) {
+        print("current page:")
+        print(page)
+        print("Liked Movie ID")
+        print(likedMovieIDArray)
+        print("Disliked Movie ID")
+        print(dislikedMovieIDArray)
+        movieIDArray = []
+        for i in self.recommendationViewModel.recommendMovies(){
+            movieIDArray.append(Int(i))
+        }
+        print("Next Patch of Movie IDs")
+        print(movieIDArray)
+//                print(recommendationViewModel.recommendedMovie())
+        self.swipeableCardView.reloadData()
     }
     
     func fetchMovieDetails(from id: Int, completionHandler: @escaping (_ movie: MovieWithGenres)-> Void) {
