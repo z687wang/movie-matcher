@@ -109,16 +109,16 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             let targetMovieID = targetMovie.id
             switch swipeDirection {
             case .left:
+                for g in targetMovieGenre! {
+                    genresLikedArray.append(g.name)
+                }
+                for a in targetMovieActors {
+                    actorsLikedArray.append(a)
+                }
                 if !likedMovieIDArray.contains(targetMovieID) {
                     likedMovieIDArray.append(targetMovieID)
                     saveLikedMovie(movie: targetMovie)
                     self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
-                    for g in targetMovieGenre! {
-                        genresLikedArray.append(g.name)
-                    }
-                    for a in targetMovieActors {
-                        actorsLikedArray.append(a)
-                    }
                 }
             case .right:
                 if !dislikedMovieIDArray.contains(targetMovieID) {
