@@ -44,10 +44,6 @@ var hasNextPage: Bool = true
 //}
 
 class MainViewController: UIViewController, SwipeableCardViewDataSource {
-
-    @IBOutlet weak var MovieNameLabel: UILabel!
-    @IBOutlet weak var MovieYearLabel: UILabel!
-    @IBOutlet weak var MoviesView: UIView!
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     var recommendationViewModel = RecommendationViewModel()
     var apiClient = MovieApiClient()
@@ -61,15 +57,21 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         swipeableCardView.controller = self
         self.insertGradientBackground()
         
-        // uncommented if need reset entity
-        /*
-        deleteLikedMovies()
-        deleteDislikedMovies()
-        deleteNotInterestedMovies()
-        deleteLaterMovies()
-         */
+        // uncommented if need reset entity/
+//        deleteLikedMovies()
+//        deleteDislikedMovies()
+//        deleteNotInterestedMovies()
+//        deleteLaterMovies()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        likedMovieIDArray = getLikedMovieIds()
+        dislikedMovieIDArray = getDislikedMovieIds()
+        saveForLaterMovieIDArray = getLaterMoviesIds()
+        notInterestedMovieIDArary = getNotInterestedMovieIds()
+        
+    }
     func insertGradientBackground() {
         self.gradientLayer = CAGradientLayer()
         let colorTop =  UIColor(red: 0.18, green: 0.75, blue: 0.78, alpha: 1.00).cgColor
@@ -114,31 +116,40 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func endSwipeAction(onView view: SwipeableView) {
         let swipeDirection = view.swipeDirection!
+        let targetMovie = view.model!
+        let targetMovieID = targetMovie.id
+        let targetMovieGenre = targetMovie.genres
+        let targetMovieActors = targetMovie.actors
+        let targetMovieDirectors = targetMovie.directors
         if(view.model != nil){
             let targetMovie = view.model!
             let targetMovieID = targetMovie.id
             switch swipeDirection {
             case .left:
-                likedMovieIDArray.append(targetMovieID)
-                let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-                self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
-                getLikedMovieIds()
-                saveLikedMovie(movie: targetMovie)
+                if !likedMovieIDArray.contains(targetMovieID) {
+                    likedMovieIDArray.append(targetMovieID)
+                    saveLikedMovie(movie: targetMovie)
+                    self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
+                }
             case .right:
-                dislikedMovieIDArray.append(targetMovieID)
-                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 1)
-                getDislikedMovieIds()
-                saveDislikedMovie(movie: targetMovie)
+                if !dislikedMovieIDArray.contains(targetMovieID) {
+                    dislikedMovieIDArray.append(targetMovieID)
+                    saveDislikedMovie(movie: targetMovie)
+                    self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 1)
+                }
             case .up, .topLeft, .topRight:
-                saveForLaterMovieIDArray.append(targetMovieID)
-                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 4)
-                getLaterMoviesIds()
-                saveLaterMovie(movie: targetMovie)
+                if !saveForLaterMovieIDArray.contains(targetMovieID) {
+                    saveForLaterMovieIDArray.append(targetMovieID)
+                    saveLaterMovie(movie: targetMovie)
+                    self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 4)
+                }
             case .down, .bottomLeft, .bottomRight:
-                notInterestedMovieIDArary.append(targetMovieID)
-                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
-                getNotInterestedMovieIds()
-                saveNotInterestedMovie(movie: targetMovie)
+                if !notInterestedMovieIDArary.contains(targetMovieID) {
+                    notInterestedMovieIDArary.append(targetMovieID)
+                    self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
+                    saveNotInterestedMovie(movie: targetMovie)
+                }
+                
             }
         }
     }
@@ -232,109 +243,109 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
 //    }
     
     // liked
-    func saveLikedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "LikedMovies")
-    }
+}
+
+func saveLikedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "LikedMovies")
+}
+
+func getLikedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "LikedMovies")
+}
+
+func deleteLikedMovies() {
+    deleteMovies(entityName: "LikedMovies")
+}
+
+// disliked
+func saveDislikedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "DislikedMovies")
+}
+
+func getDislikedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "DislikedMovies")
+}
+
+func deleteDislikedMovies() {
+    deleteMovies(entityName: "DislikedMovies")
+}
+
+// not interested
+func saveNotInterestedMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "NotInterestedMovies")
+}
+
+func getNotInterestedMovieIds() -> [Int] {
+    return getMoviesIds(entityName: "NotInterestedMovies")
+}
+
+func deleteNotInterestedMovies() {
+    deleteMovies(entityName: "NotInterestedMovies")
+}
+
+// save for later
+func saveLaterMovie(movie: MovieWithGenres) {
+    saveMovies(movie: movie, entityName: "LaterMovies")
+}
+
+func getLaterMoviesIds() -> [Int] {
+    return getMoviesIds(entityName: "LaterMovies")
+}
+
+func deleteLaterMovies() {
+    deleteMovies(entityName: "LaterMovies")
+}
+
+func saveMovies(movie: MovieWithGenres, entityName: String) {
+    // Get the context
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
     
-    func getLikedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "LikedMovies")
-    }
-    
-    func deleteLikedMovies() {
-        deleteMovies(entityName: "LikedMovies")
-    }
-    
-    // disliked
-    func saveDislikedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "DislikedMovies")
-    }
-    
-    func getDislikedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "DislikedMovies")
-    }
-    
-    func deleteDislikedMovies() {
-        deleteMovies(entityName: "DislikedMovies")
-    }
-    
-    // not interested
-    func saveNotInterestedMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "NotInterestedMovies")
-    }
-    
-    func getNotInterestedMovieIds() -> [Int] {
-        return getMoviesIds(entityName: "NotInterestedMovies")
-    }
-    
-    func deleteNotInterestedMovies() {
-        deleteMovies(entityName: "NotInterestedMovies")
-    }
-    
-    // save for later
-    func saveLaterMovie(movie: MovieWithGenres) {
-        saveMovies(movie: movie, entityName: "LaterMovies")
-    }
-    
-    func getLaterMoviesIds() -> [Int] {
-        return getMoviesIds(entityName: "LaterMovies")
-    }
-    
-    func deleteLaterMovies() {
-        deleteMovies(entityName: "LaterMovies")
-    }
-    
-    func saveMovies(movie: MovieWithGenres, entityName: String) {
-        // Get the context
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        
-        // Create a new Entity object & set some data values
-        let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
-        let newMovie = NSManagedObject(entity: entity!, insertInto: context)
-        newMovie.setValue(movie.id, forKey: "id")
-       
-        // Save the data
-        do {
-           try context.save() // Data Saved to persistent storage
-          } catch {
-           print("Error - CoreData failed saving")
-        }
-    }
-    
-    func getMoviesIds(entityName: String) -> [Int] {
-        var ans : [Int] = []
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-                print("\(entityName): \(data.value(forKey: "id") as! Int)")
-                ans.append(data.value(forKey: "id") as! Int)
-            }
-        } catch {
-            print("Error - CoreData failed reading")
-        }
-        return ans
-    }
-    
-    func deleteMovies(entityName: String) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        request.resultType = .resultTypeObjectIDs
-        do {
-            let result = try context.execute(request) as? NSBatchDeleteResult
-            let objectIDArray = result?.result as? [NSManagedObjectID]
-            let changes = [NSDeletedObjectsKey : objectIDArray]
-            NSManagedObjectContext.mergeChanges(
-                fromRemoteContextSave: changes,
-                into: [context])
-        } catch {
-            fatalError("Failed to execute request: \(error)")
-        }
+    // Create a new Entity object & set some data values
+    let entity = NSEntityDescription.entity(forEntityName: entityName, in: context)
+    let newMovie = NSManagedObject(entity: entity!, insertInto: context)
+    newMovie.setValue(movie.id, forKey: "id")
+   
+    // Save the data
+    do {
+       try context.save() // Data Saved to persistent storage
+      } catch {
+       print("Error - CoreData failed saving")
     }
 }
 
+func getMoviesIds(entityName: String) -> [Int] {
+    var ans : [Int] = []
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    request.returnsObjectsAsFaults = false
+    do {
+        let result = try context.fetch(request)
+        for data in result as! [NSManagedObject] {
+            print("\(entityName): \(data.value(forKey: "id") as! Int)")
+            ans.append(data.value(forKey: "id") as! Int)
+        }
+    } catch {
+        print("Error - CoreData failed reading")
+    }
+    return ans
+}
+
+func deleteMovies(entityName: String) {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+    let request = NSBatchDeleteRequest(fetchRequest: fetch)
+    request.resultType = .resultTypeObjectIDs
+    do {
+        let result = try context.execute(request) as? NSBatchDeleteResult
+        let objectIDArray = result?.result as? [NSManagedObjectID]
+        let changes = [NSDeletedObjectsKey : objectIDArray]
+        NSManagedObjectContext.mergeChanges(
+            fromRemoteContextSave: changes,
+            into: [context])
+    } catch {
+        fatalError("Failed to execute request: \(error)")
+    }
+}
