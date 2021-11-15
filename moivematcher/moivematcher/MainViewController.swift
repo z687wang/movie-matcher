@@ -62,7 +62,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         // deleteDislikedMovies()
         // deleteNotInterestedMovies()
         // deleteLaterMovies()
-        getLatestPage()
+        deletePages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -226,7 +226,7 @@ func getLikedMovieIds() -> [Int] {
 }
 
 func deleteLikedMovies() {
-    deleteMovies(entityName: "LikedMovies")
+    deleteEntity(entityName: "LikedMovies")
 }
 
 // disliked
@@ -239,7 +239,7 @@ func getDislikedMovieIds() -> [Int] {
 }
 
 func deleteDislikedMovies() {
-    deleteMovies(entityName: "DislikedMovies")
+    deleteEntity(entityName: "DislikedMovies")
 }
 
 // not interested
@@ -252,7 +252,7 @@ func getNotInterestedMovieIds() -> [Int] {
 }
 
 func deleteNotInterestedMovies() {
-    deleteMovies(entityName: "NotInterestedMovies")
+    deleteEntity(entityName: "NotInterestedMovies")
 }
 
 // save for later
@@ -265,7 +265,7 @@ func getLaterMoviesIds() -> [Int] {
 }
 
 func deleteLaterMovies() {
-    deleteMovies(entityName: "LaterMovies")
+    deleteEntity(entityName: "LaterMovies")
 }
 
 func saveMovies(movie: MovieWithGenres, entityName: String) {
@@ -304,7 +304,7 @@ func getMoviesIds(entityName: String) -> [Int] {
     return ans
 }
 
-func deleteMovies(entityName: String) {
+func deleteEntity(entityName: String) {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = appDelegate.persistentContainer.viewContext
     let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -356,4 +356,8 @@ func getLatestPage() -> Int {
         print("Error - CoreData failed reading")
     }
     return ans.max() as! Int
+}
+
+func deletePages() {
+    deleteEntity(entityName: "Pages")
 }
