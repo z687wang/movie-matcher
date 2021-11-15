@@ -79,10 +79,10 @@
 		18A85F752741E58300469CB4 /* RecommendationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F722741E58300469CB4 /* RecommendationModel.swift */; };
 		18A85F762741E58300469CB4 /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F732741E58300469CB4 /* RecommendationView.swift */; };
 		18A85F782741E63500469CB4 /* links.csv in Resources */ = {isa = PBXBuildFile; fileRef = 18A85F772741E63400469CB4 /* links.csv */; };
-		18A85F7A2741E63C00469CB4 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F792741E63C00469CB4 /* ApiClient.swift */; };
 		18A85F7C2741E64800469CB4 /* movieDB.csv in Resources */ = {isa = PBXBuildFile; fileRef = 18A85F7B2741E64800469CB4 /* movieDB.csv */; };
 		18A85F7F2741E65100469CB4 /* MovieRecommenderModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F7D2741E65100469CB4 /* MovieRecommenderModel.mlmodel */; };
 		18A85F822741E67500469CB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F812741E67500469CB4 /* ViewController.swift */; };
+		18A85F852741EFC800469CB4 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */; };
 		1CA44F942730DAF200EC87A1 /* tmdbAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F932730DAF200EC87A1 /* tmdbAPI.swift */; };
 		1CA44F962730DB9800EC87A1 /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F952730DB9800EC87A1 /* HttpHelper.swift */; };
 		1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA44F972730DBD700EC87A1 /* ApiHelper.swift */; };
@@ -191,10 +191,10 @@
 		18A85F722741E58300469CB4 /* RecommendationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationModel.swift; sourceTree = "<group>"; };
 		18A85F732741E58300469CB4 /* RecommendationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
 		18A85F772741E63400469CB4 /* links.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = links.csv; sourceTree = "<group>"; };
-		18A85F792741E63C00469CB4 /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
-		18A85F7B2741E64800469CB4 /* movieDB.csv */ = {isa = PBXFileReference; lastKnownFileType = file; name = movieDB.csv; path = moivematcher/movieDB.csv; sourceTree = SOURCE_ROOT; };
+		18A85F7B2741E64800469CB4 /* movieDB.csv */ = {isa = PBXFileReference; lastKnownFileType = text; name = movieDB.csv; path = moivematcher/movieDB.csv; sourceTree = SOURCE_ROOT; };
 		18A85F7D2741E65100469CB4 /* MovieRecommenderModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MovieRecommenderModel.mlmodel; path = moivematcher/MovieRecommenderModel.mlmodel; sourceTree = SOURCE_ROOT; };
 		18A85F812741E67500469CB4 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		1CA44F932730DAF200EC87A1 /* tmdbAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tmdbAPI.swift; sourceTree = "<group>"; };
 		1CA44F952730DB9800EC87A1 /* HttpHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		1CA44F972730DBD700EC87A1 /* ApiHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiHelper.swift; sourceTree = "<group>"; };
@@ -455,8 +455,8 @@
 				1CA44F952730DB9800EC87A1 /* HttpHelper.swift */,
 				0AA73C312729A0A80019AD19 /* Main.storyboard */,
 				0A02AA212738641F0019F582 /* MainViewController.swift */,
+				18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */,
 				18A85F722741E58300469CB4 /* RecommendationModel.swift */,
-				18A85F792741E63C00469CB4 /* ApiClient.swift */,
 				18A85F772741E63400469CB4 /* links.csv */,
 				18A85F732741E58300469CB4 /* RecommendationView.swift */,
 				18A85F712741E58300469CB4 /* RecommendDataLoader.swift */,
@@ -779,6 +779,7 @@
 				0A02AA9E273A33B50019F582 /* UserScoreView.swift in Sources */,
 				0A02AA35273983EA0019F582 /* SwipeableViewDelegate.swift in Sources */,
 				E5773CB92741ABC000F123E1 /* DataModel.xcdatamodeld in Sources */,
+				18A85F852741EFC800469CB4 /* DataModel.xcdatamodeld in Sources */,
 				0A157BFE273CACB3007A1B63 /* doubanAPI.swift in Sources */,
 				0A02AA3927398D120019F582 /* CGPoint+SwipeableAdditions.swift in Sources */,
 				1CA44F982730DBD700EC87A1 /* ApiHelper.swift in Sources */,
@@ -818,7 +819,6 @@
 				0A02AA72273A19DE0019F582 /* GradientView.swift in Sources */,
 				0A39E2DD273EC41400D5A126 /* MoviesCollectionViewController.swift in Sources */,
 				0A02AA532739ECB70019F582 /* MultiCollectionViewCell.swift in Sources */,
-				18A85F7A2741E63C00469CB4 /* ApiClient.swift in Sources */,
 				0A02AA8D273A1A880019F582 /* UINavigationController+ACExtensions.swift in Sources */,
 				0A02AA4127398D970019F582 /* SwipeableCardViewCard.swift in Sources */,
 				18A85F752741E58300469CB4 /* RecommendationModel.swift in Sources */,
@@ -1188,6 +1188,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		18A85F832741EFC700469CB4 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 18A85F842741EFC700469CB4 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		E5773CB72741ABBF00F123E1 /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

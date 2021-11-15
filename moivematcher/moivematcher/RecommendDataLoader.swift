@@ -26,8 +26,10 @@ struct RecommendDataLoader{
                 for j in links{
                     let info = j.components(separatedBy: ",")
                     if(Int64(info[0]) == i){
-                        var tmbd = info[2].split(separator: "\r")[0]
-                        res.append(Int64(tmbd)!)
+                        if(info[2] != "\r"){
+                            let tmbd = info[2].split(separator: "\r")[0]
+                            res.append(Int64(tmbd)!)
+                        }
                     }
                 }
             }

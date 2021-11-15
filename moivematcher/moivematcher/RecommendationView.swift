@@ -46,8 +46,7 @@ class RecommendationViewModel: ObservableObject {
     }
     
     func recommendMovies() -> [Int64] {
-        let movies = recommendationModel.recommendMovies(numberOfItems: 10)
-        print(movies)
+        let movies = recommendationModel.recommendMovies(numberOfItems: 14)
         return movies
     }
     

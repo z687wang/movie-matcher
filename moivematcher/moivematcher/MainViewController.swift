@@ -114,41 +114,32 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func endSwipeAction(onView view: SwipeableView) {
         let swipeDirection = view.swipeDirection!
-        let targetMovie = view.model!
-        let targetMovieID = targetMovie.id
-        let targetMovieGenre = targetMovie.genres!
-        let targetMovieActors = targetMovie.actors
-        let targetMovieDirectors = targetMovie.directors
-        
-        var res: [Int] = []
-        for i in targetMovieGenre{
-            res.append(i.id)
-        }
-        let movie = Movie(title: targetMovie.title, id: (targetMovie.imdbID! as NSString).integerValue, genreIds:res)
-        
-        switch swipeDirection {
-        case .left:
-            likedMovieIDArray.append(targetMovieID)
-            let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
-<<<<<<< HEAD
-            self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
-            getLikedMovieIds()
-            saveLikedMovie(movie: targetMovie)
-        case .right:
-            dislikedMovieIDArray.append(targetMovieID)
-            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 1)
-            getDislikedMovieIds()
-            saveDislikedMovie(movie: targetMovie)
-        case .up, .topLeft, .topRight:
-            saveForLaterMovieIDArray.append(targetMovieID)
-            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 4)
-            getLaterMoviesIds()
-            saveLaterMovie(movie: targetMovie)
-        case .down, .bottomLeft, .bottomRight:
-            notInterestedMovieIDArary.append(targetMovieID)
-            self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
-            getNotInterestedMovieIds()
-            saveNotInterestedMovie(movie: targetMovie)
+        if(view.model != nil){
+            let targetMovie = view.model!
+            let targetMovieID = targetMovie.id
+            switch swipeDirection {
+            case .left:
+                likedMovieIDArray.append(targetMovieID)
+                let destVC = self.storyboard?.instantiateViewController(withIdentifier: "LikedMoviesCollectionViewController") as! MoviesCollectionViewController
+                self.recommendationViewModel.rateCurrentMovie( id: targetMovie.id , rating: 5)
+                getLikedMovieIds()
+                saveLikedMovie(movie: targetMovie)
+            case .right:
+                dislikedMovieIDArray.append(targetMovieID)
+                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 1)
+                getDislikedMovieIds()
+                saveDislikedMovie(movie: targetMovie)
+            case .up, .topLeft, .topRight:
+                saveForLaterMovieIDArray.append(targetMovieID)
+                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 4)
+                getLaterMoviesIds()
+                saveLaterMovie(movie: targetMovie)
+            case .down, .bottomLeft, .bottomRight:
+                notInterestedMovieIDArary.append(targetMovieID)
+                self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
+                getNotInterestedMovieIds()
+                saveNotInterestedMovie(movie: targetMovie)
+            }
         }
     }
     
@@ -180,7 +171,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 hasNextPage = hasPage
                 print("Next Patch of Movie IDs")
                 print(movieIDArray)
-//                print(recommendationViewModel.recommendedMovie())
                 self?.swipeableCardView.reloadData()
             }
         }
@@ -199,7 +189,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         }
         print("Next Patch of Movie IDs")
         print(movieIDArray)
-//                print(recommendationViewModel.recommendedMovie())
+
         self.swipeableCardView.reloadData()
     }
     

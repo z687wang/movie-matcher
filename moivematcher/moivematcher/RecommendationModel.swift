@@ -28,7 +28,6 @@ struct RecommendationModel {
     
     mutating func rate(id: Int, rating: Double) {
         ratings[String(id)] = rating
-        print(ratings)
     }
     
     func ratingFor(movie: Movie) -> Double? {
@@ -38,11 +37,7 @@ struct RecommendationModel {
     func recommendMovies(numberOfItems: Int) -> [Int64] {
         
         let recommenderInput = MovieRecommenderModelInput(items: createRecommendationInput(from: ratings), k: Int64(numberOfItems))
-        
-        print(ratings)
-        
         let output = try? recommenderEngine.prediction(input: recommenderInput)
-        
         return RecommendDataLoader().generateTmdbId(outputRec: output?.recommendations ?? [0])
     }
     
