@@ -58,10 +58,10 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         self.insertGradientBackground()
         
         // uncommented if need reset entity/
-//        deleteLikedMovies()
-//        deleteDislikedMovies()
-//        deleteNotInterestedMovies()
-//        deleteLaterMovies()
+        // deleteLikedMovies()
+        // deleteDislikedMovies()
+        // deleteNotInterestedMovies()
+        // deleteLaterMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +93,8 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         print("start to load data")
         fetchInitialMoviesID(with: page)
         page += 1
+        savePage(page: page)
+        getLatestPage()
     }
     
     func numberOfCards() -> Int {
@@ -211,9 +213,9 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //    }
     
-    // liked
 }
 
+// liked
 func saveLikedMovie(movie: MovieWithGenres) {
     saveMovies(movie: movie, entityName: "LikedMovies")
 }
@@ -317,4 +319,39 @@ func deleteMovies(entityName: String) {
     } catch {
         fatalError("Failed to execute request: \(error)")
     }
+}
+
+func savePage(page: Int) {
+    // Get the context
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    
+    // Create a new Entity object & set some data values
+    let entity = NSEntityDescription.entity(forEntityName: "Pages", in: context)
+    let newPage = NSManagedObject(entity: entity!, insertInto: context)
+    newPage.setValue(page, forKey: "pageNum")
+   
+    // Save the data
+    do {
+       try context.save() // Data Saved to persistent storage
+      } catch {
+       print("Error - CoreData failed saving")
+    }
+}
+
+func getLatestPage() -> Int {
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let context = appDelegate.persistentContainer.viewContext
+    let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pages")
+    request.returnsObjectsAsFaults = false
+    var ans = 0
+    do {
+        let result = try context.fetch(request)
+        let data = result.last as! NSManagedObject
+        ans = data.value(forKey: "id") as! Int
+        print("current page \(ans)")
+    } catch {
+        print("Error - CoreData failed reading")
+    }
+    return ans
 }
