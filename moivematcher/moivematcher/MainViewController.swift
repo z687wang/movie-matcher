@@ -346,17 +346,19 @@ func getLatestPage() -> Int {
     let context = appDelegate.persistentContainer.viewContext
     let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Pages")
     request.returnsObjectsAsFaults = false
-    var ans : [Int] = [0]
+    var myPages : [Int] = []
     do {
         let result = try context.fetch(request)
         for data in result as! [NSManagedObject] {
             print("page number: \(data.value(forKey: "pageNum") as! Int)")
-            ans.append(data.value(forKey: "pageNum") as! Int)
+            myPages.append(data.value(forKey: "pageNum") as! Int)
         }
     } catch {
         print("Error - CoreData failed reading")
     }
-    return ans.max() as! Int
+    let ans = myPages.max() ?? 0
+    print("next page: \(ans)")
+    return ans
 }
 
 func deletePages() {
