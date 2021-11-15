@@ -140,7 +140,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 }
                 
             }
->>>>>>> moivematcher/moivematcher/MainViewController.swift
         }
     }
     
