@@ -8,22 +8,26 @@
 import Foundation
 
 class GenreViewModel: ObservableObject {
+    
     @Published var genres = [String]()
 
     init() {
         var length = 0
-        if genresLikedArray.count >= 5 {
-            length = 5
+        
+        if genresLikedArray.count >= 3 {
+            print("length is 2")
+            length = 2
         }
         else {
             length = genresLikedArray.count
         }
         
         if genresLikedArray.count > 0 {
-            genres = Array(genresLikedArray[...(length + 1)])
+            genres = Array(genresLikedArray[...length])
         }
         else {
-            genres = ["Action"]
+            print("less than 3 movies")
+            genres = ["Animation"]
         }
     }
 }
