@@ -343,17 +343,11 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             mediaDescriptionCell.overviewLabel.text = self.movieData.overview
             self.setMediaDescriptionCellViewFontColor(cell: mediaDescriptionCell, labelFontColor: self.labelFontColor, textFontColor: self.textFontColor)
         }
-//        else if let clipCellView = cell as? ClipCellView {
-//            let ytItem = mediaItem.clips[indexPath.item]
-//            clipCellView.titleLabel.text = ytItem.title
-//            loadClipImage(into: clipCellView.imageView, from: ytItem)
-//        }
         else if let actorCellView = cell as? ActorCellView {
             let actorItem = self.movieData.actors[indexPath.item]
             actorCellView.titleLabel.text = actorItem.name
             actorCellView.titleLabel.textColor = self.labelFontColor
             if let imageUrl = actorItem.profileURL {
-                // TODO: Set placeholder image temporarly while the other image is being requested
                 ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
                     guard let strongSelf = self else {
                         return
