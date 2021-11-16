@@ -372,7 +372,7 @@ public final class NVActivityIndicatorView: UIView {
     public static var DEFAULT_PADDING: CGFloat = 0
 
     /// Default size of activity indicator view in UI blocker. Default value is 60x60.
-    public static var DEFAULT_BLOCKER_SIZE = CGSize(width: 60, height: 60)
+    public static var DEFAULT_BLOCKER_SIZE = CGSize(width: 160, height: 160)
 
     /// Default display time threshold to actually display UI blocker. Default value is 0 ms.
     ///

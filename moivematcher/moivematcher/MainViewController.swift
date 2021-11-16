@@ -9,6 +9,9 @@ import UIKit
 import SwiftUI
 import Combine
 import CoreData
+import NVActivityIndicatorView
+import Nuke
+import SwiftMessages
 
 var movieIDArray: [Int] = []
 var likedMovieIDArray: [Int] = []
@@ -24,21 +27,39 @@ var genresLikedArray: [String] = []
 var actorsLikedArray: [Actor] = []
 
 class MainViewController: UIViewController, SwipeableCardViewDataSource {
+    
     @IBOutlet weak var swipeableCardView: SwipeableCardViewContainer!
     var recommendationViewModel = RecommendationViewModel()
     var apiClient = MovieApiClient()
     var gradientLayer: CAGradientLayer?
+    var activeMovies: [MovieWithGenres] = [] {
+        didSet {
+            indicatorView!.startAnimating()
+            self.isContentReady = false
+        }
+    }
+    var indicatorView: NVActivityIndicatorView?
+    
+    private(set) var isContentReady: Bool = false {
+        didSet {
+            if isContentReady {
+                DispatchQueue.main.async {
+                    self.swipeableCardView.reloadData()
+                    self.indicatorView!.stopAnimating()
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad();
-        // deletePages()
+        self.indicatorView = self.loadIndicatorView()
         loadMoviesIDData();
         self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height + 90.0)
         swipeableCardView.dataSource = self
         swipeableCardView.controller = self
         self.insertGradientBackground()
         
-        // uncommented if need reset entity
          deleteLikedMovies()
          deleteDislikedMovies()
          deleteNotInterestedMovies()
@@ -55,6 +76,17 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
         page = getLatestPage()
         
     }
+    
+    func loadIndicatorView() ->  NVActivityIndicatorView {
+        let cellWidth = self.view.frame.width
+        let cellHeight = self.view.frame.height
+        let frame = CGRect(x: 0, y: 0, width: cellWidth, height: cellHeight)
+        let indicatorSubView = NVActivityIndicatorView(frame: frame, type: .ballTrianglePath)
+        indicatorSubView.bounds = CGRect(x: 0, y: 0, width: 90, height: 90)
+        self.view.addSubview(indicatorSubView)
+        return indicatorSubView
+    }
+    
     func insertGradientBackground() {
         self.gradientLayer = CAGradientLayer()
         let colorTop =  UIColor(red: 0.18, green: 0.75, blue: 0.78, alpha: 1.00).cgColor
@@ -74,7 +106,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func loadMoviesIDData() {
         print("start to load data")
-        if(page % 2 == 0){
+        if(page % 3 == 10){
             showRecommendMoviesID(with: page)
         } else{
             fetchInitialMoviesID(with: page)
@@ -85,15 +117,18 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func numberOfCards() -> Int {
-        return movieIDArray.count
+        if !self.isContentReady {
+            return 0
+        }
+        return activeMovies.count
     }
     
     func card(forItemAtIndex index: Int) -> SwipeableCardViewCard {
-        let movieID = movieIDArray[index]
         let cardView = SampleSwipeableCard()
-        self.fetchMovieDetails(from: movieID, completionHandler: { movie in
-            cardView.viewModel = movie
-        })
+        cardView.viewModel = activeMovies[index]
+//        self.fetchMovieDetails(from: movieID, completionHandler: { movie in
+//            cardView.viewModel = movie
+//        })
         return cardView
     }
     
@@ -138,9 +173,42 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                     self.recommendationViewModel.rateCurrentMovie(id: targetMovie.id, rating: 2)
                     saveNotInterestedMovie(movie: targetMovie)
                 }
-                
             }
+            let view = self.getNotificationView(movie: targetMovie, swipeDirection: swipeDirection)
+            let config = self.getNotificationConfig()
+            SwiftMessages.show(config: config, view: view)
         }
+    }
+    
+    func getNotificationConfig() -> SwiftMessages.Config {
+        var config = SwiftMessages.Config()
+        config.presentationStyle = .top
+        config.presentationContext = .window(windowLevel: .statusBar)
+        config.duration = SwiftMessages.Duration.seconds(seconds: 0.5)
+        return config
+    }
+    
+    func getNotificationView(movie: MovieWithGenres, swipeDirection: SwipeDirection) -> UIView {
+        let view = MessageView.viewFromNib(layout: .cardView)
+        var iconText: String
+        var listName: String
+        switch swipeDirection {
+            case .left:
+                iconText = "😍"
+                listName = "liked movies"
+            case.right:
+                iconText = "☹️"
+                listName = "disliked movies"
+            case .up, .topLeft, .topRight:
+                iconText = "😋"
+                listName = "save for later movies"
+            case .down, .bottomLeft, .bottomRight:
+                iconText = "😐"
+                listName = "not intereted movies"
+        }
+        view.configureContent(title: "", body: movie.title + " has been added to " + listName, iconText: iconText)
+        view.button?.isHidden = true
+        return view
     }
     
     func didSelect(card: SwipeableCardViewCard, atIndex index: Int) {
@@ -155,12 +223,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func fetchInitialMoviesID(with page: Int) {
-        print("current page:")
-        print(page)
-        print("Liked Movie ID")
-        print(likedMovieIDArray)
-        print("Disliked Movie ID")
-        print(dislikedMovieIDArray)
         self.apiClient.fetchMoviesID(page: page) { [weak self] (results) in
             switch results {
             case .failure(let error):
@@ -168,28 +230,17 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
             case .success(let resource, let hasPage):
                 movieIDArray = resource
                 hasNextPage = hasPage
-                print("Next Patch of Movie IDs")
-                print(movieIDArray)
-                self?.swipeableCardView.reloadData()
+                self?.fetchGroupMoviesDetails(from: movieIDArray, completionHandler: {(result) in })
             }
         }
     }
     
     func showRecommendMoviesID(with page: Int) {
-        print("current page:")
-        print(page)
-        print("Liked Movie ID")
-        print(likedMovieIDArray)
-        print("Disliked Movie ID")
-        print(dislikedMovieIDArray)
         movieIDArray = []
         for i in self.recommendationViewModel.recommendMovies(){
             movieIDArray.append(Int(i))
         }
-        print("Next Patch of Movie IDs")
-        print(movieIDArray)
-
-        self.swipeableCardView.reloadData()
+        self.fetchGroupMoviesDetails(from: movieIDArray, completionHandler: {(result) in })
     }
     
     func fetchMovieDetails(from id: Int, completionHandler: @escaping (_ movie: MovieWithGenres)-> Void) {
@@ -208,6 +259,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     
     func fetchGroupMoviesDetails(from moviesId: [Int], completionHandler: @escaping (_ movies: [MovieWithGenres])-> Void) {
         let group = DispatchGroup()
+        activeMovies = []
         for id in moviesId {
             group.enter()
             self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
@@ -215,11 +267,37 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 case .failure(let error):
                     print(error)
                 case .success(let resource , _):
-                    print(resource)
-//                    activeMovies.append(resource)
+                    if let imageUrl = resource.posterURL {
+                        ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                            switch result {
+                            case let .success(response):
+                                guard let strongSelf = self else { return }
+                                let image = response.image
+                                resource.posterImage = image
+                            case .failure(_):
+                                break
+                            }
+                        }
+                    }
+                    if let imageUrl = resource.bgURL {
+                        ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
+                            switch result {
+                            case let .success(response):
+                                guard let strongSelf = self else { return }
+                                let image = response.image
+                                resource.bgImage = image
+                                self!.activeMovies.append(resource)
+                                if self!.activeMovies.count == movieIDArray.count {
+                                    self!.isContentReady = true
+                                }
+                            case .failure(_):
+                                break
+                            }
+                        }
+                    }
                 }
-                group.leave()
             })
+            group.leave()
         }
     }
 }
@@ -357,14 +435,12 @@ func getLatestPage() -> Int {
     do {
         let result = try context.fetch(request)
         for data in result as! [NSManagedObject] {
-            print("page number: \(data.value(forKey: "pageNum") as! Int)")
             myPages.append(data.value(forKey: "pageNum") as! Int)
         }
     } catch {
         print("Error - CoreData failed reading")
     }
     let ans = myPages.max() ?? 1
-    print("next page: \(ans)")
     return ans
 }
 

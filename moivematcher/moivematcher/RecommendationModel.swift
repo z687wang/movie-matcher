@@ -21,7 +21,6 @@ struct RecommendationModel {
     
     init(ratings: [Int64: Double], movies: [Movie]) {
         self.ratings = UserDefaults.standard.dictionary(forKey: "ratings") as? [String: Double] ?? [String: Double]()
-        print("Loaded ratings from UserDefaults: \(self.ratings)")
         self.movies = movies
         self.recommenderEngine = try! MovieRecommenderModel(configuration: MLModelConfiguration())
     }

@@ -38,15 +38,13 @@ class SampleSwipeableCard: SwipeableCardViewCard {
             subtitleLabel.text = viewModel.releaseDate
             genresLabel.text = viewModel.genresStr
             // uncommented for dynamic fit
-            /*
-            titleLabel.numberOfLines = 0
             titleLabel.adjustsFontSizeToFitWidth = true
-            genresLabel.numberOfLines = 0
-            genresLabel.adjustsFontSizeToFitWidth = true
-             */
-//           imageBackgroundColorView.backgroundColor = viewModel.color
-            let url = URL(string: "https://image.tmdb.org/t/p/original/" + viewModel.poster_path!)!
-            self.downloadImage(from: url)
+            titleLabel.minimumScaleFactor = 0.3
+            genresLabel.adjustsFontSizeToFitWidth = false
+            genresLabel.lineBreakMode = .byTruncatingTail
+            imageView.image = viewModel.posterImage
+//            let url = URL(string: "https://image.tmdb.org/t/p/original/" + viewModel.poster_path!)!
+//            self.downloadImage(from: url)
             backgroundContainerView.layer.cornerRadius = 14.0
             self.model = viewModel
         }

@@ -33,7 +33,7 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
 
     fileprivate var remainingCards: Int = 0
 
-    static let numberOfVisibleCards: Int = 3
+    let numberOfVisibleCards: Int = 2
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,7 +53,7 @@ class SwipeableCardViewContainer: UIView, SwipeableViewDelegate {
         let numberOfCards = dataSource.numberOfCards()
         remainingCards = numberOfCards
 
-        for index in 0..<min(numberOfCards, SwipeableCardViewContainer.numberOfVisibleCards) {
+        for index in 0..<min(numberOfCards, self.numberOfVisibleCards) {
             addCardView(cardView: dataSource.card(forItemAtIndex: index), atIndex: index)
         }
 
@@ -116,7 +116,7 @@ extension SwipeableCardViewContainer {
     }
 
     func didBeginSwipe(onView view: SwipeableView) {
-        print("begin to swap")
+        
     }
 
     func didEndSwipe(onView view: SwipeableView) {
@@ -130,8 +130,13 @@ extension SwipeableCardViewContainer {
         view.removeFromSuperview()
 
         // Only add a new card if there are cards remaining
-        if remainingCards > 0 {
-
+        if remainingCards == -numberOfVisibleCards + 1 {
+            self.controller!.loadMoviesIDData()
+        }
+        else if remainingCards <= 0 {
+            remainingCards -= 1
+        }
+        else {
             // Calculate new card's index
             let newIndex = dataSource.numberOfCards() - remainingCards
 
@@ -147,10 +152,6 @@ extension SwipeableCardViewContainer {
                     self.layoutIfNeeded()
                 })
             }
-
-        }
-        else {
-            self.controller!.loadMoviesIDData()
         }
     }
 

@@ -8,6 +8,7 @@ import Foundation
 import UIKit
 import Nuke
 import CollectionViewSlantedLayout
+import NVActivityIndicatorView
 
 let yOffsetSpeed: CGFloat = 150.0
 let xOffsetSpeed: CGFloat = 100.0
@@ -18,9 +19,11 @@ class MoviesCollectionViewController: UIViewController {
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
     var mylikedMoviesIDArray: [Int] = [] {
         didSet {
+            indicatorView!.startAnimating()
             self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
         }
     }
+    var indicatorView: NVActivityIndicatorView?
     var likedMovies: [MovieWithGenres] = []
     var likeMoviesPosters: [UIImage] = []
     var gradientLayer: CAGradientLayer?
@@ -31,11 +34,20 @@ class MoviesCollectionViewController: UIViewController {
         super.loadView()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.indicatorView = self.loadIndicatorView()
+        collectionViewLayout.isFirstCellExcluded = true
+        collectionViewLayout.isLastCellExcluded = true
+        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.lineSpacing = 5
+    }
+    
     private(set) var isContentReady: Bool = false {
         didSet {
             if isContentReady {
+                indicatorView!.stopAnimating()
                 DispatchQueue.main.async {
-                    print("gg")
                     self.collectionView.reloadData()
                     self.collectionViewLayout.isFirstCellExcluded = true
                     self.collectionViewLayout.isLastCellExcluded = true
@@ -43,13 +55,15 @@ class MoviesCollectionViewController: UIViewController {
             }
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionViewLayout.isFirstCellExcluded = true
-        collectionViewLayout.isLastCellExcluded = true
-        collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.lineSpacing = 5
+    
+    func loadIndicatorView() ->  NVActivityIndicatorView {
+        let cellWidth = self.view.frame.width
+        let cellHeight = self.view.frame.height
+        let frame = CGRect(x: 0, y: 0, width: cellWidth, height: cellHeight)
+        let indicatorSubView = NVActivityIndicatorView(frame: frame, type: .ballTrianglePath)
+        indicatorSubView.bounds = CGRect(x: 0, y: 0, width: 90, height: 90)
+        self.view.addSubview(indicatorSubView)
+        return indicatorSubView
     }
     
     func insertGradientBackground() {
@@ -89,17 +103,7 @@ class MoviesCollectionViewController: UIViewController {
                                 guard let strongSelf = self else { return }
                                 let image = response.image
                                 let targetSize = CGSize(width: 375, height: 563)
-                                let widthScaleRatio = targetSize.width / image.size.width
-                                let heightScaleRatio = targetSize.height / image.size.height
-                                let scaleFactor = min(widthScaleRatio, heightScaleRatio)
-                                let scaledImageSize = CGSize(
-                                    width: image.size.width * scaleFactor,
-                                    height: image.size.height * scaleFactor
-                                )
-                                let renderer = UIGraphicsImageRenderer(size: scaledImageSize)
-                                let scaledImage = renderer.image { _ in
-                                    image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
-                                }
+                                let scaledImage = resizeImage(image: image, targetSize: targetSize)
                                 self!.likeMoviesPosters.append(scaledImage)
                                 if self!.likeMoviesPosters.count == self!.mylikedMoviesIDArray.count {
                                         self!.isContentReady = true
