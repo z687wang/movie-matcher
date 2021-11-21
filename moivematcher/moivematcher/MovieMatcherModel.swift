@@ -190,8 +190,6 @@ class Actor: JSONDecodable, Equatable, Hashable, Comparable {
                 }
             }
         }
-        print(biography)
-        print(shortBiography)
         return shortBiography
     }()
     
@@ -369,9 +367,7 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         guard let adult = JSON["adult"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -adult-")
         }
-        guard let poster_path = JSON["poster_path"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -poster_path-")
-        }
+        let poster_path = JSON["poster_path"] as? String ?? nil
         guard let langue = JSON["original_language"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
         }

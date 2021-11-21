@@ -132,7 +132,7 @@ class ActorDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         updateCollectionViewInset()
     }
     
-    // MARK: - UICollectionViewDelegate -
+
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard isContentReady else {

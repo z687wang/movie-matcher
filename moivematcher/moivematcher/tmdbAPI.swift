@@ -264,8 +264,6 @@ final class MovieApiClient: ApiClient, HttpClient {
                 let tmdbMovies = movieCredits["cast"] as? [[String: AnyObject]] ?? []
                 actor.relatedMovies = self.fetchRelatedMovies(from: tmdbMovies)
                 actor.fullyDetailed = true
-                print(json)
-                print(actor.biography)
                 DispatchQueue.main.async {
                     completion()
                 }
