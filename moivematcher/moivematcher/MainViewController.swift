@@ -105,8 +105,7 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
     }
     
     func loadMoviesIDData() {
-        print("start to load data")
-        if(page % 10 == 1){
+        if(page % 10 == 9){
             showRecommendMoviesID(with: page)
         } else{
             fetchInitialMoviesID(with: page)
@@ -229,9 +228,6 @@ class MainViewController: UIViewController, SwipeableCardViewDataSource {
                 print(error)
             case .success(let resource, let hasPage):
                 movieIDArray = resource
-                movieIDArray.append(695932)
-                movieIDArray.append(278)
-                movieIDArray.append(207)
                 hasNextPage = hasPage
                 self?.fetchGroupMoviesDetails(from: movieIDArray, completionHandler: {(result) in })
             }
