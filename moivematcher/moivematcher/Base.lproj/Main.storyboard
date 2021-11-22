@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GsK-WZ-sw3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GsK-WZ-sw3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -91,7 +91,6 @@
                     <connections>
                         <segue destination="h1n-DF-fhW" kind="relationship" relationship="viewControllers" id="ePd-au-Rp4"/>
                         <segue destination="NEl-SS-OZD" kind="relationship" relationship="viewControllers" id="8S5-gq-6Hg"/>
-                        <segue destination="HEA-fJ-SFe" kind="relationship" relationship="viewControllers" id="9gb-kO-7oG"/>
                         <segue destination="UWQ-Bg-kAg" kind="relationship" relationship="viewControllers" id="DDp-tw-2aD"/>
                     </connections>
                 </tabBarController>
@@ -183,12 +182,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XmW-vW-K0o" customClass="SwipeableCardViewContainer" customModule="moivematcher" customModuleProvider="target">
-                                <rect key="frame" x="20" y="88" width="374" height="630"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XmW-vW-K0o" customClass="SwipeableCardViewContainer" customModule="moivematcher" customModuleProvider="target">
+                                <rect key="frame" x="20" y="57" width="374" height="700"/>
                                 <color key="backgroundColor" white="0.20999999999999999" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="630" id="s5k-fZ-jwy"/>
+                                    <constraint firstAttribute="height" constant="750" id="s5k-fZ-jwy"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -204,6 +203,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="5dv-rV-se1"/>
+                                <exclude reference="L0X-kU-8Jf"/>
                             </mask>
                         </variation>
                     </view>
@@ -318,7 +318,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                         <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="iyL-pA-TKJ">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="336" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <items>
                                 <navigationItem id="J3Q-vz-YhN">

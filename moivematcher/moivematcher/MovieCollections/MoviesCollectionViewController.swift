@@ -8,7 +8,10 @@ import Foundation
 import UIKit
 import Nuke
 import CollectionViewSlantedLayout
+import NVActivityIndicatorView
 
+let yOffsetSpeed: CGFloat = 150.0
+let xOffsetSpeed: CGFloat = 100.0
 
 class MoviesCollectionViewController: UIViewController {
 
@@ -16,10 +19,11 @@ class MoviesCollectionViewController: UIViewController {
     @IBOutlet weak var collectionViewLayout: CollectionViewSlantedLayout!
     var mylikedMoviesIDArray: [Int] = [] {
         didSet {
-            self.isContentReady = false
+            indicatorView!.startAnimating()
             self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
         }
     }
+    var indicatorView: NVActivityIndicatorView?
     var likedMovies: [MovieWithGenres] = []
     var likeMoviesPosters: [UIImage] = []
     var gradientLayer: CAGradientLayer?
@@ -30,29 +34,38 @@ class MoviesCollectionViewController: UIViewController {
         super.loadView()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.indicatorView = self.loadIndicatorView()
+        collectionViewLayout.isFirstCellExcluded = true
+        collectionViewLayout.isLastCellExcluded = true
+        collectionViewLayout.scrollDirection = .horizontal
+        collectionViewLayout.lineSpacing = 5
+    }
+    
     private(set) var isContentReady: Bool = false {
         didSet {
             if isContentReady {
+                indicatorView!.stopAnimating()
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
-                    self.collectionView.collectionViewLayout.invalidateLayout()
-                    let context = self.collectionView.collectionViewLayout.invalidationContext(forBoundsChange: self.collectionView.bounds)
-                    context.contentOffsetAdjustment = CGPoint.zero
-                    self.collectionView.collectionViewLayout.invalidateLayout(with: context)
-                    self.collectionView.layoutSubviews()
+                    self.collectionViewLayout.isFirstCellExcluded = true
+                    self.collectionViewLayout.isLastCellExcluded = true
                 }
             }
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionViewLayout.isFirstCellExcluded = true
-        collectionViewLayout.isLastCellExcluded = true
-        collectionViewLayout.scrollDirection = .horizontal
+    
+    func loadIndicatorView() ->  NVActivityIndicatorView {
+        let cellWidth = self.view.frame.width
+        let cellHeight = self.view.frame.height
+        let frame = CGRect(x: 0, y: 0, width: cellWidth, height: cellHeight)
+        let indicatorSubView = NVActivityIndicatorView(frame: frame, type: .ballTrianglePath)
+        indicatorSubView.bounds = CGRect(x: 0, y: 0, width: 90, height: 90)
+        self.view.addSubview(indicatorSubView)
+        return indicatorSubView
     }
     
-
     func insertGradientBackground() {
         self.gradientLayer = CAGradientLayer()
         let colorTop =  UIColor(red: 0.18, green: 0.75, blue: 0.78, alpha: 1.00).cgColor
@@ -67,13 +80,14 @@ class MoviesCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.mylikedMoviesIDArray = getLikedMovieIds()
-        print(self.mylikedMoviesIDArray.count)
         self.fetchGroupMoviesDetails(from: self.mylikedMoviesIDArray) { movies in }
     }
     
     func fetchGroupMoviesDetails(from moviesId: [Int], completionHandler: @escaping (_ movies: [MovieWithGenres])-> Void) {
         let group = DispatchGroup()
         self.likedMovies = []
+        self.likeMoviesPosters = []
+        self.isContentReady = false
         for id in moviesId {
             group.enter()
             self.apiClient.fetchMovieDetails(movieId: String(id), completion:{ (result) in
@@ -89,20 +103,7 @@ class MoviesCollectionViewController: UIViewController {
                                 guard let strongSelf = self else { return }
                                 let image = response.image
                                 let targetSize = CGSize(width: 375, height: 563)
-                                // Compute the scaling ratio for the width and height separately
-                                let widthScaleRatio = targetSize.width / image.size.width
-                                let heightScaleRatio = targetSize.height / image.size.height
-
-                                // To keep the aspect ratio, scale by the smaller scaling ratio
-                                let scaleFactor = min(widthScaleRatio, heightScaleRatio)
-                                let scaledImageSize = CGSize(
-                                    width: image.size.width * scaleFactor,
-                                    height: image.size.height * scaleFactor
-                                )
-                                let renderer = UIGraphicsImageRenderer(size: scaledImageSize)
-                                let scaledImage = renderer.image { _ in
-                                    image.draw(in: CGRect(origin: .zero, size: scaledImageSize))
-                                }
+                                let scaledImage = resizeImage(image: image, targetSize: targetSize)
                                 self!.likeMoviesPosters.append(scaledImage)
                                 if self!.likeMoviesPosters.count == self!.mylikedMoviesIDArray.count {
                                         self!.isContentReady = true
@@ -127,12 +128,6 @@ class MoviesCollectionViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard
-            let settingsController = segue.destination as? SettingsController,
-            let layout = collectionView.collectionViewLayout as? CollectionViewSlantedLayout else {
-            return
-        }
-        settingsController.collectionViewLayout = layout
     }
 }
 
@@ -142,7 +137,6 @@ extension MoviesCollectionViewController: UICollectionViewDataSource {
         guard isContentReady else {
             return 0
         }
-        print(self.mylikedMoviesIDArray.count)
         return self.mylikedMoviesIDArray.count
     }
 
@@ -190,74 +184,5 @@ extension MoviesCollectionViewController: UIScrollViewDelegate {
             let xOffset = (collectionView.contentOffset.x - parallaxCell.frame.origin.x) / parallaxCell.imageWidth
             parallaxCell.offset(CGPoint(x: xOffset * xOffsetSpeed, y: yOffset * yOffsetSpeed))
         }
-    }
-}
-
-
-
-class SettingsController: UITableViewController {
-
-    weak var collectionViewLayout: CollectionViewSlantedLayout!
-
-    @IBOutlet weak var slantingDirectionSegment: UISegmentedControl!
-    @IBOutlet weak var scrollDirectionSegment: UISegmentedControl!
-    @IBOutlet weak var zIndexOrderSegment: UISegmentedControl!
-    @IBOutlet weak var firstCellSlantingSwitch: UISwitch!
-    @IBOutlet weak var lastCellSlantingSwitch: UISwitch!
-    @IBOutlet weak var slantingSizeSlider: UISlider!
-    @IBOutlet weak var lineSpacingSlider: UISlider!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        slantingDirectionSegment.selectedSegmentIndex = (collectionViewLayout.slantingDirection == .downward) ? 0 : 1
-        scrollDirectionSegment.selectedSegmentIndex = (collectionViewLayout.scrollDirection == .horizontal) ? 0 : 1
-        zIndexOrderSegment.selectedSegmentIndex = (collectionViewLayout.zIndexOrder == .descending) ? 0 : 1
-        firstCellSlantingSwitch.isOn = collectionViewLayout.isFirstCellExcluded
-        lastCellSlantingSwitch.isOn = collectionViewLayout.isLastCellExcluded
-        slantingSizeSlider.value = Float(collectionViewLayout.slantingSize)
-        lineSpacingSlider.value = Float(collectionViewLayout.lineSpacing)
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return false
-    }
-
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return UIStatusBarAnimation.slide
-    }
-
-    @IBAction func slantingDirectionChanged(_ sender: UISegmentedControl) {
-        collectionViewLayout.slantingDirection = (sender.selectedSegmentIndex == 0 ? .downward : .upward )
-    }
-
-    @IBAction func scrollDirectionChanged(_ sender: UISegmentedControl) {
-        collectionViewLayout.scrollDirection = (sender.selectedSegmentIndex == 0 ? .horizontal : .vertical)
-    }
-
-    @IBAction func zIndexOrderChanged(_ sender: UISegmentedControl) {
-        collectionViewLayout.zIndexOrder = (sender.selectedSegmentIndex == 0 ? .descending : .ascending)
-    }
-
-    @IBAction func firstCellSlantingSwitchChanged(_ sender: UISwitch) {
-        collectionViewLayout.isFirstCellExcluded = sender.isOn
-    }
-
-    @IBAction func lastCellSlantingSwitchChanged(_ sender: UISwitch) {
-        collectionViewLayout.isLastCellExcluded = sender.isOn
-    }
-
-    @IBAction func slantingSizeChanged(_ sender: UISlider) {
-        collectionViewLayout.slantingSize = UInt(sender.value)
-    }
-
-    @IBAction func lineSpacingChanged(_ sender: UISlider) {
-        collectionViewLayout.lineSpacing = CGFloat(sender.value)
-    }
-    @IBAction func done(_ sender: AnyObject) {
-        presentingViewController?.dismiss(animated: true, completion: { [weak self] () -> Void in
-            let rect = CGRect(x: 0, y: 0, width: 0, height: 0)
-            self?.collectionViewLayout.collectionView?.scrollRectToVisible(rect, animated: true)
-        })
     }
 }

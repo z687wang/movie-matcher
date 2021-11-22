@@ -10,8 +10,6 @@ import Foundation
 import CollectionViewSlantedLayout
 import Nuke
 
-let yOffsetSpeed: CGFloat = 150.0
-let xOffsetSpeed: CGFloat = 100.0
 
 class MoviesCollectionSlantedCell: CollectionViewSlantedCell {
 

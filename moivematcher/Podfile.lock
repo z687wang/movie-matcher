@@ -13,6 +13,9 @@ PODS:
   - RAMAnimatedTabBarController (5.2.0)
   - ShowTime (2.5.2)
   - SwiftDate (6.3.1)
+  - SwiftMessages (9.0.5):
+    - SwiftMessages/App (= 9.0.5)
+  - SwiftMessages/App (9.0.5)
   - UICircularProgressRing (8.0.0)
 
 DEPENDENCIES:
@@ -26,6 +29,7 @@ DEPENDENCIES:
   - RAMAnimatedTabBarController
   - ShowTime
   - SwiftDate
+  - SwiftMessages
   - UICircularProgressRing
 
 SPEC REPOS:
@@ -40,6 +44,7 @@ SPEC REPOS:
     - RAMAnimatedTabBarController
     - ShowTime
     - SwiftDate
+    - SwiftMessages
     - UICircularProgressRing
 
 SPEC CHECKSUMS:
@@ -53,8 +58,9 @@ SPEC CHECKSUMS:
   RAMAnimatedTabBarController: 6863a386e7ae2ab227cd60aa73ab8ff56cdacfdd
   ShowTime: 5cb2c5314da2983cec44f27123a15473cf29306f
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
+  SwiftMessages: 9cca50659fa22bb523b4dd2a958d4442e843a354
   UICircularProgressRing: 19927375b2b21b5fa5fd9582f15ccdef9659da16
 
-PODFILE CHECKSUM: 217cc25aa06105bf163a0bb0b3e769c1d2e0be95
+PODFILE CHECKSUM: ae2dbf3ec6cfcb108504f4b56b19d9f1dfc1cea8
 
 COCOAPODS: 1.11.2

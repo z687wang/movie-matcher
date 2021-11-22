@@ -20,6 +20,7 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     var labelFontColor: UIColor = UIColor.white
     var textFontColor: UIColor = UIColor.white
     var bgColor: UIColor = UIColor.white
+    var apiClent: ApiClient = MovieApiClient()
     
     @IBOutlet weak var collectionView: MultiCollectionView! {
         didSet {
@@ -101,7 +102,7 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
                     let image = response.image
                     let averageColor = response.image.averageColor?.darker()
                     self?.bgColor = averageColor!
-                    self?.view.backgroundColor = averageColor
+                    self?.view.backgroundColor = self?.bgColor
                     self?.labelFontColor  = self?.getTextColor(bgColor: averageColor!) ?? UIColor.white
                     self?.textFontColor = self?.getContrastColor(color: averageColor!) ?? UIColor.white
                     if let movieMetaDataCell = self?.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? MovieMetadataCellView {
@@ -124,11 +125,19 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
         self.addMediaActionsView()
         
         if self.movieData.fullyDetailed {
-            print("fully detailed")
             self.isContentReady = true
         }
         else {
-            print("TODO: need to fetch full details of movie")
+            let targetId = self.movieData.id
+            apiClent.fetchMovieDetails(movieId: String(targetId), completion:{ (result) in
+                switch result {
+                case APIResult.failure(let error):
+                    print(error)
+                case APIResult.success(let resource , _):
+                    self.movieData = resource
+                    self.isContentReady = true
+                }
+            })
         }
     }
     
@@ -170,7 +179,6 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
     }
     
     func setMediaDescriptionCellViewFontColor(cell: MediaDescriptionCellView, labelFontColor: UIColor?, textFontColor: UIColor?) {
-        print("media description set color")
         cell.topSeperator.backgroundColor = textFontColor
         cell.overviewLabel.textColor = textFontColor
     }
@@ -343,17 +351,11 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
             mediaDescriptionCell.overviewLabel.text = self.movieData.overview
             self.setMediaDescriptionCellViewFontColor(cell: mediaDescriptionCell, labelFontColor: self.labelFontColor, textFontColor: self.textFontColor)
         }
-//        else if let clipCellView = cell as? ClipCellView {
-//            let ytItem = mediaItem.clips[indexPath.item]
-//            clipCellView.titleLabel.text = ytItem.title
-//            loadClipImage(into: clipCellView.imageView, from: ytItem)
-//        }
         else if let actorCellView = cell as? ActorCellView {
             let actorItem = self.movieData.actors[indexPath.item]
             actorCellView.titleLabel.text = actorItem.name
             actorCellView.titleLabel.textColor = self.labelFontColor
             if let imageUrl = actorItem.profileURL {
-                // TODO: Set placeholder image temporarly while the other image is being requested
                 ImagePipeline.shared.loadImage(with: imageUrl, progress: nil) { [weak self] (result) in
                     guard let strongSelf = self else {
                         return
@@ -441,6 +443,30 @@ class MovieDetailViewController: UIViewController, MultiCollectionViewDelegate, 
 //                )
 //            }
 //        }
+    }
+    
+    func collectionView(_ collectionView: MultiCollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+//        case clipsSection:
+//            let clipItem = mediaItem.clips[indexPath.item]
+//            PlaybackCoordinator.shared.attemptPlayback(for: clipItem)
+        case actorsSection:
+            let destVC = UIStoryboard(name: "ActorDetails", bundle: nil).instantiateViewController(withIdentifier: "MyActorDetailViewController") as! ActorDetailsViewController
+            destVC.actorItem = movieData.actors[indexPath.item]
+            destVC.topColor = (heroImageView.image?.averageColor?.lighter())!
+            destVC.botColor = (heroImageView.image?.averageColor?.darker())!
+            destVC.labelFontColor = self.labelFontColor
+            self.present(destVC, animated: true, completion: nil)
+            break
+//        case recommendationsSection:
+//            if let movieDetailsViewController = UIStoryboard(name: "MovieDetails", bundle: nil).instantiateInitialViewController() as? MovieDetailsViewController {
+//                let recommendedItem = mediaItem.relatedMovies[indexPath.item]
+//                movieDetailsViewController.mediaItem = recommendedItem
+//                navigationController?.pushViewController(movieDetailsViewController, animated: true)
+//            }
+        default:
+            break
+        }
     }
     
     func collectionView(_ collectionView: MultiCollectionView, sizeForItemAt indexPath: IndexPath) -> CGSize {

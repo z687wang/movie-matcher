@@ -37,7 +37,7 @@ class YouTubeItem: NSObject {
     }()
 }
 
-struct Crew: JSONDecodable {
+struct Crew: JSONDecodable, Hashable {
     
     init?(JSON: [String : AnyObject]) throws {
         guard let name = JSON["name"] as? String else {
@@ -49,12 +49,8 @@ struct Crew: JSONDecodable {
         guard let id = JSON["id"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
         }
-        guard let knowForDepartment = JSON["known_for_department"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -knowForDepartment-")
-        }
-        guard let popularity = JSON["popularity"] as? Double else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -popularity-")
-        }
+        let knowForDepartment = JSON["known_for_department"] as? String
+        let popularity = JSON["popularity"] as? Double
         guard let department = JSON["department"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -department-")
         }
@@ -77,29 +73,52 @@ struct Crew: JSONDecodable {
     
     var name: String
     var job: String
-    var id: Int?
+    var id: Int
+    var hashValue : Int { return self.id }
     var knowForDepartment: String?
     var popularity: Double?
     var profilePath: String?
     var department: String?
     var profileURL: URL?
     var creditID: String?
+    var biography: String = ""
     
     
-    init(name: String, job: String) {
+    init(name: String, job: String, id: Int) {
         self.name = name
         self.job = job
+        self.id = id
     }
     
+    lazy var shortBiography: String = {
+        var shortBiography = ""
+        
+        // Get first 2 sentences
+        var addedSentences = 0
+        biography.enumerateSubstrings(in: biography.startIndex..<biography.endIndex, options: .bySentences) { (substring, substringRange, enclosingRange, stop) in
+            if let sentence = substring?.trimmingCharacters(in: .whitespacesAndNewlines), !sentence.isEmpty {
+                shortBiography = sentence
+                addedSentences += 1
+                if addedSentences == 2 {
+                    stop = true
+                }
+            }
+        }
+        return shortBiography
+    }()
+    
+    static func ==(lhs: Crew, rhs: Crew) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-struct Actor: JSONDecodable, Equatable, Hashable, Comparable {
+class Actor: JSONDecodable, Equatable, Hashable, Comparable {
     static func < (lhs: Actor, rhs: Actor) -> Bool {
         lhs.id > rhs.id
     }
-    
     var name: String
     var id: Int
+    var hashValue : Int { return self.id }
     var knowForDepartment: String?
     var popularity: Double?
     var profilePath: String?
@@ -108,14 +127,16 @@ struct Actor: JSONDecodable, Equatable, Hashable, Comparable {
     var character: String?
     var order: Int?
     var castID: Int?
+    var fullyDetailed: Bool = false
+    var biography: String = ""
+    var relatedMovies: [MovieWithGenres] = []
     
     init(name: String, id: Int) {
         self.name = name
         self.id = id
     }
-
     
-    init?(JSON: [String: AnyObject]) throws {
+    required init?(JSON: [String: AnyObject]) throws {
         guard let name = JSON["name"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
         }
@@ -155,11 +176,27 @@ struct Actor: JSONDecodable, Equatable, Hashable, Comparable {
         self.castID = castID
     }
     
+    lazy var shortBiography: String = {
+        var shortBiography = ""
+        
+        // Get first 2 sentences
+        var addedSentences = 0
+        biography.enumerateSubstrings(in: biography.startIndex..<biography.endIndex, options: .bySentences) { (substring, substringRange, enclosingRange, stop) in
+            if let sentence = substring?.trimmingCharacters(in: .whitespacesAndNewlines), !sentence.isEmpty {
+                shortBiography = sentence
+                addedSentences += 1
+                if addedSentences == 2 {
+                    stop = true
+                }
+            }
+        }
+        return shortBiography
+    }()
+    
     static func ==(lhs: Actor, rhs: Actor) -> Bool {
         return lhs.id == rhs.id
     }
 }
-
 
 struct PersonOfMovie {
     var movieId: Int
@@ -167,11 +204,11 @@ struct PersonOfMovie {
     
     init?(JSON: [String: AnyObject], movieId: Int) throws {
         guard let name = JSON["name"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")        }
+            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -name-")
+        }
         guard let id = JSON["id"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
         }
-        
         self.actor = Actor(name: name, id: id)
         self.movieId = movieId
     }
@@ -224,7 +261,7 @@ struct Genre: JSONDecodable, Equatable {
     }
 }
 
-struct Movie : JSONDecodable, Hashable, Equatable {
+struct Movie: JSONDecodable, Hashable, Equatable {
     var title: String
     var releaseDate: String?
     var voteAverage: Int?
@@ -297,6 +334,8 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
     var directors: [Crew] = []
     var crews: [Crew] = []
     var clips: [YouTubeItem] = []
+    var posterImage: UIImage?
+    var bgImage: UIImage?
     
     init(title: String, id: Int, genreIds: [Genre]?) {
         self.title = title
@@ -311,12 +350,8 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         guard let id = JSON["id"] as? Int else {
            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -id-")
         }
-        guard let imdbID = JSON["imdb_id"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -imdb_id-")
-        }
-        guard let genres = JSON["genres"] as? [[String:AnyObject]] else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -genresIds-")
-        }
+        let imdbID = JSON["imdb_id"] as? String
+        let genres = JSON["genres"] as? [[String:AnyObject]] ?? []
         guard let releaseDate = JSON["release_date"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -release_date-")
         }
@@ -332,21 +367,15 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         guard let adult = JSON["adult"] as? Int else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -adult-")
         }
-        guard let poster_path = JSON["poster_path"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -poster_path-")
-        }
+        let poster_path = JSON["poster_path"] as? String ?? nil
         guard let langue = JSON["original_language"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -original_language-")
         }
         guard let overview = JSON["overview"] as? String else {
             throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -overview-")
         }
-        guard let bg_path = JSON["backdrop_path"] as? String else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -backdrop_path-")
-        }
-        guard let revenue = JSON["revenue"] as? Int else {
-            throw ErrorApi.jsonInvalidKeyOrElement("error - key or element invalid -revenue-")
-        }
+        let bg_path = JSON["backdrop_path"] as? String ?? ""
+        let revenue = JSON["revenue"] as? Int ?? 0
         self.title = title
         self.id = id
         self.imdbID = imdbID
@@ -368,8 +397,12 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
         self.adult = adult
         self.bg_path = bg_path
         self.poster_path = poster_path
-        self.posterURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.poster_path!)!
-        self.bgURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.bg_path!)!
+        if self.poster_path != nil {
+            self.posterURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.poster_path!)!
+        }
+        if self.bg_path != nil {
+            self.bgURL = URL(string: "https://image.tmdb.org/t/p/original/" + self.bg_path!)!
+        }
         self.original_language = langue
         self.overview = overview
         self.revenue = revenue
@@ -421,7 +454,7 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
                     break
                 }
             }
-            self.actors = actors
+            self.actors =  Array(Set(actors))
             section_count += 1
         }
         
@@ -443,13 +476,12 @@ class MovieWithGenres : JSONDecodable, Identifiable, Hashable, Equatable {
                 }
             }
             self.directors = directors
-            self.crews = Array(crews.prefix(10))
+            self.crews = Array( Array(Set(crews)).prefix(10))
             section_count += 1
         }
         if section_count == 3 {
             self.fullyDetailed = true
         }
-        
     }
     
     static func == (lhs: MovieWithGenres, rhs: MovieWithGenres) -> Bool {
