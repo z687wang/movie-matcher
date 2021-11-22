@@ -1,4 +1,7 @@
 # CS 590.7 Mobile App Final Project: Movie Matcher
+## Presentation link
+https://youtu.be/ISjtqLHX8O8
+
 ## Description
 A mobile app that allows users to like or dislike a movie by swiping to the left or right; will recommend new movies to users based on their preferences. The app will contain structured data of popular movies and a recommendation algorithm that is able to predict movies based on multiple features including genre, directors, actors, etc. It will also contain a data persistence mechanism that is implemented via saving data onto files or databases.
 
@@ -17,5 +20,6 @@ Yalu Cai, Bohan Li, Tong Shen, Zhe Wang
 Xcode, Swift, CoreML, CreateML(TBD), gitLab, etc.
 
 ## Milestones
+
 
 
